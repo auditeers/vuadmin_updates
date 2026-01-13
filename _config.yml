@@ -1,0 +1,5 @@
+# GitHub Pages Configuration for VuAdmin Updates
+theme: jekyll-theme-minimal
+title: VuAdmin Updates
+description: Latest updates and releases for VuAdmin
+show_downloads: false
