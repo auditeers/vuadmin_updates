@@ -4,48 +4,31 @@
 
 ### ⚙️ Basis Platform Functionaliteiten
 - **Planbord Optimalisatie**: Het planbord interface is grondig herzien voor een beter overzicht van cursusplanning. U kunt nu sneller en efficiënter uw cursusschema's beheren en direct zien waar er nog ruimte is of waar aanpassingen nodig zijn.
+
 - **Menuitem Beheersysteem**: Het beheersysteem voor menu-items is verfijnd, waardoor u makkelijker en intuïtiever de navigatie van uw website kunt aanpassen en structureren.
+
 - **Admin Panel Verbetering**: Alle gecondenseerde tabellen in het admin panel zijn opnieuw uitgelijnd voor een consistente, overzichtelijke weergave. Dit maakt databeheer aanzienlijk eenvoudiger en foutloze.
+
 - **Performance Optimalisatie**: Onder de motorkap hebben we de code geoptimaliseerd, wat resulteert in snellere laadtijden en een responsiever systeem voor alle gebruikers.
+
+- **Permissie Systeem Upgrade**: Het complete permissie systeem is uitgebreid en verfijnd. Hiermee heeft u nog beter controle over wie toegang heeft tot welke functionaliteiten binnen het platform. Dit zorgt voor verhoogde veiligheid en flexibiliteit in gebruikersbeheer. Voor alle gebruikersrollen zijn de rechten opnieuw geëvalueerd en verbeterd, zodat iedereen precies de toegang heeft die nodig is - niet meer, niet minder.
+
+- **🚀 E-Boekhouden Integratie**: Een complete integratie met E-Boekhouden is geïmplementeerd! Mutaties worden nu automatisch gesynchroniseerd, grootboekrekeningen worden automatisch opgehaald en gekoppeld, en de communicatie met de API is volledig geoptimaliseerd. Dit bespaart u uren administratief werk per week.
+
+- **💳 Betaalmethoden Beheer**: Een gloednieuw beheersysteem voor betaalmethoden is toegevoegd. U kunt nu eenvoudig betaalopties toevoegen, bewerken en beheren vanuit één centraal overzicht.
+
+- **💰 Financiële Nauwkeurigheid**: Alle BTW berekeningen in exports en facturen zijn verbeterd voor 100% nauwkeurigheid. Monetaire waarden worden nu correct afgerond volgens de boekhoudkundige standaarden in alle exports (marktinginschrijvingen, subsidies, deelnemerscursussen).
+
+- **📜 Certificaat Functionaliteit**: Een volledige certificaat module is geïmplementeerd! U kunt nu direct vanuit orderitems certificaten genereren en versturen naar deelnemers. Ook zijn annuleer knoppen toegevoegd voor eenvoudig orderitem beheer.
+
+- **Automatische Programma Files**: De generatie van programma bestanden is geoptimaliseerd en werkt nu volledig automatisch op basis van uw cursusgegevens.
+
+- **📋 Vragenlijst Systeem**: Het vragenlijst systeem is volledig herzien met verbeterde afhandeling en een intelligent bezorgsysteem. Vragenlijsten worden nu op het juiste moment naar de juiste deelnemers gestuurd. Uitgebreide tracking functionaliteit toegevoegd zodat u precies kunt zien welke vragenlijsten zijn verstuurd, geopend en ingevuld. Dit maakt gerichte opvolging mogelijk.
 
 ### 🎨 Theme Updates
 - **Utrecht Theme**: De header navigatie is volledig vernieuwd met een modernere look en betere gebruikerservaring. Ook de homepage lay-out is geoptimaliseerd voor een aantrekkelijkere presentatie van uw cursusaanbod.
 
----
-
-## Week van 9 januari 2026
-
-### ⚙️ Basis Platform Functionaliteiten
-- **Permissie Systeem Upgrade**: Het complete permissie systeem is uitgebreid en verfijnd. Hiermee heeft u nog beter controle over wie toegang heeft tot welke functionaliteiten binnen het platform. Dit zorgt voor verhoogde veiligheid en flexibiliteit in gebruikersbeheer.
-- **Rechten Beheer**: Voor alle gebruikersrollen zijn de rechten opnieuw geëvalueerd en verbeterd, zodat iedereen precies de toegang heeft die nodig is - niet meer, niet minder.
-
----
-
-## Week van 8 januari 2026
-
-### ⚙️ Basis Platform Functionaliteiten
-- **🚀 E-Boekhouden Integratie**: Een complete integratie met E-Boekhouden is geïmplementeerd! Mutaties worden nu automatisch gesynchroniseerd, grootboekrekeningen worden automatisch opgehaald en gekoppeld, en de communicatie met de API is volledig geoptimaliseerd. Dit bespaart u uren administratief werk per week.
-- **💳 Betaalmethoden Beheer**: Een gloednieuw beheersysteem voor betaalmethoden is toegevoegd. U kunt nu eenvoudig betaalopties toevoegen, bewerken en beheren vanuit één centraal overzicht.
-- **💰 Financiële Nauwkeurigheid**: Alle BTW berekeningen in exports en facturen zijn verbeterd voor 100% nauwkeurigheid. Monetaire waarden worden nu correct afgerond volgens de boekhoudkundige standaarden in alle exports (marktinginschrijvingen, subsidies, deelnemerscursussen).
-
----
-
-## Week van 7 januari 2026
-
-### ⚙️ Basis Platform Functionaliteiten
-- **📜 Certificaat Functionaliteit**: Een volledige certificaat module is geïmplementeerd! U kunt nu direct vanuit orderitems certificaten genereren en versturen naar deelnemers. Ook zijn annuleer knoppen toegevoegd voor eenvoudig orderitem beheer.
-- **Automatische Programma Files**: De generatie van programma bestanden is geoptimaliseerd en werkt nu volledig automatisch op basis van uw cursusgegevens.
-
-### 🎨 Theme Updates
 - **Breda Theme**: De certificaat PDF template is speciaal aangepast met een professionele handtekening afbeelding en huisstijl elementen, klaar voor directe uitgifte aan uw cursisten.
-
----
-
-## Week van 6 januari 2026
-
-### ⚙️ Basis Platform Functionaliteiten
-- **📋 Vragenlijst Systeem**: Het vragenlijst systeem is volledig herzien met verbeterde afhandeling en een intelligent bezorgsysteem. Vragenlijsten worden nu op het juiste moment naar de juiste deelnemers gestuurd.
-- **Tracking & Opvolging**: Uitgebreide tracking functionaliteit toegevoegd zodat u precies kunt zien welke vragenlijsten zijn verstuurd, geopend en ingevuld. Dit maakt gerichte opvolging mogelijk.
 
 ---
 
@@ -148,62 +131,3 @@
 ### 🎨 Theme Updates
 - **Amsterdam Theme**: Betalingsformulier interface volledig herzien voor een moderne, vertrouwenwekkende uitstraling. Winkelwagen index pagina geoptimaliseerd met betere product/cursus weergave.
 
----
-
-## Week van 28 oktober - 3 november 2025
-*Deze week hebben we ons gericht op intern onderhoud, security updates en code optimalisaties om de stabiliteit en veiligheid van het platform te waarborgen.*
-
----
-
-## 📊 Samenvatting - 10 Weken Ontwikkeling
-
-### 1. 🛍️ **E-commerce Revolutie**
-We hebben het platform getransformeerd tot een volledig functioneel e-commerce systeem:
-- Complete product module met sales tracking en aanbevelingen
-- Intelligent kortingssysteem voor promoties en acties
-- Database-backed winkelwagen systeem dat nooit items verliest
-- Automatische verlaten winkelwagen emails voor hogere conversie
-- Real-time overboeking bescherming voor cursussen
-- E-Boekhouden integratie voor geautomatiseerde administratie
-
-### 2. 🔗 **Externe Integraties**
-Naadloze koppelingen met externe systemen:
-- **E-Boekhouden**: Volledig geautomatiseerde boekhouding en mutatie synchronisatie
-- **Moodle**: Directe toegang tot leeromgeving na inschrijving
-- **Betaalmethoden**: Flexibel beheersysteem voor alle payment providers
-
-### 3. 🎨 **Content & Cursus Beheer**
-Ongekende flexibiliteit in hoe u content presenteert:
-- Geavanceerde page builder met sorteerbare blokken
-- Video, afbeelding en tekst ondersteuning
-- Kleurcodering voor visueel onderscheid tussen cursuscategorieën
-- Flexibele collecties die cursussen én producten combineren
-- Automatische docent en locatie informatie op relevante pagina's
-
-### 4. 📋 **Administratieve Kracht**
-Tools die uw dagelijks werk vergemakkelijken:
-- Uitgebreid permissie systeem voor veilig gebruikersbeheer
-- Automatische certificaat generatie en versturen
-- BSN in docentenrapporten voor correcte administratie
-- 100% nauwkeurige exports met correcte BTW berekeningen
-- Intelligent vragenlijst tracking systeem
-
-### 5. 🎯 **Theme Ontwikkeling**
-Intensieve development voor alle themes:
-- **Amsterdam Theme**: Meest uitgebreide updates met nieuwe page builder features
-- **Breda Theme**: Certificaten, homepage optimalisaties en visuele verbeteringen
-- **Utrecht Theme**: Kortingen, betalingen en navigatie updates
-- **Alle Themes**: Overboeking bescherming en geharmoniseerde gebruikerservaring
-
----
-
-## 🚀 **Impact**
-
-Deze 10 weken updates resulteren in:
-- **Tijdsbesparing**: Automatisering van E-Boekhouden, certificaten en Moodle toegang scheelt uren werk per week
-- **Hogere Conversie**: Verlaten winkelwagen tracking en verbeterde checkout flow verhogen verkoop
-- **Professionelere Uitstraling**: Moderne designs en nieuwe content opties maken een betere indruk
-- **Flexibiliteit**: Product module en collecties geven u veel meer mogelijkheden in uw aanbod
-- **Veiligheid**: Uitgebreid permissie systeem en overboeking bescherming voorkomen fouten
-
-Het platform is krachtiger, professioneler en gebruiksvriendelijker dan ooit tevoren!
