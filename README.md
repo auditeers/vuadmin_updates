@@ -1,4 +1,42 @@
-# Platform Updates - Afgelopen 10 Weken
+# VUAdmin Updates
+
+## Week van 19-26 januari 2026
+
+### ⚙️ Basis Platform Functionaliteiten
+- **🌍 Meertaligheid Cursussen & Programma's**: Een complete vertalingssysteem is geïmplementeerd! U kunt nu cursussen en programma's in meerdere talen aanbieden. Alle velden zoals titel, beschrijving en content zijn vertaalbaar. Het systeem ondersteunt tientallen talen met visuele taalwisseling via vlaggen.
+
+- **🎯 Taalwisseling Frontend**: Bezoekers kunnen op de cursuspagina eenvoudig tussen talen schakelen met één klik. De gekozen taal wordt automatisch opgeslagen en toegepast op de hele site. Dit opent de deur naar internationale cursisten!
+
+- **🛒 Winkelwagen Upgrade - Meerdere Producten**: Het winkelwagen systeem is uitgebreid zodat u nu meerdere exemplaren van hetzelfde product kunt toevoegen. Perfect voor wie meerdere boeken of cursussen tegelijk wil bestellen. De database constraints zijn aangepast voor maximale flexibiliteit.
+
+- **💳 Betalingsformulier Vernieuwing**: Het betalingsformulier heeft een complete redesign gekregen met verbeterde gebruikerservaring. Statspas kortingen zijn verplaatst van stap 1 naar een logischere positie in het proces voor minder verwarring.
+
+- **📜 Certificaat Download Fix**: Certificaten hebben nu cache-busting parameters, wat betekent dat u altijd de meest recente versie downloadt zonder browsercache problemen. Geen verouderde certificaten meer!
+
+- **🔧 Collectie Filter Optimalisatie**: De collectie filters zijn volledig herzien. Query parameters worden nu correct bewaard bij navigatie, checkboxes werken perfect voor single-value filters, en de "500 error" bij lege collecties is opgelost. Filtering is nu razendsnel en foutloos.
+
+- **📦 OrderItem Optimalisatie**: Het `transferred_from` veld wordt nu pas ingesteld wanneer nodig (deferred), wat de performance van grote order imports aanzienlijk verbetert.
+
+- **🎨 Basset Asset Management**: De asset pipeline is geoptimaliseerd voor snellere laadtijden van CSS en JavaScript. Errors in de theme scripts zijn opgelost.
+
+- **📊 Versie Beheer Systeem**: Een automatisch versie bump systeem is geïmplementeerd via GitHub Actions. De versie wordt nu prominent weergegeven in het admin menu en op de login pagina, zodat u altijd weet welke versie u gebruikt.
+
+- **📚 Project Documentatie**: README is volledig bijgewerkt met project-specifieke details, installatiehandleiding en een complete TRANSLATIONS.md gids voor het werken met vertalingen.
+
+### 🎨 Theme Updates
+- **Breda Theme**: Nieuw menu systeem geïmplementeerd in de header voor betere navigatie en gebruikerservaring.
+
+- **Amsterdam Theme**:
+  - Volledig nieuwe betalingsformulier interface met moderne styling
+  - Winkelwagen interface aangepast voor meerdere producten van hetzelfde type
+  - Statspas korting verwijderd uit checkout stap 1 voor duidelijkere flow
+  - Collectie filters volledig herzien met verbeterde UX
+  - Nieuwe DM Sans lettertype familie toegevoegd voor een modernere uitstraling
+  - Taalwisseling op cursuspagina's met vlaggen en dropdown menu
+  - SVG vlaggen iconen voor alle ondersteunde talen (250+ landen/regio's)
+  - Style.css updates voor betere typografie en layout
+
+---
 
 ## Week van 6-13 januari 2026
 
