@@ -1,5 +1,44 @@
 # VUAdmin Updates
 
+## Week van 27 januari - 2 februari 2026
+
+### ⚙️ Basis Platform Functionaliteiten
+*Deze week zijn we bezig met verdere optimalisaties en nieuwe functionaliteiten. Updates worden hier toegevoegd zodra ze live gaan.*
+
+### 🎨 Theme Updates
+*Theme aanpassingen worden hier toegevoegd zodra ze worden doorgevoerd.*
+
+---
+
+## Week van 26 januari - 1 februari 2026
+
+### ⚙️ Basis Platform Functionaliteiten
+- **📜 Certificaat Generatie On-Demand**: Certificaten worden nu pas gegenereerd op het moment dat ze nodig zijn, in plaats van vooraf. Dit bespaart diskruimte en zorgt altijd voor up-to-date certificaten. De oude `certificaten` kolom is verwijderd uit de database voor een schonere structuur.
+
+- **🔐 Planbord Permissies**: Nieuwe permissie toegevoegd voor toegang tot het planbord. Alleen gebruikers met de juiste rechten kunnen nu het planbord bekijken en beheren. Dit verhoogt de veiligheid en controle.
+
+- **🔍 Cursus Zoeken Verbetering**: Zoeken naar cursustitels in het programma beheer is nu case-insensitive (hoofdletter ongevoelig), wat betekent dat u makkelijker kunt vinden wat u zoekt ongeacht hoe u het typt.
+
+### 🎨 Theme Updates
+- **Breda Theme**:
+  - NRTO keurmerk logo vernieuwd met SVG versie voor scherpere weergave
+
+- **Utrecht Theme**:
+  - NRTO keurmerk logo vernieuwd met moderne SVG versie
+  - Footer aangepast voor betere visuele balans
+
+- **Demo Theme**:
+  - NRTO keurmerk verwijderd uit footer (niet van toepassing op demo)
+
+- **Amsterdam Theme**:
+  - **Gesloten Cursussen Weergave**: Speciale weergave voor gesloten cursussen met wachtlijst en waarschuwing formulieren
+  - **Inschrijfvarianten UI**: Verbeterde gebruikersinterface voor cursus inschrijfopties met checkout area styling
+  - **Dynamische Datums**: Cursus datums worden nu dynamisch weergegeven op basis van de huidige datum
+  - Typografische verbeteringen en betere spacing in style.css
+  - Head component geoptimaliseerd voor snellere laadtijden
+
+---
+
 ## Week van 19-26 januari 2026
 
 ### ⚙️ Basis Platform Functionaliteiten
