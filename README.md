@@ -3,39 +3,45 @@
 ## Week van 27 januari - 2 februari 2026
 
 ### ⚙️ Basis Platform Functionaliteiten
-*Deze week zijn we bezig met verdere optimalisaties en nieuwe functionaliteiten. Updates worden hier toegevoegd zodra ze live gaan.*
+- **🏗️ Type Systeem Herstructurering**: Een fundamentele refactoring van het type systeem! Cursustypes, contracttypes, en andere type tabellen zijn samengevoegd tot één generiek Types systeem. Dit maakt het platform schaalbaar en eenvoudiger te beheren. Product types, locatie types, korting types en docent types zijn allemaal gestandaardiseerd.
+
+- **📊 Evaluatie Systeem**: Een compleet nieuw evaluatie systeem is gelanceerd! U kunt nu evaluaties aanmaken, versturen en responses ontvangen. Inclusief:
+  - Email template ondersteuning voor gepersonaliseerde evaluatie uitnodigingen
+  - Automatische evaluatie generatie via scheduled commands
+  - Frontend formulieren voor cursisten om evaluaties in te vullen
+  - Response tracking in admin panel voor analyse
+  - Hash-based veilige links voor anonieme evaluaties
+
+- **📧 Rapport Notificaties**: Wanneer een rapport klaar is, ontvangt u nu automatisch een email met een download link. Geen handmatig checken meer of uw export klaar is! De email bevat directe toegang tot het gegenereerde bestand.
+
+- **🔍 Email Verificatie API**: Nieuwe API endpoints toegevoegd voor email verificatie. Perfect voor integraties met externe systemen die moeten checken of een email al bestaat in het systeem.
+
+- **📈 Export Verbeteringen**:
+  - Null checks toegevoegd aan alle exports om crashes te voorkomen bij ontbrekende data
+  - Nederlandse vertalingen worden nu gebruikt voor cursus titels in alle exports
+  - Betere error handling in rapporten voor robuustere exports
+
+- **🔗 Collectie Beheer Fixes**: Meerdere fixes voor het collectie systeem - 500 errors opgelost, betere weergave van cursussen en producten in de selector, en verbeterde array access voor properties.
+
+- **🗑️ Database Opruiming**: Ongebruikte tabellen verwijderd (contract_types, course_types) na migratie naar het nieuwe Type systeem. Dit houdt de database schoon en performant.
+
+- **🔄 Pivot Table Refactoring**: De course_product pivot table gebruikt nu een generiek 'type' veld in plaats van 'required', wat veel flexibeler is voor toekomstige uitbreidingen.
 
 ### 🎨 Theme Updates
-*Theme aanpassingen worden hier toegevoegd zodra ze worden doorgevoerd.*
-
----
-
-## Week van 26 januari - 1 februari 2026
-
-### ⚙️ Basis Platform Functionaliteiten
-- **📜 Certificaat Generatie On-Demand**: Certificaten worden nu pas gegenereerd op het moment dat ze nodig zijn, in plaats van vooraf. Dit bespaart diskruimte en zorgt altijd voor up-to-date certificaten. De oude `certificaten` kolom is verwijderd uit de database voor een schonere structuur.
-
-- **🔐 Planbord Permissies**: Nieuwe permissie toegevoegd voor toegang tot het planbord. Alleen gebruikers met de juiste rechten kunnen nu het planbord bekijken en beheren. Dit verhoogt de veiligheid en controle.
-
-- **🔍 Cursus Zoeken Verbetering**: Zoeken naar cursustitels in het programma beheer is nu case-insensitive (hoofdletter ongevoelig), wat betekent dat u makkelijker kunt vinden wat u zoekt ongeacht hoe u het typt.
-
-### 🎨 Theme Updates
-- **Breda Theme**:
-  - NRTO keurmerk logo vernieuwd met SVG versie voor scherpere weergave
-
 - **Utrecht Theme**:
-  - NRTO keurmerk logo vernieuwd met moderne SVG versie
-  - Footer aangepast voor betere visuele balans
-
-- **Demo Theme**:
-  - NRTO keurmerk verwijderd uit footer (niet van toepassing op demo)
+  - Evaluatie formulieren toegevoegd met submitted pagina
+  - Late inschrijving optie voor al gestarte cursussen
+  - NRTO keurmerk logo update
+  - Vertalingsproblemen opgelost voor cursus weergave
 
 - **Amsterdam Theme**:
-  - **Gesloten Cursussen Weergave**: Speciale weergave voor gesloten cursussen met wachtlijst en waarschuwing formulieren
-  - **Inschrijfvarianten UI**: Verbeterde gebruikersinterface voor cursus inschrijfopties met checkout area styling
-  - **Dynamische Datums**: Cursus datums worden nu dynamisch weergegeven op basis van de huidige datum
-  - Typografische verbeteringen en betere spacing in style.css
-  - Head component geoptimaliseerd voor snellere laadtijden
+  - "Seintje" (interesse) formulier toegevoegd - bezoekers blijven nu op dezelfde pagina na verzending
+  - Wachtlijst formulier verbeterd - blijft ook op dezelfde pagina
+  - Product weergave verfijnd met nieuwe type kolom
+  - CSS updates voor betere styling van product relaties
+
+- **Westvoorne Theme**:
+  - Aangepast voor nieuwe teacher type structuur
 
 ---
 
