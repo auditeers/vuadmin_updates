@@ -1,51 +1,111 @@
 # VUAdmin Updates
 
-## Week van 27 januari - 2 februari 2026
+## Week van 9-15 februari 2026
 
 ### ⚙️ Basis Platform Functionaliteiten
-- **🏗️ Type Systeem Herstructurering**: Een fundamentele refactoring van het type systeem! Cursustypes, contracttypes, en andere type tabellen zijn samengevoegd tot één generiek Types systeem. Dit maakt het platform schaalbaar en eenvoudiger te beheren. Product types, locatie types, korting types en docent types zijn allemaal gestandaardiseerd.
+- **🌍 Vertaling Beheer Verbeterd**: Het beheer van vertalingen is uitgebreid tot een herbruikbaar trait, zodat alle controllers hier consistent gebruik van maken. Vertalingen verwijderen gaat nu via een duidelijke knop met directe feedback en nette redirect.
+
+- **📋 Programma's Sortering**: Programma's worden nu gesorteerd op startdatum, zodat het actuele aanbod altijd bovenaan staat.
+
+- **🔍 Cursus Zoeken Verbeterd**: Zoeken op cursus is nu ook case-insensitive in de frontend, consistent met het admin panel.
+
+- **✏️ Jodit Editor Verbetering**: Een "gum" knop is toegevoegd aan de Jodit teksteditor toolbar voor het snel verwijderen van opmaak.
+
+### 🎨 Theme Updates
+- **Amsterdam Theme**:
+  - **Mega Menu**: Volledig nieuw mega menu geïmplementeerd in de header met verbeterde rendering, JavaScript gedrag en stijl voor het eerste item
+  - **Taalwisselaar Tijdelijk Verborgen**: Taalwisseling knoppen tijdelijk uitgeschakeld op blog, collectie, faq en pagina views
+
+---
+
+## Week van 27 januari - 8 februari 2026
+
+### ⚙️ Basis Platform Functionaliteiten
+- **🏗️ Type Systeem Herstructurering**: Een fundamentele refactoring van het type systeem! Cursustypes, contracttypes, en andere type tabellen zijn samengevoegd tot één generiek Types systeem. Product types, locatie types, korting types en docent types zijn allemaal gestandaardiseerd. Verouderde tabellen zijn verwijderd voor een schonere database.
+
+- **🎟️ Voucher Codes Systeem**: Een compleet voucher systeem is gelanceerd! U kunt nu unieke vouchercodes aanmaken en koppelen aan kortingen. Bezoekers voeren een code in tijdens het afrekenen en krijgen automatisch korting. Inclusief beheerpaneel voor het overzicht van alle vouchercodes.
+
+- **🛒 Voucher Integratie Checkout**: Vouchercodes zijn volledig geïntegreerd in het bestelproces. De winkelwagen herkent en valideert codes direct, en de korting wordt overzichtelijk getoond in het betalingsformulier.
+
+- **⚙️ Kortingen Uitgebreid**: Kortingen kunnen nu gekoppeld worden aan specifieke cursussen, programma's en collecties. Ook zijn opties toegevoegd voor automatische plaatsing en direct afrekenen bij kortingsacties.
+
+- **📦 Collectie Volgorde**: Collecties (inclusief subcollecties) kunnen nu handmatig gesorteerd worden. De volgorde wordt bijgehouden in de database en is direct zichtbaar op de website.
+
+- **🔢 Programma Maximum Bewaking**: Bij het toevoegen aan de winkelwagen wordt nu het maximale aantal deelnemers per programma gecontroleerd en gehandhaafd.
 
 - **📊 Evaluatie Systeem**: Een compleet nieuw evaluatie systeem is gelanceerd! U kunt nu evaluaties aanmaken, versturen en responses ontvangen. Inclusief:
-  - Email template ondersteuning voor gepersonaliseerde evaluatie uitnodigingen
+  - Email template ondersteuning voor gepersonaliseerde uitnodigingen
   - Automatische evaluatie generatie via scheduled commands
-  - Frontend formulieren voor cursisten om evaluaties in te vullen
-  - Response tracking in admin panel voor analyse
+  - Frontend formulieren voor cursisten
+  - Response tracking in admin panel
   - Hash-based veilige links voor anonieme evaluaties
+  - Gepersonaliseerde bedanktekst na het indienen
 
-- **📧 Rapport Notificaties**: Wanneer een rapport klaar is, ontvangt u nu automatisch een email met een download link. Geen handmatig checken meer of uw export klaar is! De email bevat directe toegang tot het gegenereerde bestand.
+- **📧 Rapport Notificaties**: Wanneer een rapport klaar is, ontvangt u nu automatisch een email met een directe downloadlink.
 
-- **🔍 Email Verificatie API**: Nieuwe API endpoints toegevoegd voor email verificatie. Perfect voor integraties met externe systemen die moeten checken of een email al bestaat in het systeem.
+- **🔍 Email Verificatie API**: Nieuwe API endpoints toegevoegd voor email verificatie vanuit externe systemen.
 
 - **📈 Export Verbeteringen**:
-  - Null checks toegevoegd aan alle exports om crashes te voorkomen bij ontbrekende data
+  - Null checks toegevoegd aan alle exports om crashes te voorkomen
   - Nederlandse vertalingen worden nu gebruikt voor cursus titels in alle exports
-  - Betere error handling in rapporten voor robuustere exports
 
-- **🔗 Collectie Beheer Fixes**: Meerdere fixes voor het collectie systeem - 500 errors opgelost, betere weergave van cursussen en producten in de selector, en verbeterde array access voor properties.
+- **🗂️ Daglijst Export Fix**: Een fout in de daglijst rapportage bij verwijderde cursussen is opgelost.
 
-- **🗑️ Database Opruiming**: Ongebruikte tabellen verwijderd (contract_types, course_types) na migratie naar het nieuwe Type systeem. Dit houdt de database schoon en performant.
-
-- **🔄 Pivot Table Refactoring**: De course_product pivot table gebruikt nu een generiek 'type' veld in plaats van 'required', wat veel flexibeler is voor toekomstige uitbreidingen.
+- **🔄 Pivot Table Refactoring**: De course_product pivot table gebruikt nu een generiek 'type' veld in plaats van 'required', wat veel flexibeler is.
 
 ### 🎨 Theme Updates
 - **Utrecht Theme**:
   - Evaluatie formulieren toegevoegd met submitted pagina
   - Late inschrijving optie voor al gestarte cursussen
-  - NRTO keurmerk logo update
-  - Vertalingsproblemen opgelost voor cursus weergave
+  - NRTO keurmerk logo bijgewerkt
 
 - **Amsterdam Theme**:
-  - "Seintje" (interesse) formulier toegevoegd - bezoekers blijven nu op dezelfde pagina na verzending
+  - "Seintje" (interesse) formulier verbeterd - bezoekers blijven op dezelfde pagina na verzending
   - Wachtlijst formulier verbeterd - blijft ook op dezelfde pagina
   - Product weergave verfijnd met nieuwe type kolom
-  - CSS updates voor betere styling van product relaties
+  - **Breadcrumb Positie**: Breadcrumbs verplaatst naar een logischere plek in order- en betalingsformulieren
+  - **Floating Labels**: Verbeterde styling van floating labels in formulieren
+  - Voucher veld toegevoegd aan winkelwagen en betalingspagina
+
+- **Breda, Utrecht, Amsterdam & Westvoorne Themes**:
+  - Evaluatie "bedankt" pagina toegevoegd met gepersonaliseerde afrondingstekst
 
 - **Westvoorne Theme**:
   - Aangepast voor nieuwe teacher type structuur
 
 ---
 
-## Week van 19-26 januari 2026
+## Week van 26 januari 2026
+
+### ⚙️ Basis Platform Functionaliteiten
+- **📜 Certificaat Generatie On-Demand**: Certificaten worden nu pas gegenereerd op het moment dat ze nodig zijn, in plaats van vooraf. Dit bespaart diskruimte en zorgt altijd voor up-to-date certificaten. De oude `certificaten` kolom is verwijderd uit de database voor een schonere structuur.
+
+- **🔐 Planbord Permissies**: Nieuwe permissie toegevoegd voor toegang tot het planbord. Alleen gebruikers met de juiste rechten kunnen nu het planbord bekijken en beheren. Dit verhoogt de veiligheid en controle.
+
+- **🔍 Cursus Zoeken Verbetering**: Zoeken naar cursustitels in het programma beheer is nu case-insensitive (hoofdletter ongevoelig), wat betekent dat u makkelijker kunt vinden wat u zoekt ongeacht hoe u het typt.
+
+### 🎨 Theme Updates
+- **Breda Theme**:
+  - NRTO keurmerk logo vernieuwd met SVG versie voor scherpere weergave
+  - Nieuw menu systeem geïmplementeerd in de header
+
+- **Utrecht Theme**:
+  - NRTO keurmerk logo vernieuwd met moderne SVG versie
+  - Footer aangepast voor betere visuele balans
+
+- **Demo Theme**:
+  - NRTO keurmerk verwijderd uit footer (niet van toepassing op demo)
+
+- **Amsterdam Theme**:
+  - **Gesloten Cursussen Weergave**: Speciale weergave voor gesloten cursussen met wachtlijst en waarschuwing formulieren
+  - **Inschrijfvarianten UI**: Verbeterde gebruikersinterface voor cursus inschrijfopties met checkout area styling
+  - **Dynamische Datums**: Cursus datums worden nu dynamisch weergegeven op basis van de huidige datum
+  - Typografische verbeteringen en betere spacing in style.css
+  - Head component geoptimaliseerd voor snellere laadtijden
+
+---
+
+## Week van 19-25 januari 2026
 
 ### ⚙️ Basis Platform Functionaliteiten
 - **🌍 Meertaligheid Cursussen & Programma's**: Een complete vertalingssysteem is geïmplementeerd! U kunt nu cursussen en programma's in meerdere talen aanbieden. Alle velden zoals titel, beschrijving en content zijn vertaalbaar. Het systeem ondersteunt tientallen talen met visuele taalwisseling via vlaggen.
@@ -69,14 +129,15 @@
 - **📚 Project Documentatie**: README is volledig bijgewerkt met project-specifieke details, installatiehandleiding en een complete TRANSLATIONS.md gids voor het werken met vertalingen.
 
 ### 🎨 Theme Updates
-- **Breda Theme**: Nieuw menu systeem geïmplementeerd in de header voor betere navigatie en gebruikerservaring.
+- **Breda Theme**:
+  - Nieuw menu systeem geïmplementeerd in de header voor betere navigatie en gebruikerservaring
 
 - **Amsterdam Theme**:
   - Volledig nieuwe betalingsformulier interface met moderne styling
   - Winkelwagen interface aangepast voor meerdere producten van hetzelfde type
   - Statspas korting verwijderd uit checkout stap 1 voor duidelijkere flow
   - Collectie filters volledig herzien met verbeterde UX
-  - Nieuwe DM Sans lettertype familie toegevoegd voor een modernere uitstraling
+  - Avenir lettertype vervangen door DM Sans voor modernere uitstraling en betere leesbaarheid
   - Taalwisseling op cursuspagina's met vlaggen en dropdown menu
   - SVG vlaggen iconen voor alle ondersteunde talen (250+ landen/regio's)
   - Style.css updates voor betere typografie en layout
