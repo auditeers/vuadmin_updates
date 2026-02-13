@@ -3,18 +3,47 @@
 ## Week van 9-15 februari 2026
 
 ### ⚙️ Basis Platform Functionaliteiten
-- **🌍 Vertaling Beheer Verbeterd**: Het beheer van vertalingen is uitgebreid tot een herbruikbaar trait, zodat alle controllers hier consistent gebruik van maken. Vertalingen verwijderen gaat nu via een duidelijke knop met directe feedback en nette redirect.
+- **🌍 Vertaalbeheer als Herbruikbare Trait**: De logica voor vertalingen is uitgebreid tot een gedeelde trait (`ManagesTranslations`). Alle beheer controllers maken hier nu consistent gebruik van, wat zorgt voor minder dubbele code en betrouwbaarder gedrag.
 
-- **📋 Programma's Sortering**: Programma's worden nu gesorteerd op startdatum, zodat het actuele aanbod altijd bovenaan staat.
+- **🗑️ Vertalingen Verwijderen Verbeterd**: De knop voor het verwijderen van een vertaling heeft nu een duidelijkere UI met directe feedback en een nette redirect na verwijdering. Ook zijn de endpoints hiervoor correct geregistreerd in de routes.
 
-- **🔍 Cursus Zoeken Verbeterd**: Zoeken op cursus is nu ook case-insensitive in de frontend, consistent met het admin panel.
+- **📋 Programma's Sortering op Startdatum**: Programma's worden nu gesorteerd op startdatum (oplopend), zodat het actuele aanbod altijd bovenaan staat in cursusoverzichten.
 
-- **✏️ Jodit Editor Verbetering**: Een "gum" knop is toegevoegd aan de Jodit teksteditor toolbar voor het snel verwijderen van opmaak.
+- **✏️ Jodit Editor: Gum-knop**: Een "gum" (eraser) knop is toegevoegd aan de Jodit teksteditor toolbar voor het snel verwijderen van opmaak. Het vertaalbaar-icoon is ook verplaatst naar de veldlabels zelf (zowel Jodit als CKEditor) voor een overzichtelijkere weergave.
+
+- **🌐 Pagina's Meertalig**: Pagina's kunnen nu worden vertaald in meerdere talen. Alle inhoudsvelden zijn vertaalbaar gemaakt, de taalwisseling is zichtbaar in het admin beheer, en bezoekers zien automatisch de juiste taalversie. Er is ook een fix doorgevoerd voor een vertaalfout in het pagina beheer.
+
+- **🔒 Vertalingen Permissie**: De vertalings-UI is nu beveiligd achter een aparte "Vertalingen" permissie (inclusief databasemigratie). Alleen gebruikers met de juiste rechten kunnen vertalingen beheren bij cursussen, programma's en pagina's.
+
+- **🌍 Locale Middleware**: Taalverwerking is gecentraliseerd in een nieuwe `SetLocale` middleware. Dit vervangt de losse lokale logica per controller en zorgt voor consistente taalafhandeling door de hele applicatie.
+
+- **⭐ Evaluatie Vraagtypes Uitgebreid**: Twee nieuwe vraagtypes toegevoegd aan evaluaties: schaalscore (1-10) en sterrenwaardering. Dit geeft meer flexibiliteit in hoe feedback wordt verzameld van cursisten.
+
+- **🏷️ Evaluatie Types**: Evaluaties kunnen nu worden ingedeeld in types, zodat u verschillende soorten evaluaties kunt onderscheiden en filteren in het overzicht.
+
+- **🛡️ Evaluaties Beveiligd tegen Verwijderen**: Evaluaties met al ingevulde responses kunnen niet meer per ongeluk verwijderd worden.
+
+- **💬 Korting Bericht in Winkelwagen**: Kortingen kunnen nu een gepersonaliseerd bericht tonen in het betalingsformulier wanneer ze worden toegepast. Handig om de korting extra toe te lichten voor de klant.
+
+- **⚙️ Kortingen: Automatisch Plaatsen & Direct Afrekenen**: Twee nieuwe opties toegevoegd aan kortingen: automatisch plaatsen (klant wordt direct ingeschreven) en direct afrekenen (klant wordt direct naar betaling gestuurd). Dit versoepelt promotionele kortingsacties.
+
+- **🔗 Cursus-Collectie Koppeling Beheer**: Een nieuwe beheerview maakt het mogelijk om vanuit de cursus te zien en beheren in welke collecties de cursus voorkomt. Bestaande koppelingen zijn gemigreerd naar het nieuwe `collection_items` systeem via een synchronisatiemigratie.
+
+- **🧹 Code Opruiming**: Een verouderd template bestand (`page_or_link.blade_old.php`) is verwijderd voor een schonere codebase.
 
 ### 🎨 Theme Updates
 - **Amsterdam Theme**:
-  - **Mega Menu**: Volledig nieuw mega menu geïmplementeerd in de header met verbeterde rendering, JavaScript gedrag en stijl voor het eerste item
-  - **Taalwisselaar Tijdelijk Verborgen**: Taalwisseling knoppen tijdelijk uitgeschakeld op blog, collectie, faq en pagina views
+  - **Mega Menu Herontwerp**: Het header menu is volledig herschreven met een nieuw mega menu. De rendering, JavaScript gedrag en stijl zijn stapsgewijs verfijnd, inclusief een afwijkende stijl voor het eerste menu-item.
+  - **Seintje & Wachtlijst Flow**: URL parameters worden nu bewaard bij het terugkeren na het invullen van een seintje- of wachtlijstformulier, zodat de bezoeker op de juiste pagina terugkomt.
+  - **Sortering Collecties**: Sorteerbare weergave toegevoegd aan de collectie hoofdpagina én detailpagina (oplopend/aflopend, nieuwste, populair).
+  - **Aankomende Cursussen Aanvulling**: De "aankomende cursussen" sectie wordt nu altijd aangevuld tot 4 items.
+  - **Product Type Label**: Product type wordt nu dynamisch getoond in de winkelwagen en productblokken, in plaats van een vaste tekst.
+  - **Pagina Taalwisseling**: Pagina's tonen nu een taalwisselmogelijkheid voor bezoekers.
+  - **Collectie-Cursus Migratie**: De collectie hoofdpagina gebruikt nu het vernieuwde `collection_items` systeem.
+  - Kortingsbericht toegevoegd aan het betalingsformulier bij het toepassen van een voucher.
+
+- **Amsterdam, Breda, Utrecht & Westvoorne Themes**:
+  - Evaluatieformulier uitgebreid met schaal- en sterrenwaarderingsvragen.
 
 ---
 
