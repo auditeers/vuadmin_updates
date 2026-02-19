@@ -1,106 +1,118 @@
 # VUAdmin Updates
 
-## Week van 9-15 februari 2026
+## Week van 16-22 februari 2026
 
 ### ⚙️ Basis Platform Functionaliteiten
-- **🌍 Vertaalbeheer als Herbruikbare Trait**: De logica voor vertalingen is uitgebreid tot een gedeelde trait (`ManagesTranslations`). Alle beheer controllers maken hier nu consistent gebruik van, wat zorgt voor minder dubbele code en betrouwbaarder gedrag.
+- **📊 Evaluatie Export naar Excel**: Ingevulde evaluaties kunnen nu worden geëxporteerd als rapport. Vragen met een marketingmarkering worden apart herkend en als eigen kolommen weergegeven in de export, zodat u gericht kunt analyseren wat cursisten vonden.
 
-- **🗑️ Vertalingen Verwijderen Verbeterd**: De knop voor het verwijderen van een vertaling heeft nu een duidelijkere UI met directe feedback en een nette redirect na verwijdering. Ook zijn de endpoints hiervoor correct geregistreerd in de routes.
+- **📈 Evaluatie KPI Dashboard**: Op het beheerdashboard verschijnt nu een widget met de belangrijkste evaluatiecijfers in één oogopslag. Zo ziet u direct hoe uw cursussen worden beoordeeld zonder door losse reacties te hoeven bladeren.
 
-- **📋 Programma's Sortering op Startdatum**: Programma's worden nu gesorteerd op startdatum (oplopend), zodat het actuele aanbod altijd bovenaan staat in cursusoverzichten.
+- **✉️ Evaluatie E-mails Automatisch Verstuurd**: Het systeem verstuurt nu automatisch de evaluatie-uitnodigingen per e-mail naar cursisten en houdt bij wanneer een e-mail is verstuurd, zodat u nooit dubbel verstuurt en altijd het overzicht behoudt. Datumberekeningen voor het juiste verzendmoment zijn verder verfijnd.
 
-- **✏️ Jodit Editor: Gum-knop**: Een "gum" (eraser) knop is toegevoegd aan de Jodit teksteditor toolbar voor het snel verwijderen van opmaak. Het vertaalbaar-icoon is ook verplaatst naar de veldlabels zelf (zowel Jodit als CKEditor) voor een overzichtelijkere weergave.
+- **👁️ Evaluatie Voorbeeldweergave voor Beheerders**: Vanuit het admin panel kunt u een evaluatie nu previeuwen zoals een cursist die ziet — inclusief de bedanktpagina. Zo controleert u eenvoudig of alles er goed uitziet vóór verzending.
 
-- **🌐 Pagina's Meertalig**: Pagina's kunnen nu worden vertaald in meerdere talen. Alle inhoudsvelden zijn vertaalbaar gemaakt, de taalwisseling is zichtbaar in het admin beheer, en bezoekers zien automatisch de juiste taalversie. Er is ook een fix doorgevoerd voor een vertaalfout in het pagina beheer.
+- **📋 Evaluatieresponses Overzichtelijker**: Antwoorden in het responsoverzicht tonen nu de volledige tekst per vraag. Het overzicht is verder opgeschoond voor een cleaner weergave.
 
-- **🔒 Vertalingen Permissie**: De vertalings-UI is nu beveiligd achter een aparte "Vertalingen" permissie (inclusief databasemigratie). Alleen gebruikers met de juiste rechten kunnen vertalingen beheren bij cursussen, programma's en pagina's.
+- **🔄 Programma Status Automatisch Berekend**: De status van een programma (actief, vol, afgelopen, etc.) wordt nu automatisch berekend op basis van actuele gegevens, zodat de informatie door het hele systeem consistent en betrouwbaar is.
 
-- **🌍 Locale Middleware**: Taalverwerking is gecentraliseerd in een nieuwe `SetLocale` middleware. Dit vervangt de losse lokale logica per controller en zorgt voor consistente taalafhandeling door de hele applicatie.
+- **🌐 Pagina Ondertitel Vertaalbaar**: De ondertitel van een pagina kan nu ook in meerdere talen worden aangeboden, net als de overige pagina-inhoud.
 
-- **⭐ Evaluatie Vraagtypes Uitgebreid**: Twee nieuwe vraagtypes toegevoegd aan evaluaties: schaalscore (1-10) en sterrenwaardering. Dit geeft meer flexibiliteit in hoe feedback wordt verzameld van cursisten.
+- **🔍 Zoeken op Pagina's Verbeterd**: Zoeken op paginatitel en URL-slug in het beheer werkt nu ongeacht hoofdlettergebruik, zodat u altijd de juiste pagina terugvindt.
 
-- **🏷️ Evaluatie Types**: Evaluaties kunnen nu worden ingedeeld in types, zodat u verschillende soorten evaluaties kunt onderscheiden en filteren in het overzicht.
-
-- **🛡️ Evaluaties Beveiligd tegen Verwijderen**: Evaluaties met al ingevulde responses kunnen niet meer per ongeluk verwijderd worden.
-
-- **💬 Korting Bericht in Winkelwagen**: Kortingen kunnen nu een gepersonaliseerd bericht tonen in het betalingsformulier wanneer ze worden toegepast. Handig om de korting extra toe te lichten voor de klant.
-
-- **⚙️ Kortingen: Automatisch Plaatsen & Direct Afrekenen**: Twee nieuwe opties toegevoegd aan kortingen: automatisch plaatsen (klant wordt direct ingeschreven) en direct afrekenen (klant wordt direct naar betaling gestuurd). Dit versoepelt promotionele kortingsacties.
-
-- **🔗 Cursus-Collectie Koppeling Beheer**: Een nieuwe beheerview maakt het mogelijk om vanuit de cursus te zien en beheren in welke collecties de cursus voorkomt. Bestaande koppelingen zijn gemigreerd naar het nieuwe `collection_items` systeem via een synchronisatiemigratie.
-
-- **🧹 Code Opruiming**: Een verouderd template bestand (`page_or_link.blade_old.php`) is verwijderd voor een schonere codebase.
+- **🔧 Bugfixes**:
+  - Verlaten-winkelwagen e-mails verstuurden soms een foutieve link — opgelost
+  - Docentfacturen exporteerden cursustitels niet in het Nederlands — gecorrigeerd
+  - Gerelateerde cursussen en links worden nu altijd in het Nederlands weergegeven, ook bij meertalige instellingen
+  - Winkelwagen status wordt nu correct bijgewerkt na een betalingsbevestiging
 
 ### 🎨 Theme Updates
 - **Amsterdam Theme**:
-  - **Mega Menu Herontwerp**: Het header menu is volledig herschreven met een nieuw mega menu. De rendering, JavaScript gedrag en stijl zijn stapsgewijs verfijnd, inclusief een afwijkende stijl voor het eerste menu-item.
-  - **Seintje & Wachtlijst Flow**: URL parameters worden nu bewaard bij het terugkeren na het invullen van een seintje- of wachtlijstformulier, zodat de bezoeker op de juiste pagina terugkomt.
-  - **Sortering Collecties**: Sorteerbare weergave toegevoegd aan de collectie hoofdpagina én detailpagina (oplopend/aflopend, nieuwste, populair).
-  - **Aankomende Cursussen Aanvulling**: De "aankomende cursussen" sectie wordt nu altijd aangevuld tot 4 items.
-  - **Product Type Label**: Product type wordt nu dynamisch getoond in de winkelwagen en productblokken, in plaats van een vaste tekst.
-  - **Pagina Taalwisseling**: Pagina's tonen nu een taalwisselmogelijkheid voor bezoekers.
-  - **Collectie-Cursus Migratie**: De collectie hoofdpagina gebruikt nu het vernieuwde `collection_items` systeem.
-  - Kortingsbericht toegevoegd aan het betalingsformulier bij het toepassen van een voucher.
+  - Cursusblokken tonen nu correct de vertaalde cursustitels
+  - Gerelateerde cursussen op de cursuspagina worden altijd in het Nederlands getoond
+  - Evaluatieformulier en bedanktpagina ondersteunen de nieuwe preview-functionaliteit
+
+- **Breda, Utrecht & Westvoorne Themes**:
+  - Evaluatieformulier en bedanktpagina ondersteunen de nieuwe preview-functionaliteit
+
+---
+
+## Week van 9-15 februari 2026
+
+### ⚙️ Basis Platform Functionaliteiten
+- **🌐 Pagina's in Meerdere Talen**: U kunt nu al uw pagina's in meerdere talen aanbieden. Beheerders zien in het admin panel direct per veld of er een vertaling beschikbaar is, en bezoekers zien automatisch de pagina in hun eigen taal. Een bugfix zorgde er ook voor dat de vertaalweergave correct werkt na opslaan.
+
+- **🔒 Beheer van Vertalingen Afgeschermd**: Het beheren van vertalingen is nu een aparte bevoegdheid. Alleen medewerkers met de juiste rechten kunnen vertalingen aanpassen voor cursussen, programma's en pagina's. Zo houdt u controle over wie wat mag wijzigen.
+
+- **🌍 Taalinstelling Consistent Door Hele Website**: De taalverwerking werkt nu overal hetzelfde — of een bezoeker nu een cursuspagina, programma of gewone pagina bekijkt. Geen wisselende taalinstellingen meer per pagina.
+
+- **🗑️ Vertalingen Eenvoudiger Verwijderen**: De knop voor het verwijderen van een vertaling werkt nu duidelijker: u krijgt directe bevestiging en wordt automatisch teruggestuurd naar de juiste pagina.
+
+- **📋 Programmaoverzicht Gesorteerd op Datum**: Programma's worden nu automatisch getoond van vroeg naar laat op basis van startdatum, zodat het actuele aanbod altijd bovenaan staat.
+
+- **✏️ Teksteditor Verbeterd**: De teksteditor heeft een extra knop gekregen waarmee u in één klik alle opmaak kunt verwijderen uit geselecteerde tekst. Ook is het vertaalsymbool (🌐) verplaatst naar de labels bij elk veld, zodat u direct ziet welke velden vertaalbaar zijn.
+
+- **⭐ Meer Mogelijkheden voor Evaluatievragen**: Naast de bestaande vraagtypen kunt u nu ook schaalscore-vragen (bijv. 1 t/m 10) en sterrenwaarderingen toevoegen aan evaluaties. Zo verzamelt u op een laagdrempelige manier nuttige feedback van cursisten.
+
+- **🏷️ Evaluaties Indelen in Types**: U kunt evaluaties nu categoriseren per type, zodat u verschillende soorten evaluaties kunt onderscheiden en makkelijker kunt terugvinden in het overzicht.
+
+- **🛡️ Evaluaties Beter Beveiligd**: Een evaluatie waarop al reacties zijn binnengekomen kan niet meer per ongeluk worden verwijderd. Zo gaan ingevulde gegevens nooit verloren.
+
+- **💬 Persoonlijk Bericht bij Kortingsactie**: Bij een korting kunt u nu een eigen tekst instellen die bezoekers te zien krijgen op het moment dat de korting wordt toegepast in het betalingsformulier. Handig om de actie extra te duiden of te bedanken.
+
+- **🎟️ Slimmere Kortingsacties**: Kortingen hebben twee nieuwe opties gekregen: automatisch inschrijven (de klant wordt direct aangemeld zonder extra stappen) en direct naar betaling (de klant gaat meteen naar het betalingsscherm). Dit maakt promotionele acties veel soepeler.
+
+- **🔗 Cursus-Collectie Overzicht**: Vanuit de beheerpagina van een cursus kunt u nu direct zien in welke collecties die cursus voorkomt — en dit ook beheren. Alle bestaande koppelingen zijn automatisch overgezet naar het nieuwe systeem.
+
+### 🎨 Theme Updates
+- **Amsterdam Theme**:
+  - **Nieuw Mega Menu**: Het navigatiemenu in de header is volledig vernieuwd met een uitgebreid mega menu. De stijl, indeling en het gedrag zijn zorgvuldig afgestemd voor een prettige gebruikerservaring, inclusief een eigen opmaak voor het eerste menu-item.
+  - **Betere Terugkeerervaring bij Seintje & Wachtlijst**: Na het invullen van een seintje- of wachtlijstformulier keert de bezoeker nu automatisch terug naar de juiste cursuspagina.
+  - **Sortering in Collecties**: Bezoekers kunnen collecties nu sorteren op relevantie, datum of populariteit — zowel op de overzichtspagina als op de detailpagina van een collectie.
+  - **Aankomende Cursussen Altijd Gevuld**: De sectie "aankomende cursussen" toont altijd minimaal 4 cursussen, zodat er nooit een lege of schaarse weergave is.
+  - **Dynamisch Product Type Label**: In de winkelwagen en op productoverzichten wordt nu het echte producttype getoond in plaats van een vaste tekst.
+  - **Taalwisselaar op Pagina's**: Bezoekers kunnen nu ook op gewone pagina's wisselen van taal, mits er een vertaling beschikbaar is.
+  - Kortingsbericht zichtbaar in het betalingsformulier wanneer een voucher wordt toegepast.
 
 - **Amsterdam, Breda, Utrecht & Westvoorne Themes**:
-  - Evaluatieformulier uitgebreid met schaal- en sterrenwaarderingsvragen.
+  - Evaluatieformulieren ondersteunen nu schaalscore- en sterrenwaarderingsvragen.
 
 ---
 
 ## Week van 27 januari - 8 februari 2026
 
 ### ⚙️ Basis Platform Functionaliteiten
-- **🏗️ Type Systeem Herstructurering**: Een fundamentele refactoring van het type systeem! Cursustypes, contracttypes, en andere type tabellen zijn samengevoegd tot één generiek Types systeem. Product types, locatie types, korting types en docent types zijn allemaal gestandaardiseerd. Verouderde tabellen zijn verwijderd voor een schonere database.
+- **🎟️ Vouchercodes voor Kortingen**: U kunt nu unieke vouchercodes aanmaken en koppelen aan kortingsacties. Bezoekers voeren de code in tijdens het afrekenen en krijgen direct de bijbehorende korting. Alles is zichtbaar in een overzichtelijk beheerpaneel. U kunt kortingen ook beperken tot specifieke cursussen, programma's of collecties voor gerichte acties.
 
-- **🎟️ Voucher Codes Systeem**: Een compleet voucher systeem is gelanceerd! U kunt nu unieke vouchercodes aanmaken en koppelen aan kortingen. Bezoekers voeren een code in tijdens het afrekenen en krijgen automatisch korting. Inclusief beheerpaneel voor het overzicht van alle vouchercodes.
+- **🛒 Vouchers Zichtbaar in Winkelwagen**: Wanneer een bezoeker een vouchercode invoert, wordt de korting direct getoond in de winkelwagen én op de betalingspagina. Geen verrassingen achteraf — de klant ziet precies wat hij betaalt.
 
-- **🛒 Voucher Integratie Checkout**: Vouchercodes zijn volledig geïntegreerd in het bestelproces. De winkelwagen herkent en valideert codes direct, en de korting wordt overzichtelijk getoond in het betalingsformulier.
+- **📊 Evaluaties Versturen via E-mail**: Het evaluatiesysteem is uitgebreid met e-mailuitnodigingen. U kunt per evaluatie een eigen e-mailtemplate instellen, waarna uitnodigingen automatisch worden verstuurd op het juiste moment. Cursisten ontvangen een persoonlijke link om de evaluatie anoniem in te vullen. Na het indienen zien ze een bedanktekst die u zelf kunt aanpassen.
 
-- **⚙️ Kortingen Uitgebreid**: Kortingen kunnen nu gekoppeld worden aan specifieke cursussen, programma's en collecties. Ook zijn opties toegevoegd voor automatische plaatsing en direct afrekenen bij kortingsacties.
+- **📋 Evaluatie Responses in Beheer**: Alle ingevulde evaluaties zijn nu terug te vinden in het admin panel, inclusief filtermogelijkheden op programmacode. Zo houdt u eenvoudig overzicht over welke feedback er binnenkomt.
 
-- **📦 Collectie Volgorde**: Collecties (inclusief subcollecties) kunnen nu handmatig gesorteerd worden. De volgorde wordt bijgehouden in de database en is direct zichtbaar op de website.
+- **📦 Volgorde van Collecties Instelbaar**: Collecties en subcollecties kunnen nu handmatig worden gesorteerd. De ingestelde volgorde is direct zichtbaar op de website.
 
-- **🔢 Programma Maximum Bewaking**: Bij het toevoegen aan de winkelwagen wordt nu het maximale aantal deelnemers per programma gecontroleerd en gehandhaafd.
+- **🔢 Maximum Deelnemers per Programma Bewaakt**: Wanneer iemand een cursus aan de winkelwagen toevoegt, controleert het systeem of het maximale aantal deelnemers voor dat programma al bereikt is. Overboeking is daarmee niet meer mogelijk.
 
-- **📊 Evaluatie Systeem**: Een compleet nieuw evaluatie systeem is gelanceerd! U kunt nu evaluaties aanmaken, versturen en responses ontvangen. Inclusief:
-  - Email template ondersteuning voor gepersonaliseerde uitnodigingen
-  - Automatische evaluatie generatie via scheduled commands
-  - Frontend formulieren voor cursisten
-  - Response tracking in admin panel
-  - Hash-based veilige links voor anonieme evaluaties
-  - Gepersonaliseerde bedanktekst na het indienen
+- **📧 Melding als Rapport Klaar Is**: Na het genereren van een rapport ontvangt u automatisch een e-mail met een directe downloadlink. U hoeft niet meer handmatig te controleren of het klaar is.
 
-- **📧 Rapport Notificaties**: Wanneer een rapport klaar is, ontvangt u nu automatisch een email met een directe downloadlink.
+- **📈 Exports Stabieler en Nauwkeuriger**: Alle exports (inschrijvingen, subsidies, daglijsten, facturen, etc.) zijn verbeterd: ze crashen niet meer bij ontbrekende gegevens en tonen cursustitels nu in het Nederlands. Een fout in de daglijst bij verwijderde cursussen is ook opgelost.
 
-- **🔍 Email Verificatie API**: Nieuwe API endpoints toegevoegd voor email verificatie vanuit externe systemen.
-
-- **📈 Export Verbeteringen**:
-  - Null checks toegevoegd aan alle exports om crashes te voorkomen
-  - Nederlandse vertalingen worden nu gebruikt voor cursus titels in alle exports
-
-- **🗂️ Daglijst Export Fix**: Een fout in de daglijst rapportage bij verwijderde cursussen is opgelost.
-
-- **🔄 Pivot Table Refactoring**: De course_product pivot table gebruikt nu een generiek 'type' veld in plaats van 'required', wat veel flexibeler is.
+- **🏷️ Eén Uniform Typesysteem**: Alle types binnen het platform — cursustypes, locatietypes, contracttypes, kortingstypes, docenttypes en producttypes — zijn samengevoegd in één centraal systeem. Dit maakt beheer overzichtelijker en consistenter.
 
 ### 🎨 Theme Updates
-- **Utrecht Theme**:
-  - Evaluatie formulieren toegevoegd met submitted pagina
-  - Late inschrijving optie voor al gestarte cursussen
-  - NRTO keurmerk logo bijgewerkt
-
 - **Amsterdam Theme**:
-  - "Seintje" (interesse) formulier verbeterd - bezoekers blijven op dezelfde pagina na verzending
-  - Wachtlijst formulier verbeterd - blijft ook op dezelfde pagina
-  - Product weergave verfijnd met nieuwe type kolom
-  - **Breadcrumb Positie**: Breadcrumbs verplaatst naar een logischere plek in order- en betalingsformulieren
-  - **Floating Labels**: Verbeterde styling van floating labels in formulieren
-  - Voucher veld toegevoegd aan winkelwagen en betalingspagina
+  - Voucherveld toegevoegd aan winkelwagen en betalingspagina
+  - Na het invullen van een seintje- of wachtlijstformulier blijft de bezoeker op dezelfde pagina in plaats van te worden doorgestuurd
+  - Navigatiepadjes (breadcrumbs) staan nu op een logischere positie in het bestelproces
+  - Formuliervelden hebben een verfijnde stijl gekregen voor een prettiger invulervaring
 
-- **Breda, Utrecht, Amsterdam & Westvoorne Themes**:
-  - Evaluatie "bedankt" pagina toegevoegd met gepersonaliseerde afrondingstekst
+- **Utrecht Theme**:
+  - Evaluatieformulier en bedanktpagina toegevoegd
+  - Bezoekers kunnen zich nu ook inschrijven voor een cursus die al gestart is (late inschrijving)
+  - NRTO keurmerk logo bijgewerkt naar de nieuwste versie
 
-- **Westvoorne Theme**:
-  - Aangepast voor nieuwe teacher type structuur
+- **Breda, Amsterdam, Utrecht & Westvoorne Themes**:
+  - Gepersonaliseerde bedanktpagina toegevoegd na het invullen van een evaluatie
 
 ---
 
