@@ -7,20 +7,36 @@
 
 - **⏰ Herinneringsmails voor Evaluaties**: Als een cursist een evaluatie nog niet heeft ingevuld, kan het systeem nu automatisch een herinneringsmail sturen. U stelt zelf in wanneer de herinnering verstuurd wordt en welke tekst erin staat. Zo vergroot u de kans op een volledige respons zonder handmatig na te moeten bellen.
 
-- **💳 Betaalmethoden Verfijnd**: Betaalmethoden die alleen intern bedoeld zijn (zoals systeem-betalingen) worden nu apart gemarkeerd en zijn niet langer zichtbaar als keuze voor beheerders in het orderoverzicht. Dit voorkomt verwarring en verkeerde selecties bij het verwerken van bestellingen.
+- **🎨 Contentblokken Uitgebreid met Feature Opties**: Per type contentblok kunt u nu instellen welke onderdelen actief zijn — denk aan het al dan niet tonen van een afbeelding, knop, titel of achtergrondkleur. Dit geeft veel meer vrijheid bij het opmaken van pagina's zonder dat u de structuur kwijtraakt.
 
-- **🎟️ Voucher Gekoppeld aan Orderregel**: De gebruikte vouchercode wordt nu ook op regelniveau opgeslagen bij een bestelling. Dit maakt het makkelijker om achteraf te zien welke code bij welk product of welke cursus is ingezet.
+- **🌈 Achtergrondkleur per Contentblok**: Elk contentblok op een pagina kan nu een eigen achtergrondkleur krijgen. U kiest de kleur zelf via een kleurcode, zodat uw pagina's visueel afwisselender en merkconsistenter worden.
 
-- **📦 Volgorde van Contentblokken Instelbaar**: Contentblokken op pagina's kunnen nu een vaste volgorde krijgen. Het systeem past automatisch een standaardsortering toe, zodat blokken altijd op de juiste plek verschijnen.
+- **❓ FAQ's Koppelen aan Pagina's**: U kunt nu vanuit een pagina direct verwijzen naar een set veelgestelde vragen. Ideaal om informatieve pagina's te verrijken zonder de inhoud dubbel bij te houden.
+
+- **📝 Rijkere Tekstopmaak in Blokken**: De tekstmogelijkheden binnen contentblokken zijn uitgebreid. U heeft meer controle over hoe tekst wordt weergegeven binnen een blok, voor een professionelere en consistentere pagina-opmaak.
+
+- **📋 Documentatie E-mail Sjabloon Variabelen**: Er is een overzichtsdocument toegevoegd met alle beschikbare variabelen voor gebruik in e-mailsjablonen. Handig als naslagwerk bij het opstellen van gepersonaliseerde e-mails.
+
+- **💳 Betaalmethoden Verfijnd**: Betaalmethoden die alleen intern bedoeld zijn worden nu apart gemarkeerd en zijn niet langer zichtbaar als keuze in het orderoverzicht. Dit voorkomt verwarring bij het verwerken van bestellingen.
+
+- **🎟️ Voucher Bijgehouden per Orderregel**: De gebruikte vouchercode wordt nu ook op regelniveau opgeslagen bij een bestelling, zodat u achteraf precies kunt zien welke code bij welk product of welke cursus is ingezet.
+
+- **📦 Volgorde van Contentblokken Instelbaar**: Contentblokken op pagina's kunnen een vaste volgorde krijgen met automatische standaardsortering.
+
+- **🔧 Evaluatie Verwijderknop Slimmer**: De verwijderknop bij een evaluatie verschijnt nu alleen als verwijderen daadwerkelijk mogelijk is. Zo voorkomt u per ongeluk klikken op een knop die toch niets doet.
 
 ### 🎨 Theme Updates
 - **Amsterdam Theme**:
-  - Mega menu reageert nu soepeler op hover en klikken voor een prettiger navigatie-ervaring
+  - Pagina's tonen achtergrondkleuren en opmaakopties van contentblokken correct
+  - FAQ-sectie kan nu worden opgenomen op pagina's en de homepage
+  - CTA-blokken hebben een verfijnde indeling gekregen voor een betere visuele balans
+  - Mega menu reageert soepeler op hover en klikken
+  - Aanbiedingen-sectie heeft CSS-verbeteringen gekregen
   - Footer bijgewerkt
-  - Overbodige producttag verwijderd van de productpagina voor een cleaner weergave
+  - Overbodige producttag verwijderd van de productpagina
 
 - **Amsterdam, Breda, Utrecht, Westvoorne & Demo Themes**:
-  - Wachtwoord wijzigen is nu beschikbaar voor studenten via het persoonlijke dashboard
+  - Wachtwoord wijzigen beschikbaar voor studenten via het persoonlijke dashboard
 
 ---
 
