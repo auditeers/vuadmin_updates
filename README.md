@@ -1,38 +1,80 @@
 # VUAdmin Updates
 
+## Week van 23 februari - 1 maart 2026
+
+### ⚙️ Basis Platform Functionaliteiten
+- **🔑 Studenten Kunnen Zelf Wachtwoord Wijzigen**: Cursisten kunnen nu vanuit hun eigen dashboard hun wachtwoord aanpassen. Geen omweg via de beheerder meer — snel, zelfstandig en veilig.
+
+- **⏰ Herinneringsmails voor Evaluaties**: Als een cursist een evaluatie nog niet heeft ingevuld, kan het systeem nu automatisch een herinneringsmail sturen. U stelt zelf in wanneer de herinnering verstuurd wordt en welke tekst erin staat. Zo vergroot u de kans op een volledige respons zonder handmatig na te moeten bellen.
+
+- **💳 Betaalmethoden Verfijnd**: Betaalmethoden die alleen intern bedoeld zijn (zoals systeem-betalingen) worden nu apart gemarkeerd en zijn niet langer zichtbaar als keuze voor beheerders in het orderoverzicht. Dit voorkomt verwarring en verkeerde selecties bij het verwerken van bestellingen.
+
+- **🎟️ Voucher Gekoppeld aan Orderregel**: De gebruikte vouchercode wordt nu ook op regelniveau opgeslagen bij een bestelling. Dit maakt het makkelijker om achteraf te zien welke code bij welk product of welke cursus is ingezet.
+
+- **📦 Volgorde van Contentblokken Instelbaar**: Contentblokken op pagina's kunnen nu een vaste volgorde krijgen. Het systeem past automatisch een standaardsortering toe, zodat blokken altijd op de juiste plek verschijnen.
+
+### 🎨 Theme Updates
+- **Amsterdam Theme**:
+  - Mega menu reageert nu soepeler op hover en klikken voor een prettiger navigatie-ervaring
+  - Footer bijgewerkt
+  - Overbodige producttag verwijderd van de productpagina voor een cleaner weergave
+
+- **Amsterdam, Breda, Utrecht, Westvoorne & Demo Themes**:
+  - Wachtwoord wijzigen is nu beschikbaar voor studenten via het persoonlijke dashboard
+
+---
+
 ## Week van 16-22 februari 2026
 
 ### ⚙️ Basis Platform Functionaliteiten
-- **📊 Evaluatie Export naar Excel**: Ingevulde evaluaties kunnen nu worden geëxporteerd als rapport. Vragen met een marketingmarkering worden apart herkend en als eigen kolommen weergegeven in de export, zodat u gericht kunt analyseren wat cursisten vonden.
+- **🃏 Kortingspas (Loyalty Card)**: Een gloednieuwe kortingspas-functie! U kunt nu loyaliteitskaarten aanmaken en koppelen aan kortingsacties. Klanten met een geldige pas krijgen automatisch korting bij het afrekenen — zonder codes of extra stappen. Alle gebruik wordt per bestelling bijgehouden voor een volledig overzicht.
 
-- **📈 Evaluatie KPI Dashboard**: Op het beheerdashboard verschijnt nu een widget met de belangrijkste evaluatiecijfers in één oogopslag. Zo ziet u direct hoe uw cursussen worden beoordeeld zonder door losse reacties te hoeven bladeren.
+- **📊 Dashboard Uitgebreid met Programma KPI's**: Naast de evaluatiecijfers toont het beheerdashboard nu ook een overzicht van uw programma's: bezettingsgraad, capaciteit en trends van de afgelopen drie maanden — direct zichtbaar zodra u inlogt.
 
-- **✉️ Evaluatie E-mails Automatisch Verstuurd**: Het systeem verstuurt nu automatisch de evaluatie-uitnodigingen per e-mail naar cursisten en houdt bij wanneer een e-mail is verstuurd, zodat u nooit dubbel verstuurt en altijd het overzicht behoudt. Datumberekeningen voor het juiste verzendmoment zijn verder verfijnd.
+- **📈 Evaluatie KPI Dashboard**: De evaluatiewidget toont de belangrijkste beoordelingscijfers van uw cursussen in één oogopslag, inclusief een grafiek voor snelle inzichten.
 
-- **👁️ Evaluatie Voorbeeldweergave voor Beheerders**: Vanuit het admin panel kunt u een evaluatie nu previeuwen zoals een cursist die ziet — inclusief de bedanktpagina. Zo controleert u eenvoudig of alles er goed uitziet vóór verzending.
+- **📊 Evaluatie Export naar Excel**: Ingevulde evaluaties kunnen nu als rapport worden geëxporteerd. Marketingvragen verschijnen als aparte kolommen, zodat u gericht kunt analyseren wat cursisten vonden.
 
-- **📋 Evaluatieresponses Overzichtelijker**: Antwoorden in het responsoverzicht tonen nu de volledige tekst per vraag. Het overzicht is verder opgeschoond voor een cleaner weergave.
+- **✉️ Evaluatie E-mails Automatisch Verstuurd**: Het systeem verstuurt automatisch evaluatie-uitnodigingen naar cursisten op het juiste moment en houdt bij wanneer een e-mail is verstuurd. Zo verstuurt u nooit dubbel.
 
-- **🔄 Programma Status Automatisch Berekend**: De status van een programma (actief, vol, afgelopen, etc.) wordt nu automatisch berekend op basis van actuele gegevens, zodat de informatie door het hele systeem consistent en betrouwbaar is.
+- **👁️ Evaluatie Voorbeeldweergave voor Beheerders**: U kunt een evaluatie previeuwen precies zoals een cursist die ziet — inclusief de bedanktpagina — voordat u hem verstuurt.
 
-- **🌐 Pagina Ondertitel Vertaalbaar**: De ondertitel van een pagina kan nu ook in meerdere talen worden aangeboden, net als de overige pagina-inhoud.
+- **💬 Kortingsbericht Zichtbaar bij Betaling**: Wanneer een klant een voucher of kortingspas gebruikt, wordt het bijbehorende bericht duidelijk getoond op de betalingspagina.
 
-- **🔍 Zoeken op Pagina's Verbeterd**: Zoeken op paginatitel en URL-slug in het beheer werkt nu ongeacht hoofdlettergebruik, zodat u altijd de juiste pagina terugvindt.
+- **🔗 Korting Bijgehouden per Bestelling**: Per orderregel wordt vastgelegd welke korting er is toegepast. Dit maakt rapportage en inzicht in kortingsgebruik een stuk nauwkeuriger.
+
+- **🔄 Programma Status Automatisch Berekend**: De status van een programma (actief, vol, afgelopen, etc.) wordt automatisch bepaald op basis van actuele gegevens — consistent door het hele systeem.
+
+- **📋 Evaluatieresponses Overzichtelijker**: Het responsoverzicht toont nu de volledige antwoordtekst per vraag voor een duidelijker beeld van ingevulde feedback.
+
+- **🔒 Evaluaties Beveiligd tegen Verwijderen**: Een evaluatie met bestaande reacties kan niet meer worden verwijderd. Zo raakt u nooit ingevulde feedback kwijt.
+
+- **🌐 Pagina Ondertitel Vertaalbaar**: De ondertitel van een pagina kan nu ook in meerdere talen worden aangeboden.
+
+- **🔍 Zoeken op Pagina's Verbeterd**: Zoeken op paginatitel en URL in het beheer werkt nu ongeacht hoofdlettergebruik.
+
+- **🗂️ Admin Menu Opgeschoond**: De labels en structuur van het beheermenu zijn verduidelijkt voor een overzichtelijker navigatie.
 
 - **🔧 Bugfixes**:
   - Verlaten-winkelwagen e-mails verstuurden soms een foutieve link — opgelost
   - Docentfacturen exporteerden cursustitels niet in het Nederlands — gecorrigeerd
-  - Gerelateerde cursussen en links worden nu altijd in het Nederlands weergegeven, ook bij meertalige instellingen
-  - Winkelwagen status wordt nu correct bijgewerkt na een betalingsbevestiging
+  - Gerelateerde cursussen worden nu altijd in het Nederlands getoond, ook bij meertalige instellingen
+  - Winkelwagen status wordt correct bijgewerkt na een betalingsbevestiging
+  - Betalingsformulier gebruikt nu altijd de juiste winkelwagen bij een lopende betaling
+  - Favorieten verwijderen vereist nu dat de bezoeker ingelogd is
 
 ### 🎨 Theme Updates
 - **Amsterdam Theme**:
-  - Cursusblokken tonen nu correct de vertaalde cursustitels
+  - Cursusblokken tonen de vertaalde cursustitels correct
   - Gerelateerde cursussen op de cursuspagina worden altijd in het Nederlands getoond
   - Evaluatieformulier en bedanktpagina ondersteunen de nieuwe preview-functionaliteit
+  - Kortingsbericht zichtbaar op de betalingspagina bij gebruik van een voucher of pas
 
 - **Breda, Utrecht & Westvoorne Themes**:
   - Evaluatieformulier en bedanktpagina ondersteunen de nieuwe preview-functionaliteit
+
+- **Alle Themes**:
+  - Zijbalk navigatie heeft een consistente opmaak gekregen in het admin panel
 
 ---
 
