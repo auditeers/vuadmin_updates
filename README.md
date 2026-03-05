@@ -1,5 +1,38 @@
 # VUAdmin Updates
 
+## Week van 2-8 maart 2026
+
+### ⚙️ Basis Platform Functionaliteiten
+- **🔔 Directe Meldingen bij Fouten via Slack**: Het systeem stuurt nu automatisch een bericht naar Slack wanneer er een fout of ongewone situatie plaatsvindt op het platform. Zo bent u als beheerder direct op de hoogte, zonder zelf te hoeven controleren.
+
+- **🤖 Bescherming Tegen Bots en AI-Scrapers**: Bekende kwaadaardige bots en AI-scrapers worden nu automatisch geblokkeerd voordat ze de website kunnen belasten. Bij een geblokkeerde toegangspoging ontvangt u een Slack-melding.
+
+- **👨‍🏫 Docent Ontvangt Bericht bij Gestopt Programma**: Wanneer een cursusorder wordt gestopt, krijgt de bijbehorende docent nu automatisch een e-mailmelding. Zo is de docent altijd tijdig op de hoogte en hoeft u dit niet meer handmatig door te geven.
+
+- **💳 Korting als Betaalmethode**: Kortingen kunnen nu worden geconfigureerd als volwaardige betaalmethode. Dit geeft meer flexibiliteit bij het inrichten van promotionele acties. Ook is er een optie toegevoegd om betalingen te synchroniseren met de boekhouding.
+
+- **📧 E-mailvalidatie bij Betaallinks**: Voordat een betaallink wordt verstuurd, controleert het systeem nu of het e-mailadres geldig is. Ongeldige adressen worden apart afgehandeld zodat er geen verloren e-mails zijn.
+
+- **🔒 Betere Controle bij Volle of Gesloten Programma's**: Tijdens het betaalproces wordt nu correct gecontroleerd of een programma inmiddels vol of gesloten is geraakt. Dit voorkomt dat iemand toch kan betalen voor een cursus waar geen plek meer is.
+
+- **📋 Extra Marketinggegevens in Evaluatieresponses**: Bij ingevulde evaluaties worden nu ook extra marketingvelden bijgehouden, zodat u beter kunt analyseren via welk kanaal of welke doelgroep de feedback binnenkomt.
+
+- **🔧 Stabiliteit en Foutafhandeling Verbeterd**: Meerdere fouten zijn opgelost in de dagelijkse processen, de evaluatieformulieren en de verwerking van orders en cursussen. Het systeem is daarmee stabieler en betrouwbaarder geworden.
+
+- **📨 E-mailsjablonen Gecentraliseerd**: E-mails voor locatielogins zijn samengevoegd in één centraal sjabloon in plaats van losse versies per thema. Dit maakt aanpassingen eenvoudiger en consistenter.
+
+- **🗂️ Admin Menu Opgeschoond**: De "Cache legen" optie is verplaatst naar een logischere plek in het beheermenu.
+
+### 🎨 Theme Updates
+- **Amsterdam Theme**:
+  - Online aanbod slider heeft een verbeterde indeling en weergave gekregen
+  - Statusknop verwijderd van cursusblokken voor een cleaner overzicht
+  - Linkopmaak binnen titels gecorrigeerd zodat stijlen consistent zijn
+  - E-mailfooter bijgewerkt met de juiste naam en huisstijl
+  - Winkelwagen, cursuspagina, betalingsformulier en studentlogin verfijnd
+
+---
+
 ## Week van 23 februari - 1 maart 2026
 
 ### ⚙️ Basis Platform Functionaliteiten
