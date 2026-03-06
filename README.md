@@ -28,8 +28,49 @@
   - Online aanbod slider heeft een verbeterde indeling en weergave gekregen
   - Statusknop verwijderd van cursusblokken voor een cleaner overzicht
   - Linkopmaak binnen titels gecorrigeerd zodat stijlen consistent zijn
+  - Type-tags in het cursusoverzicht zijn nu klikbare links die direct filteren op dat type
   - E-mailfooter bijgewerkt met de juiste naam en huisstijl
   - Winkelwagen, cursuspagina, betalingsformulier en studentlogin verfijnd
+  - **🔍 Complete SEO & Social Media Optimalisatie**: Het thema heeft nu uitgebreide ondersteuning voor Open Graph, Twitter Cards en gestructureerde data (schema.org):
+    - **Open Graph Meta Tags**: Links gedeeld op Facebook, LinkedIn en andere platforms tonen nu rijke previews met afbeelding, titel en beschrijving
+    - **Twitter Card Meta Tags**: Optimale weergave bij delen op Twitter/X met grote afbeeldingen
+    - **Canonical URLs**: Voorkomt duplicate content problemen bij zoekmachines
+    - **Article Meta Tags**: Publicatie- en wijzigingsdatums voor blogartikelen voor betere indexering
+    - **Theme Color**: Branded browserkleuren op mobiele apparaten
+    - **Gestructureerde Data (JSON-LD)**: Rich snippets voor cursussen, producten en artikelen in Google zoekresultaten:
+      - Cursuspagina's tonen prijs, provider en beschrijving direct in zoekresultaten
+      - Productpagina's kunnen als productkaarten verschijnen met prijsinformatie
+      - Blogartikelen tonen auteur, publicatiedatum en afbeelding in zoekresultaten
+    - Alle tags zijn dynamisch en gebruiken database-waarden voor maximale flexibiliteit
+  - **🎬 Banner Slider Loading Verbeterd**: De homepage banner slider toont nu alleen de eerste afbeelding tijdens het laden, waardoor er geen flits meer is van alle afbeeldingen tegelijk voordat JavaScript actief wordt. Dit zorgt voor een professionelere en rustiger laadervaring. De eerste afbeelding wordt met hoge prioriteit geladen voor optimale LCP (Largest Contentful Paint), terwijl volgende slides lui worden geladen voor snellere initiële laadtijd
+  - **⚡ Slimme Lazy Loading voor Cursussliders**: Cursusafbeeldingen in sliders werden nu intelligent geladen - alleen de eerste 4 zichtbare items (afhankelijk van schermgrootte) laden direct, de rest wordt lui geladen wanneer de gebruiker gaat scrollen. Dit versnelt de initiële pagina-laadtijd aanzienlijk zonder de gebruikerservaring te beïnvloeden
+  - **🔒 Null Safety Verbeterd**: Collecties die niet bestaan zorgen niet meer voor errors op de homepage - sliders worden gewoon overgeslagen als de collectie niet gevonden kan worden
+  - **♿ Toegankelijkheid Sterk Verbeterd (WCAG 2.1)**:
+    - **Viewport Zoomen**: Viewport meta tag aangepast om 5x zoomen toe te staan voor gebruikers met slechtziendheid (was user-scalable=no)
+    - **Touch Targets Vergroot**: Alle interactieve elementen voldoen nu aan de minimum 48x48px richtlijn voor mobiele apparaten (slider knoppen 44→48px, zoekicoon 31→48px, button padding 12→14px)
+    - **Semantische HTML**: <main> landmark toegevoegd aan homepage voor betere navigatie met screenreaders
+    - **Aria-labels Toegevoegd**: Alle slider navigatieknoppen, social media links en zoekiconen hebben nu beschrijvende labels voor screenreaders
+    - **Formulierlabels Gekoppeld**: Nieuwsbrief en programma selectie formulieren hebben nu correct gekoppelde labels (for/id attributen)
+    - **Contrast Verbeterd**: Breadcrumbs en button kleuren aangepast voor WCAG 4.5:1 contrast ratio (breadcrumb opacity 0.6→0.7, btn-sky-link #2c86a3→#267a94)
+    - **Font Awesome Zelf Gehost**: Font Awesome icons nu lokaal gehost om third-party cookies te vermijden en GDPR compliance te verbeteren
+  - **✨ Hover Zoom Effecten**: Elegante 10% zoom animatie toegevoegd aan afbeeldingen bij hover over cursusblokken, nieuwsitems, waarom-ons blokken, trainingsruimtes en aanbiedingen voor een modernere en interactievere uitstraling
+  - **🎯 Slider Performance Optimalisatie**: 
+    - Alle sliders beperkt tot maximaal 12 items voor betere mobiele performance en snellere laadtijden
+    - Sliders respecteren nu de volgorde zoals ingesteld in de collectie-instellingen in het admin panel (gebruikt `courseItems` relatie met `collection_items.order` sortering)
+    - Toegepast op: online-cursussen, cursussen-op-locatie, tips-en-inspiratie, populaire-cursussen sliders op homepage en pagina's
+
+### 🚀 Performance & Caching
+- **♻️ Automatische Cache-Busting**: Alle CSS en JavaScript bestanden worden nu automatisch voorzien van een versienummer vanuit het VERSION bestand. Dit betekent:
+  - Browsers laden altijd de nieuwste versie van styling en scripts bij een update
+  - Geen handmatige `?v=X` parameters meer nodig in templates
+  - Optimale caching: 1 jaar cache voor static assets met automatische vernieuwing bij updates
+  - Wijzig simpelweg het VERSION bestand en alle assets worden ververst in één keer
+  - Implementatie in alle themes: Amsterdam, Utrecht, Breda, Demo en Westvoorne
+- **🎯 Nginx Caching Optimalisatie**: Aanbevelingen voor geoptimaliseerde nginx configuratie met:
+  - Gzip compressie voor snellere downloads (tekst, CSS, JS, fonts, SVG)
+  - Lange cache headers voor static assets (1 jaar voor afbeeldingen, CSS, JS, fonts)
+  - Security headers toegevoegd (Referrer-Policy, Permissions-Policy)
+  - FastCGI buffer optimalisatie voor betere PHP-FPM performance
 
 ---
 
