@@ -17,11 +17,25 @@
 
 - **📋 Extra Marketinggegevens in Evaluatieresponses**: Bij ingevulde evaluaties worden nu ook extra marketingvelden bijgehouden, zodat u beter kunt analyseren via welk kanaal of welke doelgroep de feedback binnenkomt.
 
-- **🔧 Stabiliteit en Foutafhandeling Verbeterd**: Meerdere fouten zijn opgelost in de dagelijkse processen, de evaluatieformulieren en de verwerking van orders en cursussen. Het systeem is daarmee stabieler en betrouwbaarder geworden.
+- **🔧 Stabiliteit en Foutafhandeling Verbeterd**: Meerdere fouten zijn opgelost in de dagelijkse processen, de evaluatieformulieren en de verwerking van orders en cursussen. Daarnaast zijn aanvullende fixes doorgevoerd in het nieuwe betaalproces: het systeem werkte niet correct wanneer een winkelwagen uitsluitend producten bevatte (geen cursussen), en de Mollie webhook werd op Amsterdam door een verkeerde controller afgehandeld. Beide problemen zijn opgelost.
 
 - **📨 E-mailsjablonen Gecentraliseerd**: E-mails voor locatielogins zijn samengevoegd in één centraal sjabloon in plaats van losse versies per thema. Dit maakt aanpassingen eenvoudiger en consistenter.
 
 - **🗂️ Admin Menu Opgeschoond**: De "Cache legen" optie is verplaatst naar een logischere plek in het beheermenu.
+
+- **🛒 Producten Verkoopbaar via het Betaalproces (Amsterdam)**: Producten uit de webshop kunnen nu volledig via het nieuwe betaalsysteem worden afgerekend. Bij aankoop worden de gegevens van de deelnemer (naam, e-mail, geslacht) opgevraagd en wordt er een productverkoop-record aangemaakt dat aan de bestelling is gekoppeld. Vouchercodes en kortingspassen worden ook bij producten ondersteund.
+
+- **🧾 Elke Betaling Wordt per Orderregel Vastgelegd**: Iedere Mollie-betaling resulteert nu in een aparte factuurvermelding per orderregel — zowel voor cursussen als voor producten. Zo is exact terug te zien wat er wanneer betaald is, ook bij gespreide betalingen. Dubbele verwerking van dezelfde betaling wordt automatisch voorkomen.
+
+- **✅ Betalingsstatus Automatisch Bijgewerkt per Item**: Zodra een betaling bevestigd is, wordt de status van elke betrokken orderregel of productverkoop automatisch bijgewerkt. Een cursusorder gaat van "open" of "in afwachting van betaling" naar "geplaatst"; een productverkoop krijgt de status "betaald" inclusief tijdstip. De statusupdate werd eerder via een indirecte koppeling gedaan die afhankelijk was van een nog niet uitgevoerde migratie — dit is nu rechtstreeks in de webhook verwerkt zodat het altijd betrouwbaar werkt.
+
+- **🎟️ Voucher & Kortingspas Gebruik Bijgehouden bij Productverkopen**: Na een succesvolle betaling voor een product wordt het gebruik van de ingewisselde vouchercode of kortingspas nu ook correct geregistreerd, net zoals dat al het geval was bij cursusinschrijvingen.
+
+- **🧹 Verouderde Subsidiecontrole Verwijderd**: De hardgecodeerde NT2-subsidiecontrole specifiek voor Utrecht is volledig verwijderd uit het betaalsysteem. Subsidieverwerking verloopt voortaan via de algemene kortings- en betaalmethodenlogica.
+
+- **🧹 Abonnementenlogica Opgeruimd**: Alle resterende code rondom abonnementen is verwijderd uit het nieuwe afrekensysteem. Het systeem is daarmee overzichtelijker en eenvoudiger te onderhouden.
+
+- **🏷️ Pagina Types Systeem Uitgebreid**: Het types-systeem (Instellingen → Types) ondersteunt nu ook pagina's als entiteit. Pagina's kunnen een type krijgen dat hun gedrag of weergave bepaalt. Beschikbare pagina types worden centraal beheerd en zijn direct beschikbaar in de paginabeheerder zonder code-aanpassingen. Standaard meegeleverde types: `checkout_success`, `teacher`, `location`, `faq`.
 
 ### 🎨 Theme Updates
 - **Amsterdam Theme**:
@@ -31,6 +45,25 @@
   - Type-tags in het cursusoverzicht zijn nu klikbare links die direct filteren op dat type
   - E-mailfooter bijgewerkt met de juiste naam en huisstijl
   - Winkelwagen, cursuspagina, betalingsformulier en studentlogin verfijnd
+  - **🛒 Deelnemersformulier Hersteld**: In het betalingsformulier werden de deelnemersvelden voor cursussen niet correct omsloten door een blok met titel. De omsluitende `checkout-block` met cursusnaam ontbrak waardoor de invoervelden los werden weergegeven. Dit is opgelost.
+  - **📄 Pagina Types: Docenten, Locaties & FAQ als CMS-pagina**: Het is nu mogelijk om bestaande CMS-pagina's het type "Docenten overzicht", "Locaties overzicht" of "FAQ overzicht" te geven. Het bijbehorende overzicht wordt dan automatisch **onder de paginatekst** weergegeven. Dit maakt het mogelijk dezelfde pagina's op meerdere plekken te hergebruiken en de introductietekst zelf te beheren in het CMS — zonder aparte routes of vaste slugs.
+    - Nieuwe partials aangemaakt: `themes/amsterdam/includes/teacher_index.blade.php`, `location_index.blade.php`, `faq_index.blade.php`
+    - De hardgecodeerde slug-checks (`$page->slug == "docent"` / `"locatie"`) zijn verwijderd
+    - "Populaire cursussen" blok onderaan wordt niet getoond op overzichtspagina's (teacher/location/faq)
+    - Pagina types worden beheerd via Instellingen → Types (entity: Pagina) — migratie voegt `teacher`, `location` en `faq` toe
+  - **✅ Betaalproces Afronding (Amsterdam)**: Meerdere verbeteringen aan het nieuwe multi-item betaalproces:
+    - Na betaling wordt een gecombineerde bevestigingsmail gestuurd naar de besteller (`SendOrderConfirmation`) met alle cursussen en producten in één overzicht
+    - Deelnemers die niet de koper zijn ontvangen een eigen bevestigingsmail per inschrijving
+    - Een handmatige herbevestiging is mogelijk per orderregel via de admin
+    - De succespagina na betaling is nu een CMS-pagina met type `checkout_success` — de bestellingoverzicht (cursussen, producten, totaalbedrag) wordt automatisch onder de paginatekst getoond
+    - Omleiding na betaling gebruikt het `?o=order_{id}` formaat; het oude `?o={nummer}` formaat (Utrecht/andere sites) blijft volledig werken
+  - **🔐 Bestellingsoverzicht Niet Langer Raadbaar via URL**: De succespagina na betaling toont het bestellingoverzicht nu via het ordernummer in de URL (bijv. `?o=2026-R4VSS-YKUB`) in plaats van het interne database-ID. Zo kan niemand bestellingen van anderen raden door nummers te verhogen.
+  - **🧾 Factuurgegevens Boven het Bestellingoverzicht**: De succespagina toont nu direct boven de overzichtstabel wie er op de factuur staat — naam, adres, e-mailadres, betaalwijze en orderdatum. Bij bedrijfsfacturering worden ook bedrijfsnaam, contactpersoon, BTW-nummer, kostenplaats en inkoopnummer getoond.
+  - **🗂️ Één Succespagina voor Alle Ordertypen**: Intake-inschrijvingen, kortingspas-controles en bankoverschrijvingen leiden nu allemaal naar de centrale succespagina met het bestellingoverzicht. De aparte `/intake`, `/controle-korting` en `/factuur` omleidingen zijn vervangen. De statusbadges per orderregel (Bevestigd, Intake vereist, In controle, Wachtlijst) tonen direct de situatie per cursus.
+  - **🛒 Volle Cursus Stopt Betaalproces Niet Meer bij Gemengde Bestellingen**: Een volle of gesloten cursus zorgde eerder voor een onmiddellijke redirect die de rest van de winkelwagen negeerde. Nu worden alle items doorverwerkt: de volle cursus krijgt de status `wachtlijst` of `seintje` en de andere items worden gewoon afgerekend. Intake-, controle-, wachtlijst- en seintje-items worden automatisch uitgesloten van het te betalen bedrag.
+  - **💡 Totaal Betaald Stond Altijd op € 0,00**: Op de succespagina toonde het "Totaal betaald" altijd nul. De oorzaak was dat `Order::invoices()` zocht naar een `order_id` kolom in de factuurentabel, maar facturen worden opgeslagen met `orderitem_id` of `product_sale_id`. De relatie is gecorrigeerd en het totaal telt nu correct op via beide koppelingen.
+  - **🍞 Breadcrumb Winkelwagen Volledige Breedte**: De breadcrumb bovenaan de winkelwagenpagina was ingesloten in de flexibele lay-out van het formulier. Deze staat nu in een eigen volbrede sectie, gelijk aan alle andere pagina's.
+  - **📬 Verlaten Winkelmand E-mail ook bij Gestrand bij Mollie**: Winkelwagens met status `payment` — bezoeker bereikte Mollie maar voltooide de betaling niet — worden nu ook meegenomen in de verlaten winkelmand mailing, naast de gewone actieve winkelmanden.
   - **🔍 Complete SEO & Social Media Optimalisatie**: Het thema heeft nu uitgebreide ondersteuning voor Open Graph, Twitter Cards en gestructureerde data (schema.org):
     - **Open Graph Meta Tags**: Links gedeeld op Facebook, LinkedIn en andere platforms tonen nu rijke previews met afbeelding, titel en beschrijving
     - **Twitter Card Meta Tags**: Optimale weergave bij delen op Twitter/X met grote afbeeldingen
