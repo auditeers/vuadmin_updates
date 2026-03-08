@@ -65,6 +65,14 @@
 
 - **🔐 Brute-force Beveiliging op Bestellingsoverzicht**: De succespagina na betaling is beveiligd met een rate limiter. Per IP-adres zijn maximaal 10 verzoeken per minuut toegestaan. Wie dit overschrijdt krijgt een foutmelding. Zo kan niemand snel meerdere ordernummers uitproberen om andermans bestellingen in te zien.
 
+### 📊 Rapportages
+
+- **📈 Nieuwe Rapportage: Omzet Boekjaar**: Er is een nieuwe rapportage beschikbaar: **Omzet Boekjaar**. Deze toont per programma de omzet die toegerekend kan worden aan een opgegeven boekjaar. Per cursusregel zijn zichtbaar: programmacode, cursusnaam, kostenplaats, doorgaan-status, startdatum, startjaar, prijs, BTW-percentage, prijs excl. BTW, totaal aantal lessen, aantal lessen in het boekjaar, aantal geplaatste deelnemers, totale omzet incl. en excl. BTW (inclusief open saldo's), en de specifiek aan het boekjaar toegerekende omzet excl. BTW op basis van de lessenverhouding (totale omzet excl. BTW ÷ totaal lessen × lessen in boekjaar).
+
+- **📅 Nieuw Filtertype: Boekjaar**: In het rapportagesysteem is een nieuw filtertype toegevoegd: **Boekjaar**. Rapporten die dit filter gebruiken tonen een keuzelijst met jaren (huidig jaar +1 t/m 6 jaar terug), standaard ingesteld op vorig jaar. Intern worden de van/tot-datums automatisch afgeleid (1 januari – 31 december van het gekozen jaar), zodat u niet zelf datums hoeft in te vullen. Het gekozen boekjaar is terugzichtbaar in de rapportagehistorie.
+
+- **📐 Nieuwe Rapportage: DCU Boekjaar**: Er is een nieuwe rapportage beschikbaar: **DCU Boekjaar** (Docent Contact Uren). Deze berekent per programma het aantal DCU's voor een opgegeven boekjaar. Een DCU is gedefinieerd als: *aantal lessen × lesduur in decimale uren × geplaatste deelnemers*. De lesduur wordt per les berekend op basis van de start- en eindtijd, zodat wisselende leslengtes correct worden meegenomen. Alleen lessen die letterlijk binnen het kalenderjaar vallen tellen mee. Per programmaregel zijn zichtbaar: Cursuscode, Interne Categorie (kostenplaats), DCU binnen het boekjaar, DCU in het jaar ervoor, DCU in het jaar erna, en de startdatum van het programma (kan een eerder jaar zijn).
+
 ### 🎨 Theme Updates
 - **Amsterdam Theme**:
   - Online aanbod slider heeft een verbeterde indeling en weergave gekregen
