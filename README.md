@@ -1,51 +1,5 @@
 # VUAdmin Updates
 
-## Week van 16-22 maart 2026
-
-### 🎨 Amsterdam Thema
-
-- **📐 `small-title` h3 in detailbanner op 1.3rem**: De `h3`-elementen binnen `.details-bnr-content .small-title` (gebruikt op o.a. docent- en blogdetailpagina's) waren te groot door de browser-standaard. Ze worden nu ingesteld op `1.3rem` zonder de overige stijlen van `.small-title` te verstoren.
-
-- **📋 Geordende lijsten gestileerd als ongeordende lijsten in paginainhoud**: In de paginainhoud van het Amsterdam-thema (`workplaces-main`) werden geordende lijsten (`<ol>`) niet dezelfde opmaak meegegeven als ongeordende lijsten. Regelhoogte, letterafstand, links, marges, inspringing en lijststijl zijn nu ook op `ol` van toepassing.
-
-### 🧾 Facturen & Certificaten
-
-- **👤 Factuuradres op naam van de betaler**: Het factuuradres in de factuurtemplate (Amsterdam) toont nu de gegevens van de betaler van de order — de persoon die de bestelling heeft geplaatst — in plaats van altijd de cursist. Als betaler en cursist verschillen en er geen bedrijf op de factuur staat, wordt de cursist apart vermeld onder "Cursist". Zo klopt het factuuradres ook bij bedrijfsinschrijvingen of inschrijvingen door derden.
-
-- **👤 Deelnemer zichtbaar op factuurregels**: Elke factuurpost (volledige betaling, deelbetaling en creditnota) toont nu in de omschrijvingscel de naam van de deelnemer/cursist als subtext. Dit maakt het gelijk duidelijk voor wie de inschrijving geldt, ook als de betaler iemand anders is.
-
-- **🎨 Achtergrondafbeelding op certificaten (Amsterdam)**: De certificaattemplate van het Amsterdam-thema gebruikt nu dezelfde techniek als de factuurtemplate: een volledige achtergrondafbeelding (`assets/certificate.png`) wordt ingeladen via absolute positionering zonder paginamarges, en de inhoud staat in een `content`-div met padding.
-
-- **⬜ Certificaatinhoud gecentreerd**: Alle tekst en de handtekening op het certificaat zijn nu horizontaal gecentreerd, inclu­sief de datum, docentnaam, naam van de directeur en de handtekeningafbeelding.
-
-### 📧 Admin E-mail
-
-- **⏰ Achterstallige betalingen in dagelijkse admin mail**: De dagelijkse admin-overzichtsmail bevat nu een sectie met inschrijvingen die ouder zijn dan 6 weken, de status "geplaatst" hebben, en waarbij het betaalmoment op "direct" staat maar het volledige bedrag nog niet ontvangen is. Per regel staan het orderitem-ID (als directe link), de studentnaam, het e-mailadres, de programmacode en het openstaande bedrag — dezelfde logica als de OpenstaandePosten-export.
-
-- **🔀 Admin mail losgekoppeld van dagelijkse mailopdracht**: De verzending van de dagelijkse admin-mail is verplaatst naar een aparte opdracht `vu:adminmail`. Deze draait elke werkdag om 07:30 via de scheduler. De `vu:dailymails`-opdracht verstuurt de admin-mail niet meer.
-
-- **🧪 Dry-run modus voor admin-mail**: Met `php artisan vu:adminmail --dry-run` wordt de volledige inhoud van de admin-mail — inclusief alle databasequery's — afgedrukt in de console zonder dat er een e-mail verstuurd wordt. De weekdag-check wordt tijdens een dry-run overgeslagen zodat het op elk moment getest kan worden.
-
-- **🎨 Admin-mail voorzien van opmaak**: De dagelijkse admin-mail heeft nu een eigen HTML-template (`emails/adminmail.blade.php`) met witte kaart op grijze achtergrond en een subtiele VUAdmin-voettekst — vergelijkbaar met de opmaak van de 2FA-verificatiemail.
-
-- **🔗 Links in admin-mail gebruiken de site-URL**: Alle links in de admin-mail (intake, controle, credit-facturen, teveel betaald, achterstallig) gebruiken nu de URL die in de site-instellingen is geconfigureerd (`$site->url`) als basis. Intake- en controle-vermeldingen hadden voorheen helemaal geen link.
-
-- **📨 Testmodus voor admin-mail**: Met `php artisan vu:adminmail --test` wordt de mail met echte database-inhoud verstuurd naar `info@vuadmin.nl` in plaats van het geconfigureerde admin-adres. De weekdag-check wordt ook hier overgeslagen.
-
-### 🛒 Betaalproces
-
-- **💾 Formuliergegevens bewaard bij aanpassen winkelwageninhoud**: Wanneer een gebruiker op de winkelwagenpagina (Amsterdam) op de plus, min of verwijder-knop klikt, worden alle ingevulde contactgegevens nu automatisch opgeslagen in `sessionStorage`. Na de paginaverversing worden de velden hersteld. De opgeslagen gegevens worden gewist zodra het formulier daadwerkelijk verstuurd wordt.
-
-### ⚙️ Productbeheer
-
-- **🔒 Slug niet meer bewerkbaar in productbeheer**: Het slug-veld is verwijderd uit het productbeheer-formulier. De slug wordt éénmalig automatisch gegenereerd op basis van de titel bij het aanmaken van een product en wordt daarna niet meer overschreven.
-
-### 🏷️ Kortingen & Vouchercodes
-
-- **🐛 Verwijderknop vouchercodes gaf foutmelding**: De verwijderknop in het vouchercode-overzicht bij een korting stuurde het verzoek naar het verkeerde pad (`/admin/...` in plaats van `/management/...`). De URL gebruikt nu de juiste backpack-prefix zodat het verwijderen correct werkt.
-
----
-
 ## Week van 9-15 maart 2026
 
 ### 🛒 Betaalproces
