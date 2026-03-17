@@ -1,5 +1,96 @@
 # VUAdmin Updates
 
+## Week van 16-22 maart 2026
+
+### 🎨 Amsterdam Thema
+
+- **📐 `small-title` h3 in detailbanner op 1.3rem**: De `h3`-elementen binnen `.details-bnr-content .small-title` (gebruikt op o.a. docent- en blogdetailpagina's) waren te groot door de browser-standaard. Ze worden nu ingesteld op `1.3rem` zonder de overige stijlen van `.small-title` te verstoren.
+
+- **📋 Geordende lijsten gestileerd als ongeordende lijsten in paginainhoud**: In de paginainhoud van het Amsterdam-thema (`workplaces-main`) werden geordende lijsten (`<ol>`) niet dezelfde opmaak meegegeven als ongeordende lijsten. Regelhoogte, letterafstand, links, marges, inspringing en lijststijl zijn nu ook op `ol` van toepassing.
+
+### 🧾 Facturen & Certificaten
+
+- **👤 Factuuradres op naam van de betaler**: Het factuuradres in de factuurtemplate (Amsterdam) toont nu de gegevens van de betaler van de order — de persoon die de bestelling heeft geplaatst — in plaats van altijd de cursist. Als betaler en cursist verschillen en er geen bedrijf op de factuur staat, wordt de cursist apart vermeld onder "Cursist". Zo klopt het factuuradres ook bij bedrijfsinschrijvingen of inschrijvingen door derden.
+
+- **👤 Deelnemer zichtbaar op factuurregels**: Elke factuurpost (volledige betaling, deelbetaling en creditnota) toont nu in de omschrijvingscel de naam van de deelnemer/cursist als subtext. Dit maakt het gelijk duidelijk voor wie de inschrijving geldt, ook als de betaler iemand anders is.
+
+- **🎨 Achtergrondafbeelding op certificaten (Amsterdam)**: De certificaattemplate van het Amsterdam-thema gebruikt nu dezelfde techniek als de factuurtemplate: een volledige achtergrondafbeelding (`assets/certificate.png`) wordt ingeladen via absolute positionering zonder paginamarges, en de inhoud staat in een `content`-div met padding.
+
+- **⬜ Certificaatinhoud gecentreerd**: Alle tekst en de handtekening op het certificaat zijn nu horizontaal gecentreerd, inclu­sief de datum, docentnaam, naam van de directeur en de handtekeningafbeelding.
+
+### 📧 Admin E-mail
+
+- **⏰ Achterstallige betalingen in dagelijkse admin mail**: De dagelijkse admin-overzichtsmail bevat nu een sectie met inschrijvingen die ouder zijn dan 6 weken, de status "geplaatst" hebben, en waarbij het betaalmoment op "direct" staat maar het volledige bedrag nog niet ontvangen is. Per regel staan het orderitem-ID (als directe link), de studentnaam, het e-mailadres, de programmacode en het openstaande bedrag — dezelfde logica als de OpenstaandePosten-export.
+
+- **🔀 Admin mail losgekoppeld van dagelijkse mailopdracht**: De verzending van de dagelijkse admin-mail is verplaatst naar een aparte opdracht `vu:adminmail`. Deze draait elke werkdag om 07:30 via de scheduler. De `vu:dailymails`-opdracht verstuurt de admin-mail niet meer.
+
+- **🧪 Dry-run modus voor admin-mail**: Met `php artisan vu:adminmail --dry-run` wordt de volledige inhoud van de admin-mail — inclusief alle databasequery's — afgedrukt in de console zonder dat er een e-mail verstuurd wordt. De weekdag-check wordt tijdens een dry-run overgeslagen zodat het op elk moment getest kan worden.
+
+- **🎨 Admin-mail voorzien van opmaak**: De dagelijkse admin-mail heeft nu een eigen HTML-template (`emails/adminmail.blade.php`) met witte kaart op grijze achtergrond en een subtiele VUAdmin-voettekst — vergelijkbaar met de opmaak van de 2FA-verificatiemail.
+
+- **🔗 Links in admin-mail gebruiken de site-URL**: Alle links in de admin-mail (intake, controle, credit-facturen, teveel betaald, achterstallig) gebruiken nu de URL die in de site-instellingen is geconfigureerd (`$site->url`) als basis. Intake- en controle-vermeldingen hadden voorheen helemaal geen link.
+
+- **📨 Testmodus voor admin-mail**: Met `php artisan vu:adminmail --test` wordt de mail met echte database-inhoud verstuurd naar `info@vuadmin.nl` in plaats van het geconfigureerde admin-adres. De weekdag-check wordt ook hier overgeslagen.
+
+### 🛒 Betaalproces
+
+- **💾 Formuliergegevens bewaard bij aanpassen winkelwageninhoud**: Wanneer een gebruiker op de winkelwagenpagina (Amsterdam) op de plus, min of verwijder-knop klikt, worden alle ingevulde contactgegevens nu automatisch opgeslagen in `sessionStorage`. Na de paginaverversing worden de velden hersteld. De opgeslagen gegevens worden gewist zodra het formulier daadwerkelijk verstuurd wordt.
+
+### ⚙️ Productbeheer
+
+- **🔒 Slug niet meer bewerkbaar in productbeheer**: Het slug-veld is verwijderd uit het productbeheer-formulier. De slug wordt éénmalig automatisch gegenereerd op basis van de titel bij het aanmaken van een product en wordt daarna niet meer overschreven.
+
+### 🏷️ Kortingen & Vouchercodes
+
+- **🐛 Verwijderknop vouchercodes gaf foutmelding**: De verwijderknop in het vouchercode-overzicht bij een korting stuurde het verzoek naar het verkeerde pad (`/admin/...` in plaats van `/management/...`). De URL gebruikt nu de juiste backpack-prefix zodat het verwijderen correct werkt.
+
+---
+
+## Week van 9-15 maart 2026
+
+### 🛒 Betaalproces
+
+- **🐛 Korting werd op alle items toegepast bij meerdere deelnemers**: Wanneer één deelnemer in een bestelling een vouchercode invulde, werd het kortingsbedrag door een ontwerpfout ook meegenomen voor alle volgende deelnemers in dezelfde bestelling. Het kortingsbedrag wordt nu per orderregel opnieuw ingesteld, zodat een korting alleen geldt voor het item waarvoor deze is ingevoerd.
+
+- **⏳ "Betaling wordt verwerkt"-scherm na Mollie-redirect**: Na terugkeer van de betaalpagina toont de bestellingsbevestiging nu een laadscherm met spinner zolang de Mollie-webhook de betaling nog niet heeft verwerkt. De pagina ververst automatisch zodra de betaalstatus bijgewerkt is. Als dit langer dan 60 seconden duurt, verschijnt een handmatige verversknop.
+
+- **🐛 Groene voucherbevestiging niet altijd zichtbaar**: Het groene blok onder het vouchercodesveld dat aangeeft dat een korting succesvol is toegepast, werd niet getoond wanneer de gebruiker de code voor het eerst invoerde (geen bestaande korting bij paginaladen). Het bevestigingsblok wordt nu altijd in de DOM gerenderd en via JavaScript zichtbaar gemaakt na succesvolle toepassing.
+
+- **👥 Meerdere deelnemers voor dezelfde cursus**: Bij het bestellen van meerdere plekken in dezelfde cursus werd het formulier voor elke deelnemer vooringevuld met de gegevens van de koper. Alleen het eerste deelnemersblok wordt nu vooringevuld; alle volgende blokken starten leeg met een instructietekst zodat de gegevens van de andere deelnemers ingevuld kunnen worden.
+
+- **🏷️ Kortingsregel per item zichtbaar in het betaalformulier**: Het betaalformulier toont nu per besteld item een aparte kortingsregel (in groen) zodra er een vouchercode op dat item is toegepast. De weergave wordt real-time bijgewerkt via JavaScript na het toepassen of verwijderen van een code, zonder dat de pagina hoeft te verversen.
+
+- **📋 Orderregels doorgegeven aan Mollie**: Bij het aanmaken van een iDEAL-betaling worden nu de afzonderlijke bestelregels (cursussen en producten, inclusief kortingen) als `lines`-object meegegeven aan de Mollie API. Zo is in het Mollie-dashboard direct zichtbaar wat er per item betaald is.
+
+- **💶 Nettobedrag na korting in bevestigingsmail en succespagina**: De bevestigingsmail toont nu per cursus en per product de daadwerkelijk betaalde prijs na aftrek van eventuele korting. Op de succespagina wordt bij productverkopen eveneens het nettobedrag getoond in plaats van de originele prijs.
+
+
+### 🔐 Beveiliging
+
+- **🔑 Tweestapsverificatie (2FA) per beheerder**: Beheerders kunnen nu tweestapsverificatie inschakelen via hun gebruikersprofiel. Wanneer ingeschakeld, ontvangen zij na elke login een eenmalige 6-cijferige code per e-mail die binnen 10 minuten ingevoerd moet worden. De verificatiepagina sluit aan op de stijl van het inlogscherm. Een nieuwe code kan direct aangevraagd worden via de link op de verificatiepagina.
+
+- **🔇 Honey/Recaptcha fouten onderdrukt**: Errors die door het Honey spam-beschermingspakket worden gegenereerd worden niet langer gelogd als systeemfouten.
+
+### 👥 Gebruikersbeheer
+
+- **👤 Uitgebreid gebruikersprofiel via menu**: De "Mijn account" link in de rechterbovenbalk verwijst nu naar het volledige gebruikersbeheer-scherm met rollen en permissies, in plaats van de beperkte standaard Backpack accountpagina.
+
+- **⚙️ Aanpasbaar gebruikersbeheer**: De `UserCrudController` is uitgebreid en overschrijft nu de standaard van het permissie-pakket, zodat extra velden en aanpassingen eenvoudig toegevoegd kunnen worden.
+
+### 🖥️ Admin Schermen
+
+- **🚫 "Opslaan en voorbeeld weergeven" verwijderd**: De onnodige opslaanoptie "Opslaan en voorbeeld weergeven" is verwijderd uit alle beheer-CRUDs.
+
+### ⚙️ Basis Platform Functionaliteiten
+
+- **🎟️ Gebruikslimiet per Vouchercode**: Vouchercodes kunnen nu een maximaal aantal keer instellen dat een code gebruikt mag worden. Bij het genereren van codes is een nieuw veld "Max. gebruik per code" beschikbaar — leeg laten voor onbeperkt gebruik. Codes die hun limiet bereiken worden automatisch als ongeldig beschouwd en zijn niet meer inwisselbaar. In het overzicht van codes is het gebruik zichtbaar als `x / max` (bij een limiet) of rood gemarkeerd wanneer de limiet bereikt is.
+
+### 📊 Rapportages
+
+- **💳 Nieuwe Rapportage: Betaling gegevens Cursusdeelnemers**: Exporteert alle betalingen per student voor programma's waarvan minimaal één les in het opgegeven boekjaar valt — inclusief cursussen die in een ander jaar starten of eindigen. Er wordt geen datumfilter op de betaaldatum toegepast: álle betalingen voor die programma's worden meegenomen. Per betaalregel zijn zichtbaar: Betaal ID, Betaaldatum, Programmacode, Startdatum, Einddatum, Studentnaam, Bedrag incl. BTW, BTW-percentage, Bedrag excl. BTW, Betaalmethode, Omschrijving en Mollie ID.
+
+---
+
 ## Week van 2-8 maart 2026
 
 ### ⚙️ Basis Platform Functionaliteiten
@@ -72,6 +163,8 @@
 - **📅 Nieuw Filtertype: Boekjaar**: In het rapportagesysteem is een nieuw filtertype toegevoegd: **Boekjaar**. Rapporten die dit filter gebruiken tonen een keuzelijst met jaren (huidig jaar +1 t/m 6 jaar terug), standaard ingesteld op vorig jaar. Intern worden de van/tot-datums automatisch afgeleid (1 januari – 31 december van het gekozen jaar), zodat u niet zelf datums hoeft in te vullen. Het gekozen boekjaar is terugzichtbaar in de rapportagehistorie.
 
 - **📐 Nieuwe Rapportage: DCU Boekjaar**: Er is een nieuwe rapportage beschikbaar: **DCU Boekjaar** (Docent Contact Uren). Deze berekent per programma het aantal DCU's voor een opgegeven boekjaar. Een DCU is gedefinieerd als: *aantal lessen × lesduur in decimale uren × geplaatste deelnemers*. De lesduur wordt per les berekend op basis van de start- en eindtijd, zodat wisselende leslengtes correct worden meegenomen. Alleen lessen die letterlijk binnen het kalenderjaar vallen tellen mee. Per programmaregel zijn zichtbaar: Cursuscode, Interne Categorie (kostenplaats), DCU binnen het boekjaar, DCU in het jaar ervoor, DCU in het jaar erna, en de startdatum van het programma (kan een eerder jaar zijn).
+
+- **💳 Nieuwe Rapportage: Betaling gegevens Cursusdeelnemers**: Er is een nieuwe rapportage beschikbaar: **Betaling gegevens Cursusdeelnemers**. Deze exporteert alle betalingen per student voor programma's waarvan minimaal één les in het opgegeven boekjaar valt — inclusief cursussen die in een ander jaar starten of eindigen. Er wordt geen datumfilter op de betaaldatum toegepast: álle betalingen voor die programma's worden meegenomen. Per betaalregel zijn zichtbaar: Betaal ID, Betaaldatum, Programmacode, Startdatum, Einddatum, Studentnaam, Bedrag incl. BTW, BTW-percentage, Bedrag excl. BTW, Betaalmethode, Omschrijving en Mollie ID.
 
 ### 🎨 Theme Updates
 - **Amsterdam Theme**:
