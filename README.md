@@ -1,5 +1,73 @@
 # VUAdmin Updates
 
+## Week van 16-22 maart 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **🎯 Kortingsvoorwaarden op basis van deelnemersgegevens**: Bij een korting kunnen nu één of meer voorwaarden worden ingesteld op velden van de deelnemer (bijv. woonplaats, postcode, geslacht). Elke voorwaarde bestaat uit een veldkeuze, een vergelijkingstype ("is exact" of "bevat") en een waarde. Alle voorwaarden moeten gelden (AND-logica). Vergelijkingen zijn hoofdletterongevoelig. De instelling staat in het tabblad "Toepassing" van het kortingsbeheer.
+
+- **👤 Kortingsberekening op de deelnemer, niet de betaler**: Bij het toepassen van een vouchercode of kortingspas in de checkout wordt de korting voortaan gevalideerd op de persoon die daadwerkelijk deelneemt, niet op de persoon die betaalt. Als een deelnemer is opgegeven via een uitnodigings-e-mailadres maar niet als cursist in het systeem bestaat, kan de korting niet worden toegepast. Er is geen terugval op de betaler.
+
+- **🗑️ Ongebruikt veld `remark` verwijderd uit deelnemerstabel**: Het kolom `remark` in de `students`-tabel (toegevoegd december 2023) had geen enkel gebruik in de applicatie. Het veld is verwijderd via een migratie. Het actieve notitieveld is `remarks`.
+
+- **🛍️ Upsell producten in de winkelwagen (Amsterdam)**: In het rechterkolom van de winkelwagenpagina (`/cart`) verschijnt nu een apart blok "Direct meebestellen" als er actieve producten zijn gekoppeld aan de cursussen in de winkelwagen (via de `course_product`-koppeltabel). Producten die al in de winkelwagen zitten worden niet nogmaals getoond. Het blok heeft dezelfde stijl als het winkelwagenoverzicht en toont per product de naam, prijs en een `+`-knop. Klikken op de knop voegt het product direct toe aan de winkelwagen en keert terug naar de winkelwagenpagina. Eerder ingevulde formuliervelden worden via `sessionStorage` bewaard zodat de gebruiker niet opnieuw hoeft te beginnen.
+
+- **📄 Gecombineerde factuur-PDF voor multi-product bestellingen**: Bij bestellingen via de nieuwe checkout waarbij meerdere cursussen of producten in één Mollie-betaling zijn afgerekend, ontvangen deelnemers nu één gecombineerde factuur-PDF in plaats van losse mails per factuur. De `vu:invoices`-opdracht groepeert openstaande facturen op `mollie_id`: bij één factuur verloopt het proces zoals voorheen; bij meerdere facturen worden alle regels in één PDF gezet (`invoice_combined.blade.php`) en in één e-mail verstuurd. Om een race condition te vermijden waarbij de webhook nog bezig is facturen aan te maken, worden groepen met een factuur jonger dan 5 minuten overgeslagen tot de volgende ronde.
+
+- **🔢 Factuurnummering bij gecombineerde facturen**: Facturen binnen een gecombineerde betaling krijgen nu een gedeeld basisnummer met volgnummer-suffix (bijv. `20260322-000023-1`, `-2`, `-3`). Het basisnummer is het nummer van de eerste factuur, aangemaakt door de webhook.
+
+- **📬 Gecombineerde en losse facturen verstuurd naar de betaler**: Alle factuurmails (enkelvoudig en gecombineerd) worden nu verstuurd naar de betaler van de order — de persoon die de bestelling heeft geplaatst — in plaats van de eerste deelnemer. Terugval op de deelnemer of de factuurstudent blijft behouden voor oudere records zonder `order_id`.
+
+- **👁️ Kolom "Contact" in factuuroverzicht toont de betaler**: In het beheeroverzicht van facturen is de kolom "Student" hernoemd naar "Contact" en toont nu de betaler van de order (met directe link naar de cursistenpagina) in plaats van de deelnemer. Zoeken werkt eveneens op de naam van de betaler.
+
+- **🔒 Deelnemer-velden op inschrijving worden live geladen uit de studentenrecord**: In het beheerscherm van `Inschrijvingen` worden de velden Deelnemer, E-mailadres en Telefoonnummer nu altijd live ingeladen uit het gekoppelde `Student`-model en zijn ze alleen-lezen. Wijzigingen in het studentprofiel zijn daardoor direct zichtbaar. De naamkolom bevat een linkknop naar de cursistenpagina. Voor achterwaartse compatibiliteit wordt teruggevallen op de opgeslagen veldwaarden als er geen `student_id` is.
+
+- **⚡ Accessors voor `student_name`, `student_email`, `student_phone1` op OrderItem**: De drie gedenormaliseerde velden op het `OrderItem`-model zijn omgezet naar accessors die altijd de live waarde uit de `Student`-relatie teruggeven. Alle consumers — exports, console-opdrachten, bladetemplates — profiteren hiervan automatisch zonder codewijzigingen. Terugval op de opgeslagen kolomwaarde blijft behouden voor legacy-records.
+
+- **👤 Factuuradres op naam van de betaler**: Het factuuradres in de factuurtemplate (Amsterdam) toont nu de gegevens van de betaler van de order — de persoon die de bestelling heeft geplaatst — in plaats van altijd de cursist. Als betaler en cursist verschillen en er geen bedrijf op de factuur staat, wordt de cursist apart vermeld onder "Cursist". Zo klopt het factuuradres ook bij bedrijfsinschrijvingen of inschrijvingen door derden.
+
+- **👤 Deelnemer zichtbaar op factuurregels**: Elke factuurpost (volledige betaling, deelbetaling en creditnota) toont nu in de omschrijvingscel de naam van de deelnemer/cursist als subtext. Dit maakt het gelijk duidelijk voor wie de inschrijving geldt, ook als de betaler iemand anders is.
+
+- **🎨 Achtergrondafbeelding op certificaten (Amsterdam)**: De certificaattemplate van het Amsterdam-thema gebruikt nu dezelfde techniek als de factuurtemplate: een volledige achtergrondafbeelding (`assets/certificate.png`) wordt ingeladen via absolute positionering zonder paginamarges, en de inhoud staat in een `content`-div met padding.
+
+- **⬜ Certificaatinhoud gecentreerd**: Alle tekst en de handtekening op het certificaat zijn nu horizontaal gecentreerd, inclusief de datum, docentnaam, naam van de directeur en de handtekeningafbeelding.
+
+- **⏰ Achterstallige betalingen in dagelijkse admin mail**: De dagelijkse admin-overzichtsmail bevat nu een sectie met inschrijvingen die ouder zijn dan 6 weken, de status "geplaatst" hebben, en waarbij het betaalmoment op "direct" staat maar het volledige bedrag nog niet ontvangen is. Per regel staan het orderitem-ID (als directe link), de studentnaam, het e-mailadres, de programmacode en het openstaande bedrag — dezelfde logica als de OpenstaandePosten-export.
+
+- **🔀 Admin mail losgekoppeld van dagelijkse mailopdracht**: De verzending van de dagelijkse admin-mail is verplaatst naar een aparte opdracht `vu:adminmail`. Deze draait elke werkdag om 07:30 via de scheduler. De `vu:dailymails`-opdracht verstuurt de admin-mail niet meer.
+
+- **🧪 Dry-run modus voor admin-mail**: Met `php artisan vu:adminmail --dry-run` wordt de volledige inhoud van de admin-mail — inclusief alle databasequery's — afgedrukt in de console zonder dat er een e-mail verstuurd wordt. De weekdag-check wordt tijdens een dry-run overgeslagen zodat het op elk moment getest kan worden.
+
+- **🎨 Admin-mail voorzien van opmaak**: De dagelijkse admin-mail heeft nu een eigen HTML-template (`emails/adminmail.blade.php`) met witte kaart op grijze achtergrond en een subtiele VUAdmin-voettekst — vergelijkbaar met de opmaak van de 2FA-verificatiemail.
+
+- **🔗 Links in admin-mail gebruiken de site-URL**: Alle links in de admin-mail (intake, controle, credit-facturen, teveel betaald, achterstallig) gebruiken nu de URL die in de site-instellingen is geconfigureerd (`$site->url`) als basis. Intake- en controle-vermeldingen hadden voorheen helemaal geen link.
+
+- **📨 Testmodus voor admin-mail**: Met `php artisan vu:adminmail --test` wordt de mail met echte database-inhoud verstuurd naar `info@vuadmin.nl` in plaats van het geconfigureerde admin-adres. De weekdag-check wordt ook hier overgeslagen.
+
+- **💾 Formuliergegevens bewaard bij aanpassen winkelwageninhoud**: Wanneer een gebruiker op de winkelwagenpagina (Amsterdam) op de plus, min of verwijder-knop klikt, worden alle ingevulde contactgegevens nu automatisch opgeslagen in `sessionStorage`. Na de paginaverversing worden de velden hersteld. De opgeslagen gegevens worden gewist zodra het formulier daadwerkelijk verstuurd wordt.
+
+- **🔒 Slug niet meer bewerkbaar in productbeheer**: Het slug-veld is verwijderd uit het productbeheer-formulier. De slug wordt éénmalig automatisch gegenereerd op basis van de titel bij het aanmaken van een product en wordt daarna niet meer overschreven.
+
+### 🐛 Bugfixes
+
+- **🔗 Mollie webhook 500 bij gemengde bestelling (cursus + product)**: Bij bestellingen waarbij zowel een cursus als een product in één Mollie-betaling werden afgerekend, gaf de webhook een 500-fout. Oorzaak: de metadata voor producten miste het veld `'type' => 'product_sale'`, waardoor de webhook het product-ID als cursusinschrijving interpreteerde. Een toevallig overeenkomend record werd op `geplaatst` gezet, wat een bevestigingsmail triggerde die crashte op een ontbrekende cursusrelatie. Opgelost door `'type' => 'product_sale'` toe te voegen aan de metadata van producten in `post_payment`.
+
+- **⏳ Betaalverwerking-overlay bleef staan na succesvolle betaling**: De wacht-overlay op de betalingsbevestigingspagina werd niet verwijderd na een time-out (60 seconden), waardoor het bestellingsoverzicht permanent onzichtbaar was. Opgelost: bij time-out wordt de overlay nu verwijderd zodat de inhoud zichtbaar wordt. Tevens controleert de overlay en het pollingendpoint (`/order/payment-status`) nu ook de status van gekoppelde `ProductSale`-records, zodat combi-bestellingen (cursus + product) ook correct worden afgewacht.
+
+- **💥 `vu:invoices` crashte op null-cursus in bevestigingsmail**: De `vu:invoices`-opdracht zette orderitems op `geplaatst` via `$orderitem->save()`, wat de `booted()`-saving-hook activeerde en een bevestigingsmail probeerde te sturen. Bij items zonder gekoppelde cursus (bijv. gecancelde of verwijderde cursussen) crashte dit op `$course->title`. Opgelost door (1) `saveQuietly()` te gebruiken in `SentInvoices` zodat model-events niet worden getriggerd, en (2) een null-guard toe te voegen op `$orderItem->course` in de `OrderItem::booted()` saving-hook vóór het aanmaken van de bevestigingsmail.
+
+- **🎂 Geboortedatum vooringevuld als 01-01-1970 in betaalformulier**: Op het betaalformulier werd de geboortedatum van een bekende cursist weergegeven als `01-01-1970` wanneer de datum in het systeem `null` was. Opgelost met een `!empty()`-check en `Carbon::parse()`.
+
+- **🐛 Verwijderknop vouchercodes gaf foutmelding**: De verwijderknop in het vouchercode-overzicht bij een korting stuurde het verzoek naar het verkeerde pad (`/admin/...` in plaats van `/management/...`). De URL gebruikt nu de juiste backpack-prefix zodat het verwijderen correct werkt.
+
+### 🎨 Thema (Amsterdam)
+
+- **📐 `small-title` h3 in detailbanner op 1.3rem**: De `h3`-elementen binnen `.details-bnr-content .small-title` (gebruikt op o.a. docent- en blogdetailpagina's) waren te groot door de browser-standaard. Ze worden nu ingesteld op `1.3rem` zonder de overige stijlen van `.small-title` te verstoren.
+
+- **📋 Geordende lijsten gestileerd als ongeordende lijsten in paginainhoud**: In de paginainhoud van het Amsterdam-thema (`workplaces-main`) werden geordende lijsten (`<ol>`) niet dezelfde opmaak meegegeven als ongeordende lijsten. Regelhoogte, letterafstand, links, marges, inspringing en lijststijl zijn nu ook op `ol` van toepassing.
+
+---
+
 ## Week van 9-15 maart 2026
 
 ### 🛒 Betaalproces
