@@ -1,5 +1,41 @@
 # VUAdmin Updates
 
+## Week van 30 maart – 5 april 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **� E-mailopt-out gerespecteerd bij evaluaties**: Studenten met `no_email = true` worden nu op alle drie niveaus overgeslagen: bij het aanmaken van evaluatieresponses (`vu:generateevaluations`), bij het versturen van uitnodigingen (`vu:mailevaluations`) en bij het versturen van herinneringen (`vu:evaluationreminders`). Bij de mail- en herinneringstap wordt de response direct als verzonden gemarkeerd zodat ze niet opnieuw worden opgepikt.
+
+- **�🚫 Cursus-uitsluiting voor evaluatieformulieren**: In het beheer van evaluatieformulieren (tabblad "Verzending") is een nieuw veld **"Uitgesloten cursussen"** toegevoegd. Hiermee kunnen specifieke cursussen worden uitgezonderd van evaluatiegeneratie. De uitsluiting geldt ook wanneer "Versturen naar alle cursussen" actief is. De koppeling wordt opgeslagen in de nieuwe `evaluation_course_exclusion`-pivot-tabel. De `vu:generateevaluations`-opdracht filtert programma's van uitgesloten cursussen automatisch weg vóór het aanmaken van evaluatieresponses.
+
+---
+
+## Week van 23-29 maart 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **🔁 Lokale opslag aanmaken van orderitems bij stap 2 (Amsterdam)**: Bij het opnieuw indienen van stap 2 (deelnemersgegevens) worden bestaande `OrderItem`- en `ProductSale`-records nu bijgewerkt in plaats van opnieuw aangemaakt. Hiervoor zijn twee nullable kolommen toegevoegd aan `cart_items`: `orderitem_id` en `product_sale_id`. Bij de eerste indiening worden de ID's opgeslagen op het cart-item; bij herindienen worden de bestaande records bijgewerkt met de nieuwe deelnemersgegevens, status, prijs, korting en bedrijfsgegevens. Dit voorkomt dubbele inschrijvingen bij terugnavigatie. De deelnemersformulieren in stap 2 worden voortaan voorgevuld met de eerder opgeslagen deelnemergegevens.
+
+- **🔍 Docentenzoekfunctie op de docenten-pagina (Amsterdam)**: Op pagina's met het type `teacher` in het CMS verschijnt nu een zoekveld boven het docentenrooster. Zoeken filtert op voor- en achternaam. De zoekterm wordt bewaard in het invoerveld na verzending. De bestaande `PageController` ondersteunde `?q=` al; alleen de include-template is uitgebreid.
+
+- **🔍 Docentenzoekfunctie op de losse docenten-indexpagina (Amsterdam)**: Hetzelfde zoekveld is toegevoegd aan `teacher_index.blade.php` voor sites die `/docent` via de `TeacherController` serveren in plaats van via een CMS-pagina.
+
+- **🧾 Productfacturen verwerkt door de factuurverzendopdracht**: De `vu:invoices`-opdracht sloeg facturen met alleen een `product_sale_id` (en geen `orderitem_id`) over. De query is aangepast om facturen te includeren die een orderitem *of* een product sale hebben. `processSingleInvoice` en `processCombinedInvoices` zijn uitgebreid om productfacturen correct te verwerken: geen orderitem-check, geen lectionsdatumcontrole, betaler wordt opgehaald via `productSale->student`.
+
+- **🧾 Stap 3 in het checkout-proces: besteloverzicht vóór betaling (Amsterdam)**: Tussen het invullen van de deelnemersgegevens (stap 2) en de Mollie-betaling is een nieuw betalingsoverzicht toegevoegd (`/order/{ordernr}/overview`). De pagina toont per inschrijving en product: afbeelding, titel, prijs, cursusCode + startdatum, type, locatie en deelnemer. Elk item krijgt een gekleurde badge die het betaalmoment aangeeft: **Betaling: Direct** (plaatsingsinstelling = direct of programma is final), **Betaling: Na bevestiging startdatum** (plaatsingsinstelling ≠ direct), **Betaling: Na intake** (cursus vereist intake/approval), of **Betaling: Na controle korting** (kortingspas met `requires_approval`). Rechts staat een totaalblok met splitsing *Nu te betalen* / *Later te betalen*. Als de betaler een bedrijfsnaam heeft opgegeven in stap 1, verschijnt er bovenaan de rechterkolom een extra blok voor een optionele referentie en een PO-nummer/inkoopnummer. Deze gegevens worden opgeslagen op de order en doorgezet naar alle orderitems.
+
+- **🔀 Mollie-initiatie verplaatst van stap 2 naar stap 3**: De orderitems worden nog steeds aangemaakt na stap 2 (inclusief statusbepaling, intake-mails en admin-remarknotificatie), maar de redirect naar Mollie, de bankoverschrijving-afhandeling en het no-payment-pad zijn verplaatst naar de POST van het nieuwe overzichtsscherm. Het Mollie-bedrag wordt opnieuw berekend op basis van de reeds aangemaakte orderitems, zodat het bedrag op het overzicht exact overeenkomt met wat Mollie in rekening brengt.
+
+- **🛡️ Overzichtsroutes alleen actief in de nieuwe flow**: De routes `GET|POST /order/{id}/overview` zijn geregistreerd in de vaste `OrderControllerNew`-routegroep, niet in de dynamische groep die op andere sites de oude `OrderController` gebruikt. De oude betaalflow blijft daardoor volledig ongewijzigd.
+
+### 🐛 Bugfixes
+
+- **🖼️ Ontbrekende `product_index`-view toegevoegd (Amsterdam)**: De pagina `/producten` op de Amsterdam-site brak met een "View [product_index] not found"-fout omdat er in geen enkel thema een `product_index.blade.php` bestond. Het bestand is aangemaakt voor het Amsterdam-thema met standaard zoek-/sorteerformulier, productkaarten (afbeelding, titel, intro, prijs) en de gebruikelijke layout-componenten (`<x-head>`, `<x-header>`, `<x-footer>`, `<x-pagefooter>`). Variabelen `$products`, `$collections`, `$element` en `$searchterm` worden volledig ondersteund.
+
+- **🔢 "Non-numeric value encountered" in collectiefilter (Utrecht)**: De template `collection_filter.blade.php` van het Utrecht-thema berekende de dagnaaam met `$dutchDays[$val - 1]`, wat een PHP-waarschuwing (gedegradeerd tot exception) opleverde zodra `startday` of `startmonth` een niet-numerieke URL-parameter bevatte (bijv. van een crawler of misgevormde link). De berekening is vervangen door directe opzoektabel-lookups op de al meegegeven `$days`- en `$months`-props met een `(int)`-cast als veiligheidsnet: `$days[(int)$val] ?? $val`.
+
+---
+
 ## Week van 16-22 maart 2026
 
 ### ✨ Nieuw & Verbeterd
