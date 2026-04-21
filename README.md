@@ -1,5 +1,54 @@
 # VUAdmin Updates
 
+## Week van 20–26 april 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **Statusmails bij checkout nu volledig werkend**: In het bestelproces worden nu voor alle relevante statussen bevestigingsmails verstuurd naar de deelnemer direct na het indienen van de bestelling.
+
+  - **Wachtlijst-mail (template #1) gekoppeld**: Wanneer een inschrijving de status `wachtlijst` krijgt, ontvangt de deelnemer automatisch de wachtlijst-bevestigingsmail (`App\Mail\Waitinglist`).
+
+  - **Controle-mail (template #32) aangemaakt en gekoppeld**: Bij de status `controle` (bijv. bij gebruik van een kortingscode of voucher die gecontroleerd moet worden) ontvangt de deelnemer nu een bevestigingsmail (`App\Mail\Controle`). De mail legt uit dat de inschrijving is ontvangen maar nog gecontroleerd wordt. Migratie `2026_04_21_000001_seed_emailtemplate_controle.php` voegt het template toe.
+
+- **Aparte koper-bevestigingsmail (template #33)**: Na betaalbevestiging via Mollie (of bij gratis/volledig-gekorteerde bestellingen) ontvangt de **koper** voortaan een eigen overzichtsmail (`App\Mail\SendBuyerConfirmation`) in plaats van dezelfde mail als de deelnemer.
+
+  - De koper-mail toont een volledige tabel met alle inschrijvingen (cursus, startdatum, deelnemer, status, bedrag), alle producten en het totaalbedrag van de bestelling.
+  - Statuslabels worden leesbaar weergegeven: "Geplaatst", "Intakegesprek vereist", "Wachtlijst", "In controle".
+  - De mail wordt nog steeds slechts één keer verstuurd per bestelling (bewaakt door `order.confirmed_at`).
+  - Deelnemers die niet de koper zijn ontvangen nog steeds de individuele `SendConfirmation`-mail (template #2).
+  - Migratie `2026_04_21_000002_seed_emailtemplate_buyer_confirmation.php` voegt het template toe.
+
+- **Productbestelling verwerkt-mail (template #34)**: Wanneer een productverkoop in het beheer op "Verwerkt" wordt gezet, ontvangt de gekoppelde student automatisch een bevestigingsmail (`App\Mail\ProductProcessed`). De mail meldt dat de bestelling is verwerkt. Bij terugzetten naar "Betaald" wordt geen mail verstuurd. Migratie `2026_04_21_000003_seed_emailtemplate_product_processed.php` voegt het template toe.
+
+- **Uitnodigingen ook verstuurd aan studenten met toekomstige inschrijving**: De beperking waarbij `vu:dailymails` uitnodigingen oversloeg voor studenten die al een actieve inschrijving in de toekomst hebben, is verwijderd. Uitnodigingen worden nu altijd verstuurd als aan de overige voorwaarden is voldaan.
+
+- **Winkelwagen-teller correct bij gecached menu**: Het menu wordt gecacht maar hierdoor stond het aantal artikelen in de winkelwagen-badge bij ingelogde of terugkerende bezoekers soms op nul. De badge wordt nu bij elke paginalading dynamisch bijgewerkt via een lichtgewicht API-aanroep (`GET /cart/count`). Van toepassing op alle thema's: Utrecht, Breda, Demo, Amsterdam en Westvoorne.
+
+- **Mobiel submenu Utrecht: koppeling navigatie en uitklappen gesplitst**: In het mobiele menu van het Utrecht-thema was klikken op een menu-item met submenu geblokkeerd door `e.preventDefault()`, waardoor de link nooit volgde. Er is nu een aparte `<button class="submenu-toggle">`-knop naast elk menu-item met submenu geplaatst. Klikken op de link navigeert naar de pagina; klikken op de knop klapt het submenu open of dicht met een slide-animatie. De pijl-indicator (chevron) is verplaatst naar de nieuwe knop en draait mee bij openen.
+
+- **Inactieve docenten uitgesloten van docentenrapportage**: In het rapport "Docentgegevens" en de bijbehorende filterdropdown werden eerder ook inactieve docenten meegenomen. Het filter en de export-query zijn aangepast zodat alleen docenten met `actief = ja` worden opgenomen.
+
+- **Productverkopen-beheer verbeterd**:
+  - De preview-knop (Show) is verwijderd uit de lijst.
+  - De kolom "Aangemaakt" is verwijderd uit de lijst.
+  - Kolomselectie en exportknoppen (CSV/Excel/PDF) toegevoegd aan de lijstweergave.
+
+---
+
+## Week van 13–19 april 2026
+
+### 🐛 Bugfixes
+
+- **Null-fout bij cursuspagina opgelost (Breda)**: Wanneer een programma geen locatie had gekoppeld, crashte de cursuspagina met de melding "Attempt to read property 'title' on null". Dit is opgelost door nullsafe operators te gebruiken voor de locatievelden.
+
+- **Null-fout bij orderhistorie opgelost**: In het beheerscherm van studenten kon een fout optreden ("Call to a member function max() on null") bij het weergeven van de inschrijvingshistorie. Dit trad op wanneer een programma geen lesdagen had. Opgelost met nullsafe operators.
+
+### ✨ Verbeterd
+
+- **Programma automatisch gesloten na twee weken zonder sluitingsdatum**: Wanneer er geen sluitingsdatum is ingesteld voor een programma, wordt de status automatisch op "gesloten" gezet als de eerste lesdag meer dan twee weken geleden was. Dit voorkomt dat verlopen programma's zonder sluitingsdatum open blijven staan.
+
+- **Dashboard-melding voor programma's zonder lesdagen**: De dagelijkse cleanup-taak controleert nu of toekomstige programma's geen lesdagen hebben. Als dat het geval is, verschijnt er een melding op het dashboard met een directe link naar het programma.
+
 ## Week van 6–12 april 2026
 
 ### ✨ Nieuw & Verbeterd
