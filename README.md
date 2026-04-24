@@ -4,6 +4,20 @@
 
 ### ✨ Nieuw & Verbeterd
 
+- **CMS contentblokken: configureerbare velden per bloktype**: Aan `ContentBlockType` zijn drie nieuwe vlaggen toegevoegd waarmee per bloktype ingesteld kan worden welke velden beschikbaar zijn bij blokken van dat type.
+
+  - **`has_video`**: Schakel de videolink-invoer (YouTube/Vimeo) in of uit.
+  - **`has_text`**: Schakel de rich-text editor (Jodit) in of uit.
+  - **`has_order`**: Schakel het volgordeveld in of uit.
+
+  In het beheer (`ContentBlockType`-bewerken) zijn de checkboxes zichtbaar onder "Beschikbare velden voor dit bloktype". In `BlockCrudController` worden de velden conditioneel getoond op basis van het gekoppelde bloktype.
+
+- **CMS contentblokken: configureerbare crop-verhouding voor afbeeldingen**: Per bloktype kan een **afbeeldingverhouding (crop)** worden ingesteld als decimaal getal (bijv. `1.33` voor 4:3, `1.78` voor 16:9, `1` voor vierkant). Wanneer een beheerder een afbeelding selecteert bij een blok, wordt de cropper automatisch ingesteld op deze verhouding. Laat leeg voor vrij bijsnijden.
+
+- **Winkelwagen bericht bij producten**: Aan producten is het veld **"Winkelwagen bericht"** toegevoegd (tabblad "Basis"). Dit bericht wordt getoond in de winkelwagen wanneer het product is toegevoegd, vergelijkbaar met het bestaande winkelwagen bericht bij kortingscodes.
+
+- **Cultuurconnectie: meerdere disciplines per collectie**: Een collectie kan nu aan meerdere Cultuurconnectie disciplines tegelijk worden gekoppeld. De enkelvoudige kolom `cultuurconnectie_discipline_id` is vervangen door een pivot-tabel `collection_discipline`. In het beheer van collecties (tabblad "Marketing") is het veld vervangen door een select2-meervoudige keuzelijst. De synchronisatie van cursussen naar Cultuurconnectie (`CourseObserver`, `cultuurconnectie:sync-courses`) leest de disciplines nu via de nieuwe relatie.
+
 - **Statusmails bij checkout nu volledig werkend**: In het bestelproces worden nu voor alle relevante statussen bevestigingsmails verstuurd naar de deelnemer direct na het indienen van de bestelling.
 
   - **Wachtlijst-mail (template #1) gekoppeld**: Wanneer een inschrijving de status `wachtlijst` krijgt, ontvangt de deelnemer automatisch de wachtlijst-bevestigingsmail (`App\Mail\Waitinglist`).
@@ -32,6 +46,12 @@
   - De preview-knop (Show) is verwijderd uit de lijst.
   - De kolom "Aangemaakt" is verwijderd uit de lijst.
   - Kolomselectie en exportknoppen (CSV/Excel/PDF) toegevoegd aan de lijstweergave.
+
+### 🐛 Bugfixes
+
+- **Typefout in `SendBuyerConfirmation` en `ProductProcessed` opgelost**: De mailables `App\Mail\SendBuyerConfirmation` en `App\Mail\ProductProcessed` declareerden properties met een expliciet type (`string`, modelklasse), wat conflicteert met de untypede declaraties in Laravel's `Mailable`-basisklasse. Alle property-typedeclaraties zijn verwijderd en de ontbrekende `Queueable` en `SerializesModels` traits zijn toegevoegd, in lijn met alle andere mailables in het project.
+
+- **"Alle cursussen"-link rechts uitgelijnd (Amsterdam, collectie-overzichtspagina)**: De link "Alle cursussen in de categorie …" onderaan een subcollectieblok werd links weergegeven. De link is nu rechts uitgelijnd via Bootstrap `text-end`.
 
 ---
 
