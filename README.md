@@ -4,6 +4,17 @@
 
 ### ✨ Nieuw & Verbeterd
 
+- **Dashboard globaal zoeken**: Op het beheer-dashboard is een real-time zoekbalk toegevoegd waarmee direct in meerdere objecttypen gezocht kan worden. Resultaten verschijnen terwijl je typt; klikken op een resultaat gaat direct naar de beheerpagina van het object.
+
+  - **Zoekt in**: Cursisten (naam, e-mail), Programma's (code, titel), Cursussen (titel), Inschrijvingen (naam/e-mail cursist én programmacode), Facturen (factuurnummer, Mollie-betalingskenmerk), Pagina's (titel, slug), Collecties, Producten, Locaties, Docenten, Productverkopen (naam cursist), Blog artikelen (titel).
+  - Per objecttype worden maximaal **10 meest recent bijgewerkte** resultaten getoond.
+  - **Meerdere zoekwoorden**: Bij cursussen en pagina's kunnen meerdere woorden worden ingevoerd (volgorde maakt niet uit) — alle woorden moeten voorkomen in de titel.
+  - **Voornaam + achternaam**: Cursisten zijn ook vindbaar door voor- én achternaam te combineren.
+  - **Hoofdletterongevoelig**: Zoeken op "jan" vindt ook "Jan" en "JAN".
+  - **Alleen objecten waartoe je toegang hebt**: De zoekresultaten houden rekening met je rechten — je ziet alleen objecttypen die je ook in het menu kunt beheren.
+  - De zoekbalk staat bovenaan het dashboard, boven de KPI-widgets.
+
+
 - **CMS contentblokken: configureerbare velden per bloktype**: Aan `ContentBlockType` zijn drie nieuwe vlaggen toegevoegd waarmee per bloktype ingesteld kan worden welke velden beschikbaar zijn bij blokken van dat type.
 
   - **`has_video`**: Schakel de videolink-invoer (YouTube/Vimeo) in of uit.
