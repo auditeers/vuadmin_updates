@@ -1,5 +1,41 @@
 # VUAdmin Updates
 
+## Week van 25 april 2026
+
+### ✨ Marketing Dashboard
+
+- **Nieuw: Marketing Dashboard** (`/admin/marketing`): Een apart beheer-dashboard met basisstatistieken voor marketeers. Zichtbaar voor gebruikers met de rechten `Marketing Dashboard`.
+
+  - **Bezoekers & paginaweergaven**: Aantal unieke bezoekers (per sessie) en totale paginaweergaven over de gekozen periode.
+  - **Conversies & omzet**: Aantal inschrijvingen (order items) met de bijbehorende omzet, afgeleid uit `order_items.attribution_data`.
+  - **Conversieratio & mobiel %**: Verhouding conversies/bezoekers en aandeel mobiele bezoekers.
+  - **Bezoekers per dag**: Lijngrafiek met dagelijks bezoekaantal over de geselecteerde periode.
+  - **Verkeersbronnen**: Doughnut-grafiek met verdeling over Paid, Social, Nieuwsbrief, Organisch, Direct en Overig.
+  - **Apparaat**: Doughnut-grafiek Desktop / Mobiel / Tablet.
+  - **Campagnes**: Tabel met `utm_campaign`, conversies en omzet — gefilterd op bron.
+  - **Zoektermen**: Tabel met `utm_term` en conversies.
+  - **Populaire pagina's**: Top 15 bezochte URL's met bezoekcount en percentage.
+  - **Populaire cursussen**: Top 10 cursuspagina's op bezoekcount, inclusief cursusnaam.
+  - **E-mails per sjabloon**: Overzicht van alle verstuurde e-mails gegroepeerd op sjabloon (onderwerp), met aantal verstuurd, geopend en open rate.
+  - **Tijdfilter**: Aangepaste datumkiezer (van/tot) met "Toepassen"-knop.
+  - **Bronfilter**: Knoppengroep — Alles / Organisch / Betaald / Social / Nieuwsbrief / Direct. Klikken op een bron filtert alle statistieken, campagnes, zoektermen en conversies naar die bron.
+
+- **Nieuw: paginabezoeken bijhouden** (`page_visits`-tabel + middleware): Een nieuwe `TrackPageVisit`-middleware registreert elke paginabezoek op de publieke website.
+
+  - Slaat per bezoek op: sessie-ID, IP-adres, volledige URL, pagina-type (`home`, `course`, `program`, `page`), pagina-ID (bijv. program_id), referrer, user agent, apparaattype en UTM-waarden uit de sessie.
+  - Dedupliceert: dezelfde sessie + URL wordt maximaal één keer per 30 minuten geregistreerd.
+  - Sluit bots en crawlers automatisch uit (Google, Bing, Yandex, curl, etc.).
+  - Slaat admin-, API- en asset-verzoeken over.
+  - Migratie: `2026_04_25_000001_create_page_visits_table.php`.
+
+- **Nieuw: `emailtemplate_id` in e-maillogboek**: De tabel `emaillogs` heeft een nullable foreign key `emailtemplate_id` gekregen, zodat e-mails gekoppeld kunnen worden aan het gebruikte sjabloon. Maakt groepering per sjabloon in het Marketing Dashboard mogelijk. Migratie: `2026_04_25_000002_add_emailtemplate_id_to_emaillogs.php`.
+
+- **Nieuw: `Marketing Dashboard`-rechten via migratie**: De permissie `Marketing Dashboard` wordt automatisch aangemaakt bij `php artisan migrate` (`2026_04_25_000003_add_marketing_dashboard_permission.php`). Wijs de rechten daarna toe aan de gewenste rollen via het beheer (Gebruikers & Rollen).
+
+- **Verbeterd: attributie-opslag als sleutel-waarde object**: Nieuwe bestellingen slaan `attribution_data` voortaan op als een gestructureerd object (`{"utm_source": "meta", "utm_campaign": "zomer"}`) in plaats van de vroegere array van strings (`["utm_source=meta"]`). Bestaande data in de database blijft ongewijzigd en wordt nog steeds correct weergegeven in het inschrijvingenbeheer. De nieuwe `AttributionHelper::parse()` herkent automatisch beide formaten.
+
+- **Bugfix: Marketing Dashboard geladen zonder Alpine.js**: Het dashboard-scherm bleef vastzitten op de laad-spinner omdat de Backpack CoreUI v4-thema Alpine.js niet laadt. De volledige view is herschreven naar vanilla JavaScript (geen Alpine.js-afhankelijkheid meer). Chart.js wordt nu ingeladen via CDN in de `after_scripts`-stack. De werking is identiek: AJAX-call via de native `fetch()` API, bronfilter via data-attributen, grafieken via Chart.js 4.
+
 ## Week van 20–26 april 2026
 
 ### ✨ Nieuw & Verbeterd
