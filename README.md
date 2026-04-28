@@ -1,8 +1,170 @@
 # VUAdmin Updates
 
-## Week van 25 april 2026
+## Week van 27 april tot 3 mei 2026
 
-### ✨ Marketing Dashboard
+### 🐛 Bugfixes
+
+- **Eigen profiel kon niet worden opgeslagen**: Beheerders zonder het "Gebruikers"-recht kregen een foutmelding bij het opslaan van hun eigen profiel. Je kunt nu altijd je eigen naam, e-mailadres en wachtwoord aanpassen, ongeacht je rechten. Rollen en permissies blijven uiteraard alleen bewerkbaar voor beheerders met het juiste recht.
+
+- **Fout bij aanmaken nieuw programma**: Bij het aanmaken van een nieuw programma stond de cursus-dropdown automatisch op de eerste cursus uit de lijst. Dit zorgde voor fouten als die selectie niet klopte. De dropdown start nu leeg en je moet bewust een cursus kiezen voordat je het programma kunt opslaan.
+
+- **Verlaten winkelwagen e-mail crashte**: E-mailsjabloon 25 (verlaten winkelwagen) bevatte een verwijzing naar `$order`, maar de verlaten-winkelwagen-mail (`Cartleftmail`) stuurde deze variabele niet mee. Het sjabloon moet `$cart` gebruiken in plaats van `$order`.
+
+- **Marketing Dashboard: fout bij docenten in populaire pagina's**: De kolom `display_name` is eerder verwijderd uit de `teachers`-tabel (samengevoegd met `name`). Het dashboard probeerde die kolom nog op te halen. De query haalt nu `name` én `lastname` op en zet deze samen tot de volledige naam — identiek aan het `fullname`-attribuut op het Teacher-model.
+
+- **Bevestigingse-mail bij directe plaatsing werd dubbel verstuurd (Westvoorne)**: Bij directe plaatsing (geen Mollie-betaling) en na de Mollie-webhook werd de bevestigingse-mail twee keer verstuurd. De dubbele aanroepen zijn verwijderd; de model observer handelt dit nu volledig af.
+
+---
+
+### 🎨 Westvoorne thema — Filters cursusoverzicht en collectiepagina's werken nu correct
+
+- **`beschikbaar` → `available`**: De filterdropdown had de verkeerde parameternaam (`beschikbaar`), waardoor dit filter volledig werd genegeerd door de backend. Hernoemd naar `available`.
+- **Geselecteerde categorie blijft zichtbaar**: De collectie-dropdown toonde nooit de actief geselecteerde optie — `selected` attribuut toegevoegd.
+- **Locatiefilter toegevoegd**: De `$locations`-variabele werd al door de controller meegegeven maar nooit getoond. Een locatiedropdown (op stad) is nu zichtbaar in het filter.
+
+---
+
+## Week van 20 to 26 april 2026
+
+### 🎨 Amsterdam thema — Diverse fixes en verbeteringen
+
+- **Mobiel zoekformulier**: De zoekbalk in het mobiele menu heeft nu `action="/cursussen"`, `method="GET"` en `name="q"`, identiek aan het desktopformulier. De zoekknop submit het formulier.
+- **CTA halfbreed — mobiel**: Complexe flex/negatieve-marge layout vervangen door de normale Bootstrap grid-stacking. `.offers-img` krijgt een expliciete hoogte zodat de achtergrondafbeelding zichtbaar blijft. Cirkel (`.offers-content`) blijft `position: absolute` in de hoek.
+- **CTA halfbreed — cirkelgrootte mobiel**: Cirkel vergroot naar 185×185px (was 155px), afbeeldingshoogte naar 220px voor betere proporties en ruimte voor de knop.
+- **Sortering cursusoverzicht**: `?sort=` parameter werkt nu correct. Sortering wordt nu toegepast vóór het samenstellen van `$allItems`, zodat beide variabelen de juiste volgorde weerspiegelen.
+- **Nieuwsslider — gelijke hoogte**: Alle nieuwskaarten in de slider hebben nu dezelfde hoogte via flexbox op `.slick-track`, `.slick-slide` en `.news-item`. Knop "Lees meer" staat altijd onderaan.
+- **`.basic-details p`**: Paragrafen binnen `.basic-details` blokken hebben nu `margin-bottom: 0`.
+- **Passieve event listener fout (Slick)**: `EventTarget.prototype.addEventListener` gepatcht zodat `touchstart`/`touchmove` altijd als `passive: false` worden geregistreerd — lost de `preventDefault`-waarschuwing van Slick op.
+- **Bloktitel hoogte (`.online-offer-title-block`)**: Inline stijl `min-height: 3em; line-height: 1.5em; overflow: hidden` verplaatst van HTML naar CSS als klasse `.online-offer-title-block`. Op mobiel (`max-width: 767px`) vergroot naar `min-height: 5em`.
+- **Statustag cursusblok**: `<a href="#">` vervangen door `<span>` met klasse `.btn-red-border`. `.btn-red-border` gestyled als pill (`border-radius: 50px`, `width: auto`, `min-width: 90px`, `padding: 3px 14px`, `font-size: 11px`).
+- **Megamenu mobiel — container breedte**: `.container` binnen het megamenu dropdown krijgt op mobiel (`max-width: 767px`) `max-width: 100%; padding: 0` zodat het dezelfde breedte heeft als de andere menu-items.
+- **Megamenu mobiel — driekoloms grid**: Grid op `.list-group-content ul` verplaatst van `@media (min-width: 768px)` naar `@media (min-width: 992px)` zodat het alleen actief is als de `col-lg-*` kolommen ook naast elkaar staan.
+- **Megamenu mobiel — lege panelen**: Klik op een item zonder subpagina's toont niet langer een leeg paneel. De click handler controleert nu of het doelpaneel bestaat; zo niet, wordt de link gewoon gevolgd.
+- **Megamenu mobiel — lettertypes**: Alle tekst in het mobiele megamenu gebruikt nu consistent `"DM Sans", sans-serif` op `13px`. `.back-btn` gebruikte `'AvenirNextDemiBold'`, `.block-title` en sublinks hadden geen fallback of verkeerde grootte — allemaal gecorrigeerd.
+
+---
+
+### ✨ Zoekresultaten — Producten verschijnen nu ook bij cursuszoekopdrchten
+
+- **Producten in zoekresultaten**: Bij een zoekopdracht via `?q=` op `/cursussen` worden nu ook actieve producten doorzocht (op `title`, `description` en `intro`). Cursussen en producten worden samengevoegd en alfabetisch gesorteerd getoond.
+- **`CourseController`**: importeert nu `Product`, zoekt producten bij een zoekterm, tagt elk item met `item_type` (`course` of `product`), en geeft `$allItems` en `$products` mee aan de view.
+- **`course_index.blade.php` (Amsterdam)**: loopt nu over `$allItems`, controleert `item_type`, en toont `<x-horizontal_product_block>` voor producten en `<x-horizontal_course_block>` voor cursussen — identiek aan `collection_show.blade.php`.
+
+---
+
+### ✨ Marketing Dashboard — Verwijzende domeinen
+
+- **Nieuw: Verwijzende domeinen-kaart**: Toont de top 25 externe domeinen die bezoekers naar de site stuurden, met het aantal bezoeken. Het eigen domein (via `APP_URL`) en IP-adressen worden automatisch uitgesloten.
+- Domeinen zijn klikbaar als link naar `https://{domein}`.
+
+---
+
+### ✨ Marketing Dashboard — Docenten in populaire pagina's
+
+- **Docentnamen in populaire pagina's**: `/docent/*`-URLs tonen nu de naam van de docent in plaats van de URL. De `display_name` wordt gebruikt, met `name` als fallback.
+- `TrackPageVisit`-middleware herkent `/docent/{slug}` voortaan als `page_type = 'teacher'`.
+- De controller haalt docenten op via `teachers.slug → display_name / name`.
+
+---
+
+### ✨ Marketing Dashboard — Collectietitels in populaire pagina's
+
+- **Collectietitels correct**: `/collectie/{slug}`-URLs tonen nu de collectienaam in plaats van de URL. Opgeslagen als slug (niet ID), zowel in de middleware als de controller.
+- Titel-JSON wordt gedecode naar `nl` als de waarde een JSON-object is.
+
+---
+
+### ✨ Marketing Dashboard — Links in populaire pagina's
+
+- **Klikbare titels**: Elke rij in de "Populaire pagina's"-tabel is nu een klikbare link (`<a target="_blank">`) naar de volledige opgeslagen URL.
+
+---
+
+### ✨ Marketing Dashboard — Cursustitels via slug-fallback
+
+- **Cursussen zonder `program_id`**: Bezochte cursuspagina's zonder `?program_id=` in de URL worden nu alsnog correct op naam getoond via een slug-opzoeking in de `courses`-tabel.
+
+---
+
+### ✨ Marketing Dashboard — E-mailstatistieken verwijderd
+
+- De "Verstuurde e-mails per sjabloon"-kaart is verwijderd uit het Marketing Dashboard.
+
+---
+
+### ✨ Marketing Dashboard — UTM-filterrij als Bootstrap-grid
+
+- De vier UTM-filterdropdowns (bron, medium, campagne, zoekterm) zijn opgemaakt als een Bootstrap `row g-2` met elk een `col-3` kolom, zodat ze netjes naast elkaar staan.
+
+---
+
+### 🐛 Bugfix — `TrackAttribution`: array-naar-string-conversie
+
+- **Oorzaak**: Bij URL's met `?utm_source[]=foo` retourneerde `$request->get($param)` een array. De `"$param=$value"` string-interpolatie crashte met *Array to string conversion* op regel 27.
+- **Fix**: Beide loops (UTM en Matomo/MTM-parameters) slaan de waarde nu over met `continue` als `is_array($value)` geldt.
+
+---
+
+### 🐛 Bugfix — E-mailsjabloon: `action_link` te lang voor kolom
+
+- **Oorzaak**: `action_link` was gedefinieerd als `VARCHAR(255)`. Lange URLs met Matomo- én UTM-parameters overschreden deze limiet.
+- **Fix 1**: Nieuwe migratie `2026_04_25_140000_alter_emailtemplates_action_link_to_text.php` wijzigt de kolom naar `TEXT`.
+- **Fix 2**: `Emailtemplate::autoTagActionLink()` herkent nu ook Matomo-URL's (`mtm_source=`, `mtm_campaign=`) als reeds getagd en voegt geen extra UTM-parameters toe.
+
+---
+
+- **Preset datumbereiken**: Naast de vrije datumkiezer zijn zes snelkoppelingen toegevoegd: **7 d**, **30 d** (standaard actief), **90 d**, **Deze maand**, **Vorige maand** en **Dit jaar**. Klikken op een preset stelt de datumvelden automatisch in en laadt de data. Er kan nog gekozen worden voor custom data.
+
+- **Nieuw: 404-pagina's kaart**: Een nieuwe kaart toont de top 25 URLs die een 404-fout veroorzaakten in de geselecteerde periode. Gebaseerd op een nieuwe `not_found_logs`-tabel die bij elke `NotFoundHttpException` de oorspronkelijke URL vastlegt (vóór de redirect naar `/404`).
+  - Nieuwe migratie: `2026_04_25_100002_create_not_found_logs_table.php`.
+  - `App\Exceptions\Handler` logt voortaan de originele URL naar `not_found_logs` bij elke 404.
+  - Nieuw model: `App\Models\NotFoundLog`.
+
+- **Nieuw: Zoekopdrachten op de site**: Een nieuwe kaart toont de top 25 zoektermen ingevoerd via `?q=` op de publieke website. De termen worden live opgehaald uit de reeds bijgehouden `page_visits.url`-kolom (geen extra database-opslag nodig).
+
+- **`/404` uitgesloten van populaire pagina's**: De `/404`-redirect-URL wordt niet meer getoond in de "Populaire pagina's"-tabel, net als de bestaande uitsluiting van `cart/*`.
+
+- **Controller volledig herwerkt voor array-filters**: Alle dashboard-methoden (`getKpis`, `getVisitorsOverTime`, `getSourceSplit`, `getDeviceSplit`, `getCampaigns`, `getKeywords`, `getPopularPages`, `getConversionStats`) accepteren nu een `array $filters` met `sources`, `mediums`, `campaigns` en `terms` in plaats van een enkele `string $source`.
+  - Nieuw: `scopeForUtmFilters()` scope op `PageVisit`-model voor efficiënte DB-filtering op alle vier UTM-dimensies.
+  - Nieuw: `filterItemsByUtm()` helper voor filteren van geattribueerde `OrderItem`-collecties.
+  - Nieuw: `getFilterOptions()` haalt unieke UTM-waarden op voor de dropdownopties.
+
+---
+
+### ✨ E-mailsjablonen — Automatisch UTM-tagging van knoplinks
+
+- **Auto-tagging bij opslaan**: Wanneer een e-mailsjabloon wordt opgeslagen en de `action_link` nog geen `utm_source`-parameter bevat, worden automatisch de volgende UTM-parameters toegevoegd:
+  - `utm_source=VUadmin`
+  - `utm_medium=email`
+  - `utm_campaign=<action_description van het sjabloon>`
+  - `utm_term=<action_text zonder Blade-tags en HTML>`
+- De logica staat in `Emailtemplate::boot()` via een `saving`-event en werkt voor alle bronnen (beheerinterface, artisan, enz.).
+- Uitzonderingen: lege `action_link`, links die al getagd zijn (idempotent), en pure Blade-expressies zoals `{{ $evaluationUrl }}` (onveranderd gelaten).
+
+---
+
+### ✨ Marketing Dashboard — Verbeteringen
+
+- **E-mails gegroepeerd op sjabloon-ID**: E-mails in het dashboard worden nu correct gegroepeerd op `emailtemplate_id` (één rij per sjabloon). Als naam wordt de `action_description` van het sjabloon getoond in plaats van het onderwerp.
+
+- **`cart/*`-pagina's uitgesloten van populaire pagina's**: URLs die beginnen met `cart/` worden niet meer meegenomen in de "Populaire pagina's"-tabel.
+
+- **Populaire pagina's: filter op type**: De "Populaire pagina's"-kaart heeft filterknoppen gekregen: **Alle / Pagina's / Cursussen / Collectie**. Klikken filtert de lijst direct zonder nieuwe API-aanroep.
+
+- **Cursustitels correct weergegeven**: Meertalige cursustitels (opgeslagen als `{"nl": "..."}`) worden nu altijd als leesbare Nederlandse naam getoond.
+
+- **UTM én MTM (Matomo) parameters correct verwerkt**:
+  - `TrackPageVisit`-middleware slaat nu ook `mtm_source`, `mtm_medium`, `mtm_campaign`, `mtm_term` en `mtm_content` op als fallback op de UTM-kolommen.
+  - Verkeersbronnen, campagnes en zoektermen in het dashboard herkennen beide parameterformaten.
+  - `utm_medium = cpc` wordt als enige definitie van betaald verkeer gebruikt — overige media-waarden zijn verwijderd.
+
+- **Bronfilter correct**: De `scopeForSource`-scope in `PageVisit` werkte niet correct door losstaande `orWhereIn`-aanroepen die buiten de datumrange vielen. Alle condities zijn nu verpakt in sluitingen zodat de AND/OR-logica correct is.
+
+- **Nieuwsbrief niet als betaald kanaal**: `utm_source = newsletter` wordt nooit als betaald verkeer geclassificeerd, ook niet bij `utm_medium = cpc`.
+
+---
+
+### ✨ Marketing Dashboard — Eerste versie
 
 - **Nieuw: Marketing Dashboard** (`/admin/marketing`): Een apart beheer-dashboard met basisstatistieken voor marketeers. Zichtbaar voor gebruikers met de rechten `Marketing Dashboard`.
 
