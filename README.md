@@ -1,6 +1,6 @@
 # VUAdmin Updates
 
-## Week van 11 tot 17 mei 2026
+## Week van 4 tot 10 mei 2026
 
 ### 💸 Gespreide betaling (termijnen) — Checkout stap 2
 
@@ -12,21 +12,12 @@ Cursussen kunnen voortaan worden aangeboden met de mogelijkheid om in termijnen 
 - Bij betaling via Mollie wordt het correcte termijnbedrag doorgestuurd.
 - Bij hernavigatie naar stap 2 wordt de eerder gemaakte keuze automatisch teruggezet.
 
----
 
-## Week van 4 tot 10 mei 2026
+### 🎨 Amsterdam thema — Diverse fixes en verbeteringen
 
-### 🎓 Cursusdetailpagina — Startdatum toont tijd van eerste les
-
-Bij de selectie van een startdatum op de cursusdetailpagina wordt nu naast de datum ook de **begin- en eindtijd van de eerste les** getoond (bijv. `12-05-2026 09:00–11:00`). De programmatitel is verwijderd uit dit overzicht.
-
-### 🃏 Cursuskaarten — Titel toont maximaal 3 regels
-
-De cursustitel op cursuskaarten (aanbodoverzicht) wordt nu afgekapt na **3 regels**, met een ellipsis voor langere titels. Eerder werd 2,5 regel getoond.
-
-### 📧 Footer nieuwsbrieflabels — Betere uitlijning
-
-De labels in de nieuwsbriefinschrijfformulier in de footer waren te laag gepositioneerd. Ze worden nu correct verticaal gecentreerd in het invoerveld.
+  - Cursusdetailpagina — Startdatum toont tijd van eerste les: Bij de selectie van een startdatum op de cursusdetailpagina wordt nu naast de datum ook de **begin- en eindtijd van de eerste les** getoond (bijv. `12-05-2026 09:00–11:00`). De programmatitel is verwijderd uit dit overzicht.
+  - De cursustitel op cursuskaarten (aanbodoverzicht) wordt nu afgekapt na **3 regels**, met een ellipsis voor langere titels. Eerder werd 2,5 regel getoond.
+  - De labels in de nieuwsbriefinschrijfformulier in de footer waren te laag gepositioneerd. Ze worden nu correct verticaal gecentreerd in het invoerveld.
 
 ---
 
@@ -39,10 +30,7 @@ Wanneer een klant terugnavigeerde naar stap 1 (winkelwagen/contactgegevens) nada
 - Het bedrijfsveld klapt automatisch open als er eerder een bedrijfsnaam was ingevuld.
 - Bij opnieuw indienen van stap 1 worden de **bestelling en studentgegevens bijgewerkt** in plaats van een nieuwe bestelling aan te maken.
 - De winkelwagen toont een **"Je winkelwagen is leeg"**-melding als er geen items zijn, in plaats van het contactformulier.
-
-### 💳 Betaalwijze — iDEAL / WERO
-
-De betaaloptie "direct betalen" toont nu **iDEAL / WERO** in plaats van alleen iDEAL.
+- De betaaloptie "direct betalen" toont nu **iDEAL / WERO** in plaats van alleen iDEAL.
 
 ### 🧾 Pro forma factuur — Meerdere deelnemers en correct ordernummer
 
