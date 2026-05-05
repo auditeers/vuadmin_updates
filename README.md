@@ -1,6 +1,134 @@
 # VUAdmin Updates
 
+## Week van 11 tot 17 mei 2026
+
+### 💸 Gespreide betaling (termijnen) — Checkout stap 2
+
+Cursussen kunnen voortaan worden aangeboden met de mogelijkheid om in termijnen te betalen. Dit is per cursus instelbaar via het admin-panel (veld "Termijnbetaling").
+
+- In **stap 2 van het afrekenproces** (deelnemersgegevens) verschijnt automatisch een keuzelijst bij cursussen die termijnbetaling ondersteunen — maar alleen wanneer **niet op factuur** betaald wordt.
+- De opties zijn: **"Betaal het volledige bedrag"** of **"Betaal in X delen"** (waarbij X het aantal termijnen is dat voor die cursus is ingesteld).
+- De gekozen betaaloptie wordt opgeslagen per inschrijving en werkt door in de **overzichtspagina** (stap 3), waar het te betalen bedrag dienovereenkomstig wordt aangepast.
+- Bij betaling via Mollie wordt het correcte termijnbedrag doorgestuurd.
+- Bij hernavigatie naar stap 2 wordt de eerder gemaakte keuze automatisch teruggezet.
+
+---
+
+## Week van 4 tot 10 mei 2026
+
+### 🎓 Cursusdetailpagina — Startdatum toont tijd van eerste les
+
+Bij de selectie van een startdatum op de cursusdetailpagina wordt nu naast de datum ook de **begin- en eindtijd van de eerste les** getoond (bijv. `12-05-2026 09:00–11:00`). De programmatitel is verwijderd uit dit overzicht.
+
+### 🃏 Cursuskaarten — Titel toont maximaal 3 regels
+
+De cursustitel op cursuskaarten (aanbodoverzicht) wordt nu afgekapt na **3 regels**, met een ellipsis voor langere titels. Eerder werd 2,5 regel getoond.
+
+### 📧 Footer nieuwsbrieflabels — Betere uitlijning
+
+De labels in de nieuwsbriefinschrijfformulier in de footer waren te laag gepositioneerd. Ze worden nu correct verticaal gecentreerd in het invoerveld.
+
+---
+
+### 🛒 Checkout stap 1 — Verbeterde terugnavigatie en pre-fill
+
+Wanneer een klant terugnavigeerde naar stap 1 (winkelwagen/contactgegevens) nadat er al een bestelling was aangemaakt, werd hij eerder automatisch doorgestuurd naar stap 2. Dat is aangepast:
+
+- **Stap 1 toont nu altijd het formulier**, ook als er al een bestelling bestaat voor deze winkelwagen.
+- Alle ingevulde gegevens worden **automatisch teruggezet**: naam, e-mail, geboortedatum, telefoonnummer, adres én alle bedrijfsgegevens inclusief de eerder gekozen betaalwijze.
+- Het bedrijfsveld klapt automatisch open als er eerder een bedrijfsnaam was ingevuld.
+- Bij opnieuw indienen van stap 1 worden de **bestelling en studentgegevens bijgewerkt** in plaats van een nieuwe bestelling aan te maken.
+- De winkelwagen toont een **"Je winkelwagen is leeg"**-melding als er geen items zijn, in plaats van het contactformulier.
+
+### 💳 Betaalwijze — iDEAL / WERO
+
+De betaaloptie "direct betalen" toont nu **iDEAL / WERO** in plaats van alleen iDEAL.
+
+### 🧾 Pro forma factuur — Meerdere deelnemers en correct ordernummer
+
+De pro forma factuur die bij een zakelijke bestelling (op factuur) wordt meegestuurd is herzien:
+
+- **Één factuur per bestelling**: er wordt nu één e-mail met bijlage verstuurd voor de volledige bestelling, in plaats van een aparte e-mail per inschrijving.
+- **Ordernummer correct**: de factuur toont nu het juiste ordernummer (`ordernr`) van de bestelling.
+- **Deelnemer per regel**: de factuurlijst bevat een extra kolom "Deelnemer" zodat bij elke cursusregel direct zichtbaar is voor wie de inschrijving geldt.
+- **"Cursist" uit de aanhef verwijderd**: de cursistnaam in de adresregel staat nu direct onder het bedrijfsadres, zonder apart kopje.
+- **Kortingsregels per item**: kortingen worden correct per inschrijvingsregel verwerkt.
+
+---
+
+### 📎 E-maillog — bijlagen zichtbaar en downloadbaar
+
+E-mails die met een bijlage worden verstuurd worden nu ook als zodanig vastgelegd in het e-maillog.
+
+- Het e-maillog slaat het pad naar de bijlage op wanneer een e-mail met bijlage wordt verstuurd.
+- Op de detailpagina van een e-maillogbericht verschijnt een **"Bijlage downloaden"**-knop als de e-mail een bijlage had.
+- Bij het opnieuw verzenden van een e-mail wordt de bijlage automatisch opnieuw meegestuurd.
+
+Ondersteunde e-mails met bijlagen:
+- **Nieuwe cursist** — bijlage uit het e-mailsjabloon (bijv. welkomstbrief)
+- **Factuur** — factuur-PDF
+- **Gecombineerde factuur** — gecombineerde factuur-PDF
+- **Bedrijfsfactuur** — gegenereerde offerte-PDF
+
+---
+
+### 🏢 Bedrijfsfacturatie — Volledig vernieuwd checkout-proces
+
+Bij het afrekenen kunnen bedrijven nu alle facturatiegegevens direct invullen in stap 1, en kiezen hoe ze willen betalen.
+
+**Stap 1 — Bedrijfsgegevens**
+
+- Wanneer een bedrijfsnaam wordt ingevuld, verschijnt automatisch een uitklapblok met aanvullende velden: e-mailadres (voor de factuur), BTW-nummer, contactpersoon, bedrijfsadres (straat, postcode, plaatsnaam), referentie/kostenplaats en PO-nummer/inkoopnummer.
+- De gebruiker kiest hier ook de betaalwijze: **direct betalen via iDEAL** of **op factuur**.
+- Bij keuze "op factuur" wordt het e-mailadres verplicht (factuur wordt hiernaar verstuurd).
+- Alle velden worden opgeslagen bij het aanmaken van de bestelling.
+
+**Stap 2 — Deelnemersgegevens**
+
+- Geen wijzigingen.
+
+**Stap 3 — Overzicht**
+
+- Bedrijfsgegevens worden getoond als alleen-lezen overzicht: naam, e-mail, BTW, contactpersoon, adres, referentie, PO-nummer en betaalwijze.
+- Inschrijvingen die op factuur worden betaald tonen een paars **"Betaling: Op factuur"**-label.
+- Totaalblok toont een aparte regel **"Op factuur: €XX"** naast het direct te betalen bedrag.
+
+**Betaalrouting**
+
+- **Direct (iDEAL)**: bedrijfsnaam wordt opgeslagen bij de inschrijving, maar betaling verloopt gewoon via Mollie.
+- **Op factuur**: factuur wordt automatisch per e-mail verstuurd naar het opgegeven bedrijfse-mailadres. De inschrijving gaat **niet** door Mollie.
+
+**Nieuwe instelling: "Bedrijfsfactuur: plaatsingsstatus"**
+
+Beheerders kunnen via *Instellingen → Betalingen* kiezen wat er gebeurt met inschrijvingen die op factuur worden betaald:
+
+- **Na ontvangst betaling** *(standaard)*: inschrijving blijft op "open" staan totdat een beheerder handmatig bevestigt dat de bankbetaling is ontvangen.
+- **Direct geplaatst**: inschrijving wordt direct als bevestigd beschouwd; de factuur dient dan puur als boekhoudkundig document.
+
+---
+
 ## Week van 27 april tot 3 mei 2026
+
+### 🧹 Opruimen achter de schermen
+
+- **Producten krijgen altijd een unieke webadres**: Twee producten met dezelfde naam kregen soms hetzelfde webadres, waardoor één van de twee niet bereikbaar was. Dit wordt nu automatisch voorkomen.
+- **Verouderde en ongebruikte onderdelen verwijderd**: Een aantal velden en opties die nooit in gebruik zijn genomen zijn opgeruimd. Dit heeft geen invloed op de werking van de site, maar houdt het systeem overzichtelijk en sneller.
+
+---
+
+### ✨ Financial Dashboard
+
+Nieuw dashboard op `/admin/financial` voor een financieel overzicht per grootboekrekening.
+
+- **Omzet per Grootboekrekening**: Toont gefactureerde bedragen per grootboek (cursusinschrijvingen én productverkopen), uitgesplitst naar BTW-tarief, met kolommen excl. BTW, BTW-bedrag en incl. BTW.
+- **Betalingen per Grootboekrekening**: Toont ontvangen betalingen per betaalmethode/grootboek (op basis van `payment_methods.grootboeknummer`), inclusief terugbetalingen en nettobedrag.
+- **BTW Overzicht**: Volledige BTW-splitsing per tarief — zowel gefactureerd als ontvangen, excl./BTW/incl. naast elkaar.
+- **Omzet per dag**: Lijndiagram (Chart.js) met dagelijkse ontvangen omzet incl. en excl. BTW.
+- **Openstaande Posten**: Overzicht van alle onbetaalde facturen, ingedeeld in leeftijdsbuckets (0–30, 30–60, 60–90, >90 dagen) met kleurcodering.
+- **Datumfilter**: Datumkiezer met snelknoppen (7d, 30d, deze maand, vorige maand, dit jaar). Standaard ingesteld op de huidige maand.
+
+
+---
 
 ### 🐛 Bugfixes
 
