@@ -1,23 +1,86 @@
 # VUAdmin Updates
 
+## Week van 11 tot 17 mei 2026
+
+### 🐛 Bugfixes
+
+- **Admin — "Deblokkeer"-knop geeft JSON-fout op productie**
+- **Admin — Hardgecodeerde Backpack-prefix in `cancel2.blade.php`**: De "Verwijder"-knop in de inschrijvingenlijst had een hardgecodeerd pad.
+- **Uitzonderingsafhandeling — Redirect naar `/404` voor AJAX-verzoeken**: De globale 404-afhandeling stuurde alle niet-gevonden verzoeken (inclusief AJAX) door naar `/404`, wat resulteerde in een HTML-respons waar JSON verwacht werd. AJAX-verzoeken (`Accept: application/json`) worden nu doorgestuurd naar de standaard Laravel JSON-foutafhandeling.
+
+### ✨ Nieuw & Verbeterd
+
+- **Security, Marketing & Financial Dashboard — Paginering in tabellen**: Alle lange lijsten in de drie dashboards worden nu gepagineerd weergegeven met maximaal 25 items per pagina, met een pager die het huidige bereik toont ("X–Y van Z") en knoppen om te navigeren. Geldt voor: 404-pagina's, aanvalspaden, geblokkeerde IPs, mislukte inlogpogingen, campagnes, zoektermen, populaire pagina's, verwijzende domeinen en openstaande posten.
+- **Theme — 500-fout bij ontbrekend menu**: Wanneer een menu-slug (bijv. `top1` of `top2`) niet bestaat in de database, gaf het theme een 500-fout (`Attempt to read property "rootItems" on null`). `VuMenuService::get()` geeft nu een leeg `VuMenu`-object terug als er geen menu gevonden wordt, zodat alle themes hier automatisch tegen beschermd zijn.
+- **Theme — 500-fout in `<head>` zonder paginaelement**: De `Head`-component had `$element = ''` als standaardwaarde, waardoor de nullsafe `?->` operatoren in de blade werden omzeild en PHP probeerde een property op een string te lezen (`Attempt to read property "seo_title" on string`). Standaardwaarde is nu `null`, waardoor alle themes correct werken wanneer geen element meegegeven wordt.
+
+### ✨ Nieuw & Verbeterd
+
+- **Beveiliging — Geblokkeerde IPs ook geblokkeerd in de beheeromgeving**
+
+- **Bedrijfsfactuur — Betaallink via Mollie**: De proforma factuur die naar het bedrijf wordt verstuurd bevat nu een **"Betaal factuur"**-knop die direct linkt naar een betaalpagin.
+  - De knop leidt naar Mollie, waar het totale openstaande bedrag voor alle inschrijvingen in de bestelling in één keer betaald kan worden.
+  - Na succesvolle betaling worden automatisch per inschrijving facturen aangemaakt en verstuurd naar het bedrijfse-mailadres.
+  - De betaallink is altijd actief zolang er nog openstaande inschrijvingen (`open` / `betaling`) in de bestelling staan. Als alles al betaald is, wordt doorverwezen naar de bevestigingspagina.
+
+- **Beschikbaarheidscheck bij zakelijke betaallink**: Wanneer een bedrijf de betaallink volgt (die soms weken na de aanmelding verstuurd of gebruikt wordt), controleert het systeem eerst of de cursussen nog beschikbaar zijn.
+  - **Programma volgeboekt**: de inschrijving wordt verplaatst naar de wachtlijst (`wachtlijst`) en uitgesloten van de betaling.
+  - **Programma gesloten**: de inschrijving wordt gemarkeerd als `seintje` (wachtlijst ook vol) en uitgesloten.
+  - Als alle inschrijvingen in de bestelling niet meer beschikbaar zijn, wordt de betaling geblokkeerd met een duidelijke foutmelding.
+  - Beschikbare inschrijvingen gaan gewoon door; het Mollie-bedrag wordt automatisch aangepast op alleen de nog beschikbare items.
+
+- **Bevestigingse-mail — Termijninformatie**: De bevestigingse-mail die naar de koper wordt verstuurd toont nu duidelijk de termijninformatie wanneer voor gespreide betaling is gekozen.
+  - Per cursusregel wordt het termijnbedrag getoond (1e termijn) met ondertitel "1e termijn van N · totaalprijs €X".
+  - In het totaalblok onderaan: "Nu betaald: €X" en "Resterend te betalen: €Y (wordt later gefactureerd)".
+
+### 🎨 Thema-updates (alle thema's)
+
+- **Proforma factuur — Schrijfwijze gecorrigeerd**: "Pro forma" is aangepast naar de correcte Nederlandse schrijfwijze "Proforma" in alle PDF-templates (amsterdam, utrecht, breda, westvoorne, demo).
+
+- **Proforma factuur — Starttijd eerste les toegevoegd**: Op de proforma factuur wordt nu achter de startdatum ook de start- en eindtijd van de eerste les getoond (bijv. `start 15-09-2026 09:30–12:30`).
+
+### 🎨 Thema-updates Amsterdam
+
+- **Checkout stap 3 — "Later te betalen €0" bij factuurbetalers**: In het besteloverzicht werd de regel "Later te betalen" ook getoond bij klanten die volledig op factuur betalen, met een bedrag van €0. Deze regel wordt nu alleen getoond wanneer er daadwerkelijk een resterend bedrag te betalen is.
+- **Checkout stap 1 — Zakelijke bestelling verplichte velden**: Bij het aanvinken van "Dit is een zakelijke bestelling" zijn de volgende velden nu verplicht: Bedrijfsnaam, E-mailadres, Bedrijfsadres, Postcode en Plaatsnaam. De velden tonen een `*` zodra het checkbox wordt aangevinkt en worden automatisch verplicht/niet-verplicht bij het aan- en uitvinken.
+- **Checkout stap 2 — Cursusinformatie in rechterkolom**: In de rechterkolom van stap 2 (deelnemersgegevens) wordt per inschrijving nu de **startdatum**, **start- en eindtijd van de eerste les** en de **locatienaam** getoond in plaats van de programmacode en startdatum
+- **Header — Gebruikersicoon naar student-dashboard**: Het gebruikersicoon in de header linkt nu naar `/student/dashboard` wanneer de bezoeker al ingelogd is als student, en naar `/student/login` wanneer dat niet het geval is.
+
+---
+
 ## Week van 4 tot 10 mei 2026
 
-### 💸 Gespreide betaling (termijnen) — Checkout stap 2
+### ✨ Nieuw & Verbeterd
 
-Cursussen kunnen voortaan worden aangeboden met de mogelijkheid om in termijnen te betalen. Dit is per cursus instelbaar via het admin-panel (veld "Termijnbetaling").
+- **Beveiligingssysteem — Automatische IP-blokkering bij aanvalspogingen**: Het platform detecteert nu bekende kwetsbaarheidsscans en hackaanvallen en blokkeert aanvallende IP-adressen automatisch.
+  - **Aanvalspatronen**: ruim 70 bekende aanvalspaden worden herkend
+  - **Auto-blokkering**: een IP-adres dat binnen 60 minuten 5 of meer aanvalspogingen doet, wordt automatisch permanent geblokkeerd.
+  - **Marketing Dashboard — Beveiligingsoverzicht**: het marketing dashboard toont nu een beveiligingssectie met aanvalsstatistieken (totaal, unieke IPs, auto-geblokkeerd in de periode), de lijst van alle geblokkeerde IP-adressen met reden, type (auto/handmatig) en status, en een formulier om IPs handmatig te blokkeren of deblokkeren.
+  - **Marketing Dashboard — 404-pagina's**: aanvalsverzoeken in de 404-tabel worden rood gemarkeerd met een ⚠-icoon en een badge met het totaal aantal aanvalsverzoeken in de geselecteerde periode.
+- **Gespreide betaling (termijnen) — Checkout stap 2**: Cursussen kunnen voortaan worden aangeboden met de mogelijkheid om in termijnen te betalen. Dit is per cursus instelbaar via het admin-panel (veld "Termijnbetaling").
+  - In **stap 2 van het afrekenproces** (deelnemersgegevens) verschijnt automatisch een keuzelijst bij cursussen die termijnbetaling ondersteunen — maar alleen wanneer **niet op factuur** betaald wordt.
+  - De opties zijn: **"Betaal het volledige bedrag"** of **"Betaal in X delen"** (waarbij X het aantal termijnen is dat voor die cursus is ingesteld).
+  - De gekozen betaaloptie wordt opgeslagen per inschrijving en werkt door in de **overzichtspagina** (stap 3), waar het te betalen bedrag dienovereenkomstig wordt aangepast.
+  - Bij betaling via Mollie wordt het correcte termijnbedrag doorgestuurd.
+  - Bij hernavigatie naar stap 2 wordt de eerder gemaakte keuze automatisch teruggezet.
 
-- In **stap 2 van het afrekenproces** (deelnemersgegevens) verschijnt automatisch een keuzelijst bij cursussen die termijnbetaling ondersteunen — maar alleen wanneer **niet op factuur** betaald wordt.
-- De opties zijn: **"Betaal het volledige bedrag"** of **"Betaal in X delen"** (waarbij X het aantal termijnen is dat voor die cursus is ingesteld).
-- De gekozen betaaloptie wordt opgeslagen per inschrijving en werkt door in de **overzichtspagina** (stap 3), waar het te betalen bedrag dienovereenkomstig wordt aangepast.
-- Bij betaling via Mollie wordt het correcte termijnbedrag doorgestuurd.
-- Bij hernavigatie naar stap 2 wordt de eerder gemaakte keuze automatisch teruggezet.
 
+### 🐛 Bugfixes
 
-### 🎨 Amsterdam thema — Diverse fixes en verbeteringen
+- **Blog-pagina geeft 404 bij thema zonder blogweergaven**: Op thema's die geen blogweergaven bevatten (zoals Utrecht) gaf de blog-index en detailpagina een 500-fout (`View [blog_index] not found`). De `BlogController` controleert nu eerst of de view bestaat en retourneert een nette 404 als dat niet het geval is.
 
-  - Cursusdetailpagina — Startdatum toont tijd van eerste les: Bij de selectie van een startdatum op de cursusdetailpagina wordt nu naast de datum ook de **begin- en eindtijd van de eerste les** getoond (bijv. `12-05-2026 09:00–11:00`). De programmatitel is verwijderd uit dit overzicht.
-  - De cursustitel op cursuskaarten (aanbodoverzicht) wordt nu afgekapt na **3 regels**, met een ellipsis voor langere titels. Eerder werd 2,5 regel getoond.
-  - De labels in de nieuwsbriefinschrijfformulier in de footer waren te laag gepositioneerd. Ze worden nu correct verticaal gecentreerd in het invoerveld.
+- **Menuitems met pad als waarde gaven 500-fout**: Menuitems van het type `internal` waarbij de waarde een URL-pad is (bijv. `collectie/zomerweken`) in plaats van een routenaam veroorzaakten een `RouteNotFoundException` en crashten de pagina. `VuMenuItem::url()` vangt deze uitzondering nu op en behandelt de waarde als een URL-pad.
+
+- **Betaallink-command crasht bij verwijderde cursus**: Het `vu:paymentlinks` Artisan-commando crashte met `Attempt to read property "firstname" on null` wanneer een orderregel verwees naar een cursus die niet meer bestaat. Het commando slaat zulke orderregels nu over en logt een waarschuwing.
+
+### 🎨 Thema-updates Amsterdam
+
+- **Cursuskaarten — Titel toont maximaal 3 regels**: De cursustitel op cursuskaarten (aanbodoverzicht) wordt nu afgekapt na **3 regels**, met een ellipsis voor langere titels. Eerder werd 2,5 regel getoond.
+
+- **Footer nieuwsbrieflabels — Betere uitlijning**: De labels in de nieuwsbriefinschrijfformulier in de footer waren te laag gepositioneerd. Ze worden nu correct verticaal gecentreerd in het invoerveld.
+
+- **Cursusdetailpagina — Startdatum toont tijd van eerste les**: Bij de selectie van een startdatum op de cursusdetailpagina wordt nu naast de datum ook de **begin- en eindtijd van de eerste les** getoond (bijv. `12-05-2026 09:00–11:00`). De programmatitel is verwijderd uit dit overzicht.
+
 
 ---
 
@@ -30,7 +93,10 @@ Wanneer een klant terugnavigeerde naar stap 1 (winkelwagen/contactgegevens) nada
 - Het bedrijfsveld klapt automatisch open als er eerder een bedrijfsnaam was ingevuld.
 - Bij opnieuw indienen van stap 1 worden de **bestelling en studentgegevens bijgewerkt** in plaats van een nieuwe bestelling aan te maken.
 - De winkelwagen toont een **"Je winkelwagen is leeg"**-melding als er geen items zijn, in plaats van het contactformulier.
-- De betaaloptie "direct betalen" toont nu **iDEAL / WERO** in plaats van alleen iDEAL.
+
+### 💳 Betaalwijze — iDEAL / WERO
+
+De betaaloptie "direct betalen" toont nu **iDEAL / WERO** in plaats van alleen iDEAL.
 
 ### 🧾 Pro forma factuur — Meerdere deelnemers en correct ordernummer
 
@@ -97,26 +163,19 @@ Beheerders kunnen via *Instellingen → Betalingen* kiezen wat er gebeurt met in
 
 ## Week van 27 april tot 3 mei 2026
 
-### 🧹 Opruimen achter de schermen
+### ✨ Nieuw & Verbeterd
 
-- **Producten krijgen altijd een unieke webadres**: Twee producten met dezelfde naam kregen soms hetzelfde webadres, waardoor één van de twee niet bereikbaar was. Dit wordt nu automatisch voorkomen.
-- **Verouderde en ongebruikte onderdelen verwijderd**: Een aantal velden en opties die nooit in gebruik zijn genomen zijn opgeruimd. Dit heeft geen invloed op de werking van de site, maar houdt het systeem overzichtelijk en sneller.
+- **Financial Dashboard**: Nieuw dashboard op `/admin/financial` voor een financieel overzicht per grootboekrekening.
+  - **Omzet per Grootboekrekening**: Toont gefactureerde bedragen per grootboek (cursusinschrijvingen én productverkopen), uitgesplitst naar BTW-tarief, met kolommen excl. BTW, BTW-bedrag en incl. BTW.
+  - **Betalingen per Grootboekrekening**: Toont ontvangen betalingen per betaalmethode/grootboek (op basis van `payment_methods.grootboeknummer`), inclusief terugbetalingen en nettobedrag.
+  - **BTW Overzicht**: Volledige BTW-splitsing per tarief — zowel gefactureerd als ontvangen, excl./BTW/incl. naast elkaar.
+  - **Omzet per dag**: Lijndiagram (Chart.js) met dagelijkse ontvangen omzet incl. en excl. BTW.
+  - **Openstaande Posten**: Overzicht van alle onbetaalde facturen, ingedeeld in leeftijdsbuckets (0–30, 30–60, 60–90, >90 dagen) met kleurcodering.
+  - **Datumfilter**: Datumkiezer met snelknoppen (7d, 30d, deze maand, vorige maand, dit jaar). Standaard ingesteld op de huidige maand.
 
----
-
-### ✨ Financial Dashboard
-
-Nieuw dashboard op `/admin/financial` voor een financieel overzicht per grootboekrekening.
-
-- **Omzet per Grootboekrekening**: Toont gefactureerde bedragen per grootboek (cursusinschrijvingen én productverkopen), uitgesplitst naar BTW-tarief, met kolommen excl. BTW, BTW-bedrag en incl. BTW.
-- **Betalingen per Grootboekrekening**: Toont ontvangen betalingen per betaalmethode/grootboek (op basis van `payment_methods.grootboeknummer`), inclusief terugbetalingen en nettobedrag.
-- **BTW Overzicht**: Volledige BTW-splitsing per tarief — zowel gefactureerd als ontvangen, excl./BTW/incl. naast elkaar.
-- **Omzet per dag**: Lijndiagram (Chart.js) met dagelijkse ontvangen omzet incl. en excl. BTW.
-- **Openstaande Posten**: Overzicht van alle onbetaalde facturen, ingedeeld in leeftijdsbuckets (0–30, 30–60, 60–90, >90 dagen) met kleurcodering.
-- **Datumfilter**: Datumkiezer met snelknoppen (7d, 30d, deze maand, vorige maand, dit jaar). Standaard ingesteld op de huidige maand.
-
-
----
+- **Opruimen achter de schermen**:
+  - **Producten krijgen altijd een unieke webadres**: Twee producten met dezelfde naam kregen soms hetzelfde webadres, waardoor één van de twee niet bereikbaar was. Dit wordt nu automatisch voorkomen.
+  - **Verouderde en ongebruikte onderdelen verwijderd**: Een aantal velden en opties die nooit in gebruik zijn genomen zijn opgeruimd. Dit heeft geen invloed op de werking van de site, maar houdt het systeem overzichtelijk en sneller.
 
 ### 🐛 Bugfixes
 
@@ -130,191 +189,16 @@ Nieuw dashboard op `/admin/financial` voor een financieel overzicht per grootboe
 
 - **Bevestigingse-mail bij directe plaatsing werd dubbel verstuurd (Westvoorne)**: Bij directe plaatsing (geen Mollie-betaling) en na de Mollie-webhook werd de bevestigingse-mail twee keer verstuurd. De dubbele aanroepen zijn verwijderd; de model observer handelt dit nu volledig af.
 
----
+### 🎨 Thema-updates
 
-### 🎨 Westvoorne thema — Filters cursusoverzicht en collectiepagina's werken nu correct
-
-- **`beschikbaar` → `available`**: De filterdropdown had de verkeerde parameternaam (`beschikbaar`), waardoor dit filter volledig werd genegeerd door de backend. Hernoemd naar `available`.
-- **Geselecteerde categorie blijft zichtbaar**: De collectie-dropdown toonde nooit de actief geselecteerde optie — `selected` attribuut toegevoegd.
-- **Locatiefilter toegevoegd**: De `$locations`-variabele werd al door de controller meegegeven maar nooit getoond. Een locatiedropdown (op stad) is nu zichtbaar in het filter.
-
----
-
-## Week van 20 to 26 april 2026
-
-### 🎨 Amsterdam thema — Diverse fixes en verbeteringen
-
-- **Mobiel zoekformulier**: De zoekbalk in het mobiele menu heeft nu `action="/cursussen"`, `method="GET"` en `name="q"`, identiek aan het desktopformulier. De zoekknop submit het formulier.
-- **CTA halfbreed — mobiel**: Complexe flex/negatieve-marge layout vervangen door de normale Bootstrap grid-stacking. `.offers-img` krijgt een expliciete hoogte zodat de achtergrondafbeelding zichtbaar blijft. Cirkel (`.offers-content`) blijft `position: absolute` in de hoek.
-- **CTA halfbreed — cirkelgrootte mobiel**: Cirkel vergroot naar 185×185px (was 155px), afbeeldingshoogte naar 220px voor betere proporties en ruimte voor de knop.
-- **Sortering cursusoverzicht**: `?sort=` parameter werkt nu correct. Sortering wordt nu toegepast vóór het samenstellen van `$allItems`, zodat beide variabelen de juiste volgorde weerspiegelen.
-- **Nieuwsslider — gelijke hoogte**: Alle nieuwskaarten in de slider hebben nu dezelfde hoogte via flexbox op `.slick-track`, `.slick-slide` en `.news-item`. Knop "Lees meer" staat altijd onderaan.
-- **`.basic-details p`**: Paragrafen binnen `.basic-details` blokken hebben nu `margin-bottom: 0`.
-- **Passieve event listener fout (Slick)**: `EventTarget.prototype.addEventListener` gepatcht zodat `touchstart`/`touchmove` altijd als `passive: false` worden geregistreerd — lost de `preventDefault`-waarschuwing van Slick op.
-- **Bloktitel hoogte (`.online-offer-title-block`)**: Inline stijl `min-height: 3em; line-height: 1.5em; overflow: hidden` verplaatst van HTML naar CSS als klasse `.online-offer-title-block`. Op mobiel (`max-width: 767px`) vergroot naar `min-height: 5em`.
-- **Statustag cursusblok**: `<a href="#">` vervangen door `<span>` met klasse `.btn-red-border`. `.btn-red-border` gestyled als pill (`border-radius: 50px`, `width: auto`, `min-width: 90px`, `padding: 3px 14px`, `font-size: 11px`).
-- **Megamenu mobiel — container breedte**: `.container` binnen het megamenu dropdown krijgt op mobiel (`max-width: 767px`) `max-width: 100%; padding: 0` zodat het dezelfde breedte heeft als de andere menu-items.
-- **Megamenu mobiel — driekoloms grid**: Grid op `.list-group-content ul` verplaatst van `@media (min-width: 768px)` naar `@media (min-width: 992px)` zodat het alleen actief is als de `col-lg-*` kolommen ook naast elkaar staan.
-- **Megamenu mobiel — lege panelen**: Klik op een item zonder subpagina's toont niet langer een leeg paneel. De click handler controleert nu of het doelpaneel bestaat; zo niet, wordt de link gewoon gevolgd.
-- **Megamenu mobiel — lettertypes**: Alle tekst in het mobiele megamenu gebruikt nu consistent `"DM Sans", sans-serif` op `13px`. `.back-btn` gebruikte `'AvenirNextDemiBold'`, `.block-title` en sublinks hadden geen fallback of verkeerde grootte — allemaal gecorrigeerd.
+- **Westvoorne — Filters cursusoverzicht en collectiepagina's werken nu correct**:
+  - **`beschikbaar` → `available`**: De filterdropdown had de verkeerde parameternaam (`beschikbaar`), waardoor dit filter volledig werd genegeerd door de backend. Hernoemd naar `available`.
+  - **Geselecteerde categorie blijft zichtbaar**: De collectie-dropdown toonde nooit de actief geselecteerde optie — `selected` attribuut toegevoegd.
+  - **Locatiefilter toegevoegd**: De `$locations`-variabele werd al door de controller meegegeven maar nooit getoond. Een locatiedropdown (op stad) is nu zichtbaar in het filter.
 
 ---
 
-### ✨ Zoekresultaten — Producten verschijnen nu ook bij cursuszoekopdrchten
-
-- **Producten in zoekresultaten**: Bij een zoekopdracht via `?q=` op `/cursussen` worden nu ook actieve producten doorzocht (op `title`, `description` en `intro`). Cursussen en producten worden samengevoegd en alfabetisch gesorteerd getoond.
-- **`CourseController`**: importeert nu `Product`, zoekt producten bij een zoekterm, tagt elk item met `item_type` (`course` of `product`), en geeft `$allItems` en `$products` mee aan de view.
-- **`course_index.blade.php` (Amsterdam)**: loopt nu over `$allItems`, controleert `item_type`, en toont `<x-horizontal_product_block>` voor producten en `<x-horizontal_course_block>` voor cursussen — identiek aan `collection_show.blade.php`.
-
----
-
-### ✨ Marketing Dashboard — Verwijzende domeinen
-
-- **Nieuw: Verwijzende domeinen-kaart**: Toont de top 25 externe domeinen die bezoekers naar de site stuurden, met het aantal bezoeken. Het eigen domein (via `APP_URL`) en IP-adressen worden automatisch uitgesloten.
-- Domeinen zijn klikbaar als link naar `https://{domein}`.
-
----
-
-### ✨ Marketing Dashboard — Docenten in populaire pagina's
-
-- **Docentnamen in populaire pagina's**: `/docent/*`-URLs tonen nu de naam van de docent in plaats van de URL. De `display_name` wordt gebruikt, met `name` als fallback.
-- `TrackPageVisit`-middleware herkent `/docent/{slug}` voortaan als `page_type = 'teacher'`.
-- De controller haalt docenten op via `teachers.slug → display_name / name`.
-
----
-
-### ✨ Marketing Dashboard — Collectietitels in populaire pagina's
-
-- **Collectietitels correct**: `/collectie/{slug}`-URLs tonen nu de collectienaam in plaats van de URL. Opgeslagen als slug (niet ID), zowel in de middleware als de controller.
-- Titel-JSON wordt gedecode naar `nl` als de waarde een JSON-object is.
-
----
-
-### ✨ Marketing Dashboard — Links in populaire pagina's
-
-- **Klikbare titels**: Elke rij in de "Populaire pagina's"-tabel is nu een klikbare link (`<a target="_blank">`) naar de volledige opgeslagen URL.
-
----
-
-### ✨ Marketing Dashboard — Cursustitels via slug-fallback
-
-- **Cursussen zonder `program_id`**: Bezochte cursuspagina's zonder `?program_id=` in de URL worden nu alsnog correct op naam getoond via een slug-opzoeking in de `courses`-tabel.
-
----
-
-### ✨ Marketing Dashboard — E-mailstatistieken verwijderd
-
-- De "Verstuurde e-mails per sjabloon"-kaart is verwijderd uit het Marketing Dashboard.
-
----
-
-### ✨ Marketing Dashboard — UTM-filterrij als Bootstrap-grid
-
-- De vier UTM-filterdropdowns (bron, medium, campagne, zoekterm) zijn opgemaakt als een Bootstrap `row g-2` met elk een `col-3` kolom, zodat ze netjes naast elkaar staan.
-
----
-
-### 🐛 Bugfix — `TrackAttribution`: array-naar-string-conversie
-
-- **Oorzaak**: Bij URL's met `?utm_source[]=foo` retourneerde `$request->get($param)` een array. De `"$param=$value"` string-interpolatie crashte met *Array to string conversion* op regel 27.
-- **Fix**: Beide loops (UTM en Matomo/MTM-parameters) slaan de waarde nu over met `continue` als `is_array($value)` geldt.
-
----
-
-### 🐛 Bugfix — E-mailsjabloon: `action_link` te lang voor kolom
-
-- **Oorzaak**: `action_link` was gedefinieerd als `VARCHAR(255)`. Lange URLs met Matomo- én UTM-parameters overschreden deze limiet.
-- **Fix 1**: Nieuwe migratie `2026_04_25_140000_alter_emailtemplates_action_link_to_text.php` wijzigt de kolom naar `TEXT`.
-- **Fix 2**: `Emailtemplate::autoTagActionLink()` herkent nu ook Matomo-URL's (`mtm_source=`, `mtm_campaign=`) als reeds getagd en voegt geen extra UTM-parameters toe.
-
----
-
-- **Preset datumbereiken**: Naast de vrije datumkiezer zijn zes snelkoppelingen toegevoegd: **7 d**, **30 d** (standaard actief), **90 d**, **Deze maand**, **Vorige maand** en **Dit jaar**. Klikken op een preset stelt de datumvelden automatisch in en laadt de data. Er kan nog gekozen worden voor custom data.
-
-- **Nieuw: 404-pagina's kaart**: Een nieuwe kaart toont de top 25 URLs die een 404-fout veroorzaakten in de geselecteerde periode. Gebaseerd op een nieuwe `not_found_logs`-tabel die bij elke `NotFoundHttpException` de oorspronkelijke URL vastlegt (vóór de redirect naar `/404`).
-  - Nieuwe migratie: `2026_04_25_100002_create_not_found_logs_table.php`.
-  - `App\Exceptions\Handler` logt voortaan de originele URL naar `not_found_logs` bij elke 404.
-  - Nieuw model: `App\Models\NotFoundLog`.
-
-- **Nieuw: Zoekopdrachten op de site**: Een nieuwe kaart toont de top 25 zoektermen ingevoerd via `?q=` op de publieke website. De termen worden live opgehaald uit de reeds bijgehouden `page_visits.url`-kolom (geen extra database-opslag nodig).
-
-- **`/404` uitgesloten van populaire pagina's**: De `/404`-redirect-URL wordt niet meer getoond in de "Populaire pagina's"-tabel, net als de bestaande uitsluiting van `cart/*`.
-
-- **Controller volledig herwerkt voor array-filters**: Alle dashboard-methoden (`getKpis`, `getVisitorsOverTime`, `getSourceSplit`, `getDeviceSplit`, `getCampaigns`, `getKeywords`, `getPopularPages`, `getConversionStats`) accepteren nu een `array $filters` met `sources`, `mediums`, `campaigns` en `terms` in plaats van een enkele `string $source`.
-  - Nieuw: `scopeForUtmFilters()` scope op `PageVisit`-model voor efficiënte DB-filtering op alle vier UTM-dimensies.
-  - Nieuw: `filterItemsByUtm()` helper voor filteren van geattribueerde `OrderItem`-collecties.
-  - Nieuw: `getFilterOptions()` haalt unieke UTM-waarden op voor de dropdownopties.
-
----
-
-### ✨ E-mailsjablonen — Automatisch UTM-tagging van knoplinks
-
-- **Auto-tagging bij opslaan**: Wanneer een e-mailsjabloon wordt opgeslagen en de `action_link` nog geen `utm_source`-parameter bevat, worden automatisch de volgende UTM-parameters toegevoegd:
-  - `utm_source=VUadmin`
-  - `utm_medium=email`
-  - `utm_campaign=<action_description van het sjabloon>`
-  - `utm_term=<action_text zonder Blade-tags en HTML>`
-- De logica staat in `Emailtemplate::boot()` via een `saving`-event en werkt voor alle bronnen (beheerinterface, artisan, enz.).
-- Uitzonderingen: lege `action_link`, links die al getagd zijn (idempotent), en pure Blade-expressies zoals `{{ $evaluationUrl }}` (onveranderd gelaten).
-
----
-
-### ✨ Marketing Dashboard — Verbeteringen
-
-- **E-mails gegroepeerd op sjabloon-ID**: E-mails in het dashboard worden nu correct gegroepeerd op `emailtemplate_id` (één rij per sjabloon). Als naam wordt de `action_description` van het sjabloon getoond in plaats van het onderwerp.
-
-- **`cart/*`-pagina's uitgesloten van populaire pagina's**: URLs die beginnen met `cart/` worden niet meer meegenomen in de "Populaire pagina's"-tabel.
-
-- **Populaire pagina's: filter op type**: De "Populaire pagina's"-kaart heeft filterknoppen gekregen: **Alle / Pagina's / Cursussen / Collectie**. Klikken filtert de lijst direct zonder nieuwe API-aanroep.
-
-- **Cursustitels correct weergegeven**: Meertalige cursustitels (opgeslagen als `{"nl": "..."}`) worden nu altijd als leesbare Nederlandse naam getoond.
-
-- **UTM én MTM (Matomo) parameters correct verwerkt**:
-  - `TrackPageVisit`-middleware slaat nu ook `mtm_source`, `mtm_medium`, `mtm_campaign`, `mtm_term` en `mtm_content` op als fallback op de UTM-kolommen.
-  - Verkeersbronnen, campagnes en zoektermen in het dashboard herkennen beide parameterformaten.
-  - `utm_medium = cpc` wordt als enige definitie van betaald verkeer gebruikt — overige media-waarden zijn verwijderd.
-
-- **Bronfilter correct**: De `scopeForSource`-scope in `PageVisit` werkte niet correct door losstaande `orWhereIn`-aanroepen die buiten de datumrange vielen. Alle condities zijn nu verpakt in sluitingen zodat de AND/OR-logica correct is.
-
-- **Nieuwsbrief niet als betaald kanaal**: `utm_source = newsletter` wordt nooit als betaald verkeer geclassificeerd, ook niet bij `utm_medium = cpc`.
-
----
-
-### ✨ Marketing Dashboard — Eerste versie
-
-- **Nieuw: Marketing Dashboard** (`/admin/marketing`): Een apart beheer-dashboard met basisstatistieken voor marketeers. Zichtbaar voor gebruikers met de rechten `Marketing Dashboard`.
-
-  - **Bezoekers & paginaweergaven**: Aantal unieke bezoekers (per sessie) en totale paginaweergaven over de gekozen periode.
-  - **Conversies & omzet**: Aantal inschrijvingen (order items) met de bijbehorende omzet, afgeleid uit `order_items.attribution_data`.
-  - **Conversieratio & mobiel %**: Verhouding conversies/bezoekers en aandeel mobiele bezoekers.
-  - **Bezoekers per dag**: Lijngrafiek met dagelijks bezoekaantal over de geselecteerde periode.
-  - **Verkeersbronnen**: Doughnut-grafiek met verdeling over Paid, Social, Nieuwsbrief, Organisch, Direct en Overig.
-  - **Apparaat**: Doughnut-grafiek Desktop / Mobiel / Tablet.
-  - **Campagnes**: Tabel met `utm_campaign`, conversies en omzet — gefilterd op bron.
-  - **Zoektermen**: Tabel met `utm_term` en conversies.
-  - **Populaire pagina's**: Top 15 bezochte URL's met bezoekcount en percentage.
-  - **Populaire cursussen**: Top 10 cursuspagina's op bezoekcount, inclusief cursusnaam.
-  - **E-mails per sjabloon**: Overzicht van alle verstuurde e-mails gegroepeerd op sjabloon (onderwerp), met aantal verstuurd, geopend en open rate.
-  - **Tijdfilter**: Aangepaste datumkiezer (van/tot) met "Toepassen"-knop.
-  - **Bronfilter**: Knoppengroep — Alles / Organisch / Betaald / Social / Nieuwsbrief / Direct. Klikken op een bron filtert alle statistieken, campagnes, zoektermen en conversies naar die bron.
-
-- **Nieuw: paginabezoeken bijhouden** (`page_visits`-tabel + middleware): Een nieuwe `TrackPageVisit`-middleware registreert elke paginabezoek op de publieke website.
-
-  - Slaat per bezoek op: sessie-ID, IP-adres, volledige URL, pagina-type (`home`, `course`, `program`, `page`), pagina-ID (bijv. program_id), referrer, user agent, apparaattype en UTM-waarden uit de sessie.
-  - Dedupliceert: dezelfde sessie + URL wordt maximaal één keer per 30 minuten geregistreerd.
-  - Sluit bots en crawlers automatisch uit (Google, Bing, Yandex, curl, etc.).
-  - Slaat admin-, API- en asset-verzoeken over.
-  - Migratie: `2026_04_25_000001_create_page_visits_table.php`.
-
-- **Nieuw: `emailtemplate_id` in e-maillogboek**: De tabel `emaillogs` heeft een nullable foreign key `emailtemplate_id` gekregen, zodat e-mails gekoppeld kunnen worden aan het gebruikte sjabloon. Maakt groepering per sjabloon in het Marketing Dashboard mogelijk. Migratie: `2026_04_25_000002_add_emailtemplate_id_to_emaillogs.php`.
-
-- **Nieuw: `Marketing Dashboard`-rechten via migratie**: De permissie `Marketing Dashboard` wordt automatisch aangemaakt bij `php artisan migrate` (`2026_04_25_000003_add_marketing_dashboard_permission.php`). Wijs de rechten daarna toe aan de gewenste rollen via het beheer (Gebruikers & Rollen).
-
-- **Verbeterd: attributie-opslag als sleutel-waarde object**: Nieuwe bestellingen slaan `attribution_data` voortaan op als een gestructureerd object (`{"utm_source": "meta", "utm_campaign": "zomer"}`) in plaats van de vroegere array van strings (`["utm_source=meta"]`). Bestaande data in de database blijft ongewijzigd en wordt nog steeds correct weergegeven in het inschrijvingenbeheer. De nieuwe `AttributionHelper::parse()` herkent automatisch beide formaten.
-
-- **Bugfix: Marketing Dashboard geladen zonder Alpine.js**: Het dashboard-scherm bleef vastzitten op de laad-spinner omdat de Backpack CoreUI v4-thema Alpine.js niet laadt. De volledige view is herschreven naar vanilla JavaScript (geen Alpine.js-afhankelijkheid meer). Chart.js wordt nu ingeladen via CDN in de `after_scripts`-stack. De werking is identiek: AJAX-call via de native `fetch()` API, bronfilter via data-attributen, grafieken via Chart.js 4.
-
-## Week van 20–26 april 2026
+## Week van 20 tot 26 april 2026
 
 ### ✨ Nieuw & Verbeterd
 
@@ -328,55 +212,75 @@ Nieuw dashboard op `/admin/financial` voor een financieel overzicht per grootboe
   - **Alleen objecten waartoe je toegang hebt**: De zoekresultaten houden rekening met je rechten — je ziet alleen objecttypen die je ook in het menu kunt beheren.
   - De zoekbalk staat bovenaan het dashboard, boven de KPI-widgets.
 
+- **Marketing Dashboard — Uitbreidingen**:
+  - **Verwijzende domeinen**: Top 25 externe domeinen die bezoekers naar de site stuurden, met het aantal bezoeken. Het eigen domein en IP-adressen worden automatisch uitgesloten. Domeinen zijn klikbaar.
+  - **Docentnamen in populaire pagina's**: `/docent/*`-URLs tonen nu de naam van de docent in plaats van de URL.
+  - **Collectietitels in populaire pagina's**: `/collectie/{slug}`-URLs tonen nu de collectienaam in plaats van de URL. Meertalige titels (JSON) worden als Nederlandse naam getoond.
+  - **Klikbare titels in populaire pagina's**: Elke rij is nu een klikbare link naar de volledige URL.
+  - **Cursustitels via slug-fallback**: Bezochte cursuspagina's zonder `?program_id=` worden nu alsnog op naam getoond via slug-opzoeking.
+  - **E-mailstatistieken verwijderd**: De "Verstuurde e-mails per sjabloon"-kaart is verwijderd.
+  - **Preset datumbereiken**: Zes snelkoppelingen toegevoegd: **7 d**, **30 d** (standaard actief), **90 d**, **Deze maand**, **Vorige maand** en **Dit jaar**.
+  - **404-pagina's kaart**: Top 25 URLs die een 404-fout veroorzaakten. Gebaseerd op een nieuwe `not_found_logs`-tabel (`2026_04_25_100002`). `App\Exceptions\Handler` logt voortaan de originele URL; nieuw model `NotFoundLog`.
+  - **Zoekopdrachten op de site**: Top 25 zoektermen ingevoerd via `?q=` op de publieke website, live uit `page_visits.url`.
+  - **`/404` uitgesloten van populaire pagina's**: naast de bestaande uitsluiting van `cart/*`.
+  - **UTM-filterrij als Bootstrap-grid**: De vier UTM-filterdropdowns zijn opgemaakt als `row g-2` met elk een `col-3` kolom.
+  - **Array-filters**: Alle dashboard-methoden accepteren nu `array $filters` met `sources`, `mediums`, `campaigns` en `terms`. Nieuw: `scopeForUtmFilters()`, `filterItemsByUtm()` en `getFilterOptions()`.
+  - **E-mails gegroepeerd op sjabloon-ID**: Één rij per sjabloon; naam is de `action_description`.
+  - **`cart/*`-pagina's uitgesloten van populaire pagina's**.
+  - **Populaire pagina's: filter op type**: Filterknoppen Alle / Pagina's / Cursussen / Collectie.
+  - **UTM én MTM (Matomo) parameters correct verwerkt**: `TrackPageVisit` slaat ook `mtm_*`-parameters op als fallback; `utm_medium = cpc` is de enige definitie van betaald verkeer; `utm_source = newsletter` nooit als betaald.
+  - **Bronfilter correct**: `scopeForSource` condities verpakt in sluitingen zodat AND/OR-logica klopt.
 
-- **CMS contentblokken: configureerbare velden per bloktype**: Aan `ContentBlockType` zijn drie nieuwe vlaggen toegevoegd waarmee per bloktype ingesteld kan worden welke velden beschikbaar zijn bij blokken van dat type.
+- **Marketing Dashboard — Eerste versie**: Nieuw dashboard op `/admin/marketing` voor marketeers (recht `Marketing Dashboard`), met bezoekers, paginaweergaven, conversies, omzet, verkeersbronnen, apparatuur, campagnes, zoektermen, populaire pagina's, populaire cursussen en e-mailstatistieken. Paginabezoeken worden bijgehouden via nieuwe `TrackPageVisit`-middleware en `page_visits`-tabel (`2026_04_25_000001`). E-mails koppelbaar aan sjabloon via `emailtemplate_id` op `emaillogs` (`2026_04_25_000002`). Permissie aangemaakt via migratie (`2026_04_25_000003`). Attributie-opslag als gestructureerd object; `AttributionHelper::parse()` herkent beide formaten. Dashboard herschreven naar vanilla JS (geen Alpine.js).
 
-  - **`has_video`**: Schakel de videolink-invoer (YouTube/Vimeo) in of uit.
-  - **`has_text`**: Schakel de rich-text editor (Jodit) in of uit.
-  - **`has_order`**: Schakel het volgordeveld in of uit.
+- **E-mailsjablonen — Automatisch UTM-tagging van knoplinks**: Bij opslaan worden `utm_source=VUadmin`, `utm_medium=email`, `utm_campaign` en `utm_term` automatisch toegevoegd aan `action_link` als deze nog geen UTM-parameters bevat. Idempotent; pure Blade-expressies worden niet gewijzigd.
 
-  In het beheer (`ContentBlockType`-bewerken) zijn de checkboxes zichtbaar onder "Beschikbare velden voor dit bloktype". In `BlockCrudController` worden de velden conditioneel getoond op basis van het gekoppelde bloktype.
+- **Zoekresultaten — Producten in cursuszoekresultaten**: Bij `?q=` op `/cursussen` worden nu ook actieve producten doorzocht (titel, beschrijving, intro). Cursussen en producten worden samengevoegd en alfabetisch getoond via `item_type`-tag.
 
-- **CMS contentblokken: configureerbare crop-verhouding voor afbeeldingen**: Per bloktype kan een **afbeeldingverhouding (crop)** worden ingesteld als decimaal getal (bijv. `1.33` voor 4:3, `1.78` voor 16:9, `1` voor vierkant). Wanneer een beheerder een afbeelding selecteert bij een blok, wordt de cropper automatisch ingesteld op deze verhouding. Laat leeg voor vrij bijsnijden.
+- **CMS contentblokken: configureerbare velden en crop-verhouding per bloktype**: Drie nieuwe vlaggen (`has_video`, `has_text`, `has_order`) bepalen welke velden beschikbaar zijn. Per bloktype instelbare crop-verhouding voor afbeeldingen (bijv. `1.78` voor 16:9).
 
-- **Winkelwagen bericht bij producten**: Aan producten is het veld **"Winkelwagen bericht"** toegevoegd (tabblad "Basis"). Dit bericht wordt getoond in de winkelwagen wanneer het product is toegevoegd, vergelijkbaar met het bestaande winkelwagen bericht bij kortingscodes.
+- **Winkelwagen bericht bij producten**: Veld toegevoegd op producten (tabblad "Basis"); getoond in de winkelwagen bij toevoeging.
 
-- **Cultuurconnectie: meerdere disciplines per collectie**: Een collectie kan nu aan meerdere Cultuurconnectie disciplines tegelijk worden gekoppeld. De enkelvoudige kolom `cultuurconnectie_discipline_id` is vervangen door een pivot-tabel `collection_discipline`. In het beheer van collecties (tabblad "Marketing") is het veld vervangen door een select2-meervoudige keuzelijst. De synchronisatie van cursussen naar Cultuurconnectie (`CourseObserver`, `cultuurconnectie:sync-courses`) leest de disciplines nu via de nieuwe relatie.
+- **Cultuurconnectie: meerdere disciplines per collectie**: Enkelvoudige kolom vervangen door pivot-tabel `collection_discipline`; select2-meervoudige keuzelijst in het beheer.
 
-- **Statusmails bij checkout nu volledig werkend**: In het bestelproces worden nu voor alle relevante statussen bevestigingsmails verstuurd naar de deelnemer direct na het indienen van de bestelling.
+- **Statusmails bij checkout nu volledig werkend**: Wachtlijst-mail (template #1) en nieuwe controle-mail (template #32, migratie `2026_04_21_000001`) worden nu correct verstuurd.
 
-  - **Wachtlijst-mail (template #1) gekoppeld**: Wanneer een inschrijving de status `wachtlijst` krijgt, ontvangt de deelnemer automatisch de wachtlijst-bevestigingsmail (`App\Mail\Waitinglist`).
+- **Aparte koper-bevestigingsmail (template #33)**: Na Mollie-bevestiging ontvangt de koper een eigen overzichtsmail (`SendBuyerConfirmation`, migratie `2026_04_21_000002`) met alle inschrijvingen en producten. Deelnemers ontvangen nog steeds de individuele `SendConfirmation`-mail.
 
-  - **Controle-mail (template #32) aangemaakt en gekoppeld**: Bij de status `controle` (bijv. bij gebruik van een kortingscode of voucher die gecontroleerd moet worden) ontvangt de deelnemer nu een bevestigingsmail (`App\Mail\Controle`). De mail legt uit dat de inschrijving is ontvangen maar nog gecontroleerd wordt. Migratie `2026_04_21_000001_seed_emailtemplate_controle.php` voegt het template toe.
+- **Productbestelling verwerkt-mail (template #34)**: Bij status "Verwerkt" op een productverkoop ontvangt de student automatisch een bevestigingsmail (`ProductProcessed`, migratie `2026_04_21_000003`).
 
-- **Aparte koper-bevestigingsmail (template #33)**: Na betaalbevestiging via Mollie (of bij gratis/volledig-gekorteerde bestellingen) ontvangt de **koper** voortaan een eigen overzichtsmail (`App\Mail\SendBuyerConfirmation`) in plaats van dezelfde mail als de deelnemer.
+- **Uitnodigingen ook verstuurd aan studenten met toekomstige inschrijving**: Beperking verwijderd uit `vu:dailymails`.
 
-  - De koper-mail toont een volledige tabel met alle inschrijvingen (cursus, startdatum, deelnemer, status, bedrag), alle producten en het totaalbedrag van de bestelling.
-  - Statuslabels worden leesbaar weergegeven: "Geplaatst", "Intakegesprek vereist", "Wachtlijst", "In controle".
-  - De mail wordt nog steeds slechts één keer verstuurd per bestelling (bewaakt door `order.confirmed_at`).
-  - Deelnemers die niet de koper zijn ontvangen nog steeds de individuele `SendConfirmation`-mail (template #2).
-  - Migratie `2026_04_21_000002_seed_emailtemplate_buyer_confirmation.php` voegt het template toe.
+- **Winkelwagen-teller correct bij gecached menu**: Badge dynamisch bijgewerkt via `GET /cart/count` bij elke paginalading (alle thema's).
 
-- **Productbestelling verwerkt-mail (template #34)**: Wanneer een productverkoop in het beheer op "Verwerkt" wordt gezet, ontvangt de gekoppelde student automatisch een bevestigingsmail (`App\Mail\ProductProcessed`). De mail meldt dat de bestelling is verwerkt. Bij terugzetten naar "Betaald" wordt geen mail verstuurd. Migratie `2026_04_21_000003_seed_emailtemplate_product_processed.php` voegt het template toe.
+- **Mobiel submenu Utrecht — navigatie en uitklappen gesplitst**: Aparte `<button class="submenu-toggle">` naast menu-items met submenu; link navigeert, knop klapt open.
 
-- **Uitnodigingen ook verstuurd aan studenten met toekomstige inschrijving**: De beperking waarbij `vu:dailymails` uitnodigingen oversloeg voor studenten die al een actieve inschrijving in de toekomst hebben, is verwijderd. Uitnodigingen worden nu altijd verstuurd als aan de overige voorwaarden is voldaan.
+- **Inactieve docenten uitgesloten van docentenrapportage**.
 
-- **Winkelwagen-teller correct bij gecached menu**: Het menu wordt gecacht maar hierdoor stond het aantal artikelen in de winkelwagen-badge bij ingelogde of terugkerende bezoekers soms op nul. De badge wordt nu bij elke paginalading dynamisch bijgewerkt via een lichtgewicht API-aanroep (`GET /cart/count`). Van toepassing op alle thema's: Utrecht, Breda, Demo, Amsterdam en Westvoorne.
-
-- **Mobiel submenu Utrecht: koppeling navigatie en uitklappen gesplitst**: In het mobiele menu van het Utrecht-thema was klikken op een menu-item met submenu geblokkeerd door `e.preventDefault()`, waardoor de link nooit volgde. Er is nu een aparte `<button class="submenu-toggle">`-knop naast elk menu-item met submenu geplaatst. Klikken op de link navigeert naar de pagina; klikken op de knop klapt het submenu open of dicht met een slide-animatie. De pijl-indicator (chevron) is verplaatst naar de nieuwe knop en draait mee bij openen.
-
-- **Inactieve docenten uitgesloten van docentenrapportage**: In het rapport "Docentgegevens" en de bijbehorende filterdropdown werden eerder ook inactieve docenten meegenomen. Het filter en de export-query zijn aangepast zodat alleen docenten met `actief = ja` worden opgenomen.
-
-- **Productverkopen-beheer verbeterd**:
-  - De preview-knop (Show) is verwijderd uit de lijst.
-  - De kolom "Aangemaakt" is verwijderd uit de lijst.
-  - Kolomselectie en exportknoppen (CSV/Excel/PDF) toegevoegd aan de lijstweergave.
+- **Productverkopen-beheer verbeterd**: Preview-knop en "Aangemaakt"-kolom verwijderd; kolomselectie en exportknoppen (CSV/Excel/PDF) toegevoegd.
 
 ### 🐛 Bugfixes
 
-- **Typefout in `SendBuyerConfirmation` en `ProductProcessed` opgelost**: De mailables `App\Mail\SendBuyerConfirmation` en `App\Mail\ProductProcessed` declareerden properties met een expliciet type (`string`, modelklasse), wat conflicteert met de untypede declaraties in Laravel's `Mailable`-basisklasse. Alle property-typedeclaraties zijn verwijderd en de ontbrekende `Queueable` en `SerializesModels` traits zijn toegevoegd, in lijn met alle andere mailables in het project.
+- **`TrackAttribution`: array-naar-string-conversie**: Bij `?utm_source[]=foo` retourneerde `$request->get()` een array; string-interpolatie crashte. UTM- en MTM-loops slaan array-waarden nu over.
 
-- **"Alle cursussen"-link rechts uitgelijnd (Amsterdam, collectie-overzichtspagina)**: De link "Alle cursussen in de categorie …" onderaan een subcollectieblok werd links weergegeven. De link is nu rechts uitgelijnd via Bootstrap `text-end`.
+- **E-mailsjabloon `action_link` te lang voor kolom**: Kolom vergroot naar `TEXT` via migratie `2026_04_25_140000`. `autoTagActionLink()` herkent nu ook Matomo-URL's als reeds getagd.
+
+- **Typefout in `SendBuyerConfirmation` en `ProductProcessed`**: Property-typedeclaraties verwijderd; `Queueable` en `SerializesModels` traits toegevoegd.
+
+- **"Alle cursussen"-link rechts uitgelijnd (Amsterdam)**: Link op collectie-overzichtspagina via Bootstrap `text-end`.
+
+### 🎨 Thema-updates
+
+- **Amsterdam — Diverse fixes**:
+  - Mobiel zoekformulier: correcte `action`, `method` en `name`.
+  - CTA halfbreed — mobiel: Bootstrap grid-stacking; cirkel vergroot naar 185×185px.
+  - Sortering cursusoverzicht: `?sort=` nu correct toegepast vóór `$allItems`.
+  - Nieuwsslider: gelijke hoogte via flexbox; "Lees meer"-knop altijd onderaan.
+  - `.basic-details p`: `margin-bottom: 0`.
+  - Passieve event listener fout (Slick) opgelost.
+  - `.online-offer-title-block`: inline stijl naar CSS; op mobiel `min-height: 5em`.
+  - Statustag cursusblok: `<a href="#">` vervangen door `<span class="btn-red-border">`.
+  - Megamenu mobiel: container breedte, grid-breakpoint, lege panelen en lettertypes gecorrigeerd.
 
 ---
 
