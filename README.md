@@ -1,10 +1,107 @@
 # VUAdmin Updates
 
+## Week van 1 tot 7 juni 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **Redirects — Werkt nu voor alle routes**: Voorheen werkte het redirect-systeem alleen voor CMS-pagina's (via `PageController`). Redirects worden nu afgehandeld door een nieuwe middleware `HandleRedirects` die vóór elke route draait. Dit betekent dat redirects ook werken voor cursuspagina's, collecties, blogposts, productpagina's en alle andere publieke routes. Beheerpaden (`/management`, `/api`) worden overgeslagen. De middleware beveiligt tegen oneindige lussen door te controleren of de bestemming niet gelijk is aan het huidige pad. De dubbele redirect-check in `PageController` is verwijderd.
+
+- **Cursus-beheer — Certificaattemplate gebaseerd op actief thema**: De keuzelijst voor de certificaattemplate bij een cursus toont nu alleen de templates die beschikbaar zijn in het actieve thema (`themes/{THEME}/pdf/certificates/`). Voorheen werden alle templates uit alle thema's samengevoegd, waardoor bijv. Utrecht-templates ook bij Amsterdam zichtbaar waren. Het actieve thema wordt bepaald via de `THEME`-omgevingsvariabele.
+
+- **Cursusfilter — "Beschikbaar" standaard aan (Amsterdam)**: Op de cursus- en collectiepagina's van het Amsterdam-thema staat het filter "Alleen beschikbare cursussen" nu standaard ingeschakeld. Bij de eerste bezoek (geen queryparameters) worden automatisch alleen cursussen met een open programma getoond. De gebruiker kan het filter uitschakelen via het filterpaneel; het formulier stuurt dan `available=0` mee zodat de keuze bewaard blijft. Technisch: `AvailableFilter` controleert nu op `in_array('1', $values)` in plaats van `!empty($values)`, zodat de expliciete waarde `0` het filter correct uitschakelt.
+
+- **kotingen validiteit**: Kortingen worden nu geched of ze valide zijn bij aanvang cursus, niet bij inschrijving.
+
+### 🐛 Bugfixes
+
+- **CompanyInvoice e-mail (factuur) — Juiste PDF-bijlage**: De CompanyInvoice-e-mail die naar het bedrijf wordt verstuurd bevatte altijd de proforma-PDF (`pdf.quote`), ook nadat de factuur al gegenereerd was. De `build()`-methode genereerde de proforma altijd opnieuw voor het e-maillog. Nu wordt — wanneer een vooraf gegenereerde factuur-PDF beschikbaar is — die PDF zowel als bijlage als in het e-maillog gebruikt. De proforma wordt alleen nog gegenereerd voor de legacy-flow (zonder voorgegenereerde PDF).
+
+---
+
+## Week van 25 tot 31 mei 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **Checkout stap 1 — Formulier voorgevuld vanuit ingelogd studentprofiel**: Wanneer een student ingelogd is, worden de contactgegevens in stap 1 van de checkout (naam, e-mail, geboortedatum, aanhef, telefoon, adres, postcode, plaatsnaam) automatisch voorgevuld vanuit zijn of haar studentprofiel. Dit gebeurt alleen als er nog geen eerdere bestelling is voor de winkelwagen — is die er wél, dan worden de al ingevulde gegevens van die bestelling gebruikt. Het e-mailveld is alleen-lezen wanneer de student ingelogd is. De "bestaat al een account"-waarschuwing en de bijbehorende API-check worden alleen getoond aan niet-ingelogde bezoekers.
+- **Checkout stap 2 — Kortingsvelden verborgen bij factuurbetalingen (Amsterdam)**: Bij een zakelijke bestelling waarbij gekozen is voor betaling op factuur (Bankoverschrijving), worden de invoervelden voor kortingscode, stadspasnummer en loyalty card niet meer getoond in stap 2. Deze velden zijn niet relevant bij facturatie.
+- **Bedrijfsfacturatie — Directe orderverwerking zonder Mollie (Amsterdam)**: Bij betaling op factuur worden bestellingen nu direct volledig verwerkt, zonder aparte proformafactuurstap:
+  - Alle inschrijvingen worden direct op **"Geplaatst"** gezet via de reguliere `save()`, zodat de `OrderItem::booted()` model-hook de bevestigingsmail verstuurt en `confirmed_at` stempelt — identiek aan de Mollie-flow.
+  - Per inschrijving wordt een **factuurrecord** aangemaakt (`payment_method = factuur`, `status = paid`, `pdf = null`).
+  - De **gecombineerde factuur-PDF** en het versturen van de **CompanyInvoice**-e-mail (template 12) naar het bedrijfse-mailadres worden afgehandeld door de cron (`vu:invoices`, elke 5 minuten). De cron herkent factuurbestellingen op `payment_method = factuur` en stuurt naar het bedrijfse-mailadres in plaats van naar de cursist.
+  - Factuurbestellingen worden in de cron gegroepeerd op `order_id` (niet op `mollie_id`, want dat is null) zodat inschrijvingen van verschillende bestellingen nooit worden samengevoegd.
+  - Voor factuurgroepen geldt **geen freshness buffer** — alle factuurrecords worden in één keer aangemaakt tijdens de checkout, dus de cron verwerkt ze direct bij de eerstvolgende run. Voor Mollie-betalingen blijft de buffer van 5 minuten van kracht.
+  - De betaler wordt direct doorgestuurd naar de bestellingsbevestigingspagina — geen PDF-generatie in de HTTP-request, dus geen timeout.
+  - De instelling "Bedrijfsfactuur: plaatsingsstatus" is hiermee vervallen — inschrijvingen worden altijd direct geplaatst bij zakelijke facturatie.
+- **Bevestigingsmails — Controle per inschrijving i.p.v. per order**: In alle checkout-flows (`complete_order_without_payment`, `mollie_webhook_new`) wordt de individuele `SendConfirmation` nu gecontroleerd op `order_item.confirmed_at` in plaats van `order.confirmed_at`. Dit zorgt ervoor dat een deelnemer altijd zijn bevestiging ontvangt, ook als de order al eerder bevestigd werd.
+- **Programma-beheer — Inschrijvingen-tab: links naar student en inschrijving**: In de tab "Inschrijvingen" op de programmapagina in het beheer zijn twee verbeteringen doorgevoerd via aangepaste Backpack veldtypen (`student_link`, `orderitem_link`):
+  - De **studentnaam** is nu een klikbare link met een klein bewerkknopje naar de studentpagina (`/management/student/{id}/edit`).
+  - Achter het statusveld staat nu een **"✎ Open"**-knop die direct naar de bewerkpagina van de inschrijving (`/management/orderitem/{id}/edit`) navigeert.
+
+### 🐛 Bugfixes
+
+- **Winkelwagen leeg na inloggen**: Na het inloggen was de winkelwagen leeg, ook al waren er voor het inloggen items toegevoegd. Oorzaak: na `Auth::guard('student')->attempt()` wordt de sessie-ID door Laravel geregenereerd. De code vond de winkelwagen op het oude sessie-ID en paste het nieuwe sessie-ID toe op het model, maar sloeg dit nooit op (`$cart->save()` ontbrak). De winkelwagen kon daarna niet meer gevonden worden op het nieuwe sessie-ID.
+
+### 🎨 Thema-updates Amsterdam
+
+- **Knop `.btn-sky` nu centreerbaar**: De klasse `.btn-sky` gebruikte `display: flex` (blokniveau), waardoor `text-align: center` op de bovenliggende container geen effect had. Gewijzigd naar `display: inline-flex`, zodat de knop correct gecentreerd wordt. De bestaande `max-width: max-content` zorgt ervoor dat het visuele gedrag op alle andere plekken ongewijzigd blijft.
+- **Filteroverlay mobiel — label naast checkbox**: In het filterpaneel op mobiel (`max-width: 575px`) werden labels onder de checkbox geplaatst door `flex-direction: column`. Gecorrigeerd naar `flex-direction: row` met `align-items: center`.
+- nieuwsbrief inschrijven block voor nieuwsbrief pagina
+- typeform embed blok
+
+
+---
+
+## Week van 18 tot 24 mei 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **Frontend validatie — Nederlandse telefoon, postcode en geboortedatum**: In alle thema's is client-side validatie toegevoegd voor `phone1`, `zip` en geboortedatumvelden op checkout-, dashboard- en formulieren zoals wachtlijst/seintje. Inhoud wordt genormaliseerd naar Nederlandse formaten, ongeldige invoer wordt geblokkeerd en er verschijnen foutmeldingen in het Nederlands.
+- **Course-level certificaattemplate**: Cursusbeheer heeft nu een optioneel veld voor een certificaattemplate en kan per cursus geselecteerd of leeg gelaten worden wanneer er geen certificaat verstuurd moet worden.
+
+
+### 🎨 Thema-updates 
+- **Utrecht certificaten aangepast**: Voor Utrecht zijn de certificaten templates aangapast, deze kunnen worden geselecteerd  in de Basiscursus instellingen.
+- **Amsterdam badrijfsfactuur aanpassing**: De facturen tonen nu "Factuur" in plaats van Proforma Factuur.
+
 ## Week van 11 tot 17 mei 2026
+
+### ✨ Nieuw & Verbeterd
+
+
+- **Frontend zoekfunctie — Relevantiesortering**: De zoekfunctie op de cursuspagina (`/cursussen`) is uitgebreid met relevantiesortering en slimmere queryverwerking:
+  - **Stop-word filtering**: Veelgebruikte Nederlandse woorden (de, het, een, van, voor, cursus, …) worden automatisch uit de zoekterm gefilterd zodat ze geen irrelevante hits veroorzaken.
+  - **Speciale tekens worden gestript**: Leestekens en andere niet-alfanumerieke tekens (bijv. `?`, `!`, `-`, `.`) worden verwijderd uit elk zoekwoord vóór de verwerking. `yoga!` en `yoga` worden dus identiek behandeld.
+  - **Multi-word zoeken**: De zoekterm wordt opgesplitst in losse woorden. Elk woord wordt afzonderlijk gezocht, waardoor "schilderen aquarel" resultaten vindt die *beide* woorden bevatten en die hoger scoren.
+  - **Gewogen relevantiescore**: Elk resultaat krijgt een score op basis van waar het zoekwoord gevonden wordt:
+    | Veld | Punten per woord |
+    |---|---|
+    | Exacte titelmatch | +100 bonus |
+    | Titel begint met zoekwoord | +30 bonus |
+    | `seo_keywords` | +40 |
+    | `title` | +20 |
+    | `intro` | +8 |
+    | `text` / `description` | +3 |
+  - **`intro`-veld nu doorzocht**: De `intro`-kolom van cursussen werd voorheen niet meegenomen in zoekopdrachten — dit is nu hersteld.
+  - **Producten via DB gezocht**: Productzoekacties werden eerder gedaan via PHP `stripos()` na alle producten op te halen. Dit is vervangen door DB LIKE-queries per zoekwoord.
+  - **Relevantie als standaard sortering**: Alle themes tonen zoekresultaten standaard op relevantie (hoogste score bovenaan). breda, utrecht, westvoorne en demo hadden al "Relevantie" in hun sorteer-dropdown — het backend-equivalent ontbrak alleen. Amsterdam toont nu contextgevoelig "Relevantie" bij zoeken en "Alfabetisch" bij bladeren.
+
+
+- **Route `/favorieten` opent Favorieten-tab in dashboard**: De route `/favorieten` toont niet langer een aparte pagina, maar stuurt ingelogde studenten door naar `/student/dashboard?tab=favorieten`. Het Amsterdam-dashboard leest de `?tab=`-parameter uit de URL en activeert de bijbehorende tab automatisch bij het laden van de pagina.
+- **Amsterdam dashboard — Uitgebreide inschrijvingskaarten**: De "Mijn Inschrijvingen"-tab toont nu per inschrijving aanvullende details naast de cursustitel:
+  - **Statusbadge** kleurgecodeerd (groen = Ingeschreven, geel = Openstaand, blauw = Betaling, rood = Gestopt).
+  - **Programmacode** (met code-icoon).
+  - **Startdatum** (opgemaakt uit `c_startdate`, met fallback naar `planner_start`).
+  - **Locatie** uit het `c_location`-veld (ruimte + locatienaam).
+
+- **Admin — `seo_complete`-kolom sorteerbaar**: De kolom "SEO Compleet" in de cursuslijst is nu sorteerbaar via `orderable(true)` + een `orderByRaw CASE`-expressie. `searchLogic(false)` voorkomt dat Backpack probeert op het accessor-veld te filteren.
+- **Checkout — Producten altijd gekoppeld aan besteller**: In stap 2 van de checkout (deelnemersgegevens) worden producten niet meer met invulbare naam/e-mail/aanhefvelden getoond. In plaats daarvan staat er een read-only kaart met de naam en het e-mailadres van de besteller. `OrderControllerNew::post_payment()` koppelt de `ProductSale` direct aan `$order->student` in plaats van via `find_or_create_participant()`.
+
 
 ### 🐛 Bugfixes
 
 - **Admin — "Deblokkeer"-knop geeft JSON-fout op productie**
+- **Amsterdam checkout — dubbele bevestigingsknop consistent gemaakt**: In stap 3 van het Amsterdam-theme is de linker bevestigingsactie vervangen door een echte submit-knop, zodat beide kolommen dezelfde `btn btn-pay`-actie gebruiken.
+- **Utrecht theme — locatieblok gecontroleerd op een lege locatie**: Het programma geeft nu geen fout meer als `selected_program->location` ontbreekt in `themes/utrecht/course_show.blade.php`.
 
 ### ✨ Nieuw & Verbeterd
 
@@ -33,6 +130,7 @@
   - Per cursusregel wordt het termijnbedrag getoond (1e termijn) met ondertitel "1e termijn van N · totaalprijs €X".
   - In het totaalblok onderaan: "Nu betaald: €X" en "Resterend te betalen: €Y (wordt later gefactureerd)".
 
+
 ### 🎨 Thema-updates (alle thema's)
 
 - **Proforma factuur — Schrijfwijze gecorrigeerd**: "Pro forma" is aangepast naar de correcte Nederlandse schrijfwijze "Proforma" in alle PDF-templates (amsterdam, utrecht, breda, westvoorne, demo).
@@ -46,6 +144,16 @@
 - **Student-portaal — Wachtwoordsterkte-indicator en -afdwinging** (alle thema's): Op de pagina's "Nieuw wachtwoord instellen" (`/student/codelogin`) en "Wachtwoord wijzigen" in het accountdashboard is een wachtwoordsterkte-indicator toegevoegd, bestaande uit vier gekleurde segmenten (rood → oranje → geel → groen) met een tekstlabel (Zwak / Matig / Redelijk / Sterk). De score is gebaseerd op lengte (≥ 8 tekens), een hoofdletter, een cijfer en een speciaal teken. Indienen wordt client-side geblokkeerd als de score onder "Redelijk" ligt. Server-side wordt hetzelfde beleid afgedwongen via Laravel's `Password::min(8)->mixedCase()->numbers()->symbols()`-regel.
 
 ### 🎨 Thema-updates Amsterdam
+
+- **Agenda — Gebaseerd op startdatum programma**: De agenda op de homepage toont nu cursussen op basis van de **startdatum van het programma** (de eerste les), in plaats van de eerstvolgende les die nog in de toekomst ligt. Zo ziet een bezoeker altijd de programma's waarvan de cursus nog niet begonnen is, gesorteerd op wanneer ze starten.
+- **Checkout stap 2 — Cursusinfo onder de cursustitel**: Onder de naam van de cursus in stap 2 (deelnemersgegevens) staan nu de **programmacode**, de **startdatum** en de **locatie** van het programma, zodat de deelnemer meteen ziet om welk specifiek programma het gaat.
+- **Checkout stap 3 — Betaalwijze bij termijnbetaling duidelijker**: Wanneer voor een cursus gekozen is voor gespreide betaling, toont de badge bij de cursus nu **"Betaling: in X delen"** in plaats van "Betaling: Direct". Bovendien wordt rechts in het besteloverzicht naast "Nu te betalen" ook een extra regel **"Later te betalen (termijnen)"** getoond met het totale bedrag dat nog in latere termijnen verschuldigd is.
+- **Bestellingsbevestiging — Termijninformatie bij gespreide betaling**: Op de bevestigingspagina na betaling wordt per cursus nu getoond hoeveel de eerste termijn is en wat er later nog betaald moet worden (bijv. "Termijn 1 van 3: €100,00 — later: €200,00"). Onderaan verschijnt een extra regel **"Later te betalen (resterende termijnen)"** als er nog toekomstige termijnen zijn.
+- **Nieuwsbriefcheckbox — Seintje & Wachtlijst (Amsterdam)**: Bij alle drie de formulieren op de cursuspagina (wachtlijst, seintje "inschrijving gesloten", seintje "geen startdata") verschijnt een **"Schrijf mij in voor de nieuwsbrief"**-checkbox. De checkbox wordt alleen getoond als `MAILCHIMP_TOKEN`/`MAILCHIMP_LISTID` (of MailerLite) geconfigureerd zijn in `.env`. `HomeController::sendToMailchimp()` geeft nu netjes `false` terug als de env-sleutels ontbreken.
+- **Nieuwsbriefcheckbox — Checkout (Amsterdam)**: In de laatste betalingsstap van de checkout verschijnt de checkbox **"Schrijf mij in voor de nieuwsbrief"** boven de akkoordverklaring met de algemene voorwaarden. De checkbox is alleen zichtbaar als de Mailchimp- of MailerLite-sleutels geconfigureerd zijn. `OrderControllerNew::post_overview()` verwerkt de keuze en roept de nieuwe `sendToNewsletter()`-methode aan (Mailchimp of MailerLite, gebaseerd op `config('app.mijnvu')`).
+- **Nieuwsbriefcheckbox — Seintje & Wachtlijst zonder conditie (Amsterdam)**: De `@if`-bewakers zijn verwijderd; de nieuwsbrief-checkbox verschijnt nu altijd in de drie formulieren op de cursuspagina (wachtlijst, seintje "gesloten", seintje "geen startdata") — het Amsterdam-thema hoeft hier geen configuratiecheck te doen.
+- **Cursuskaart — "Gesloten"-label verborgen (Amsterdam)**: De label "Gesloten" wordt niet meer getoond op cursuskaarten (`course_block` en `horizontal_course_block`). Programma's met status `gesloten` of `Vol` krijgen nu geen badge.
+- **Cursuspagina — Favorieten-icoontje bij de cursustitel (Amsterdam)**: Op de cursusdetailpagina (`course_show`) staat nu het hartje-icoontje naast de cursustitel. Klikken togglet de `active`-klasse via het bestaande JS-script.
 
 - **Student-portaal — Volledig herontwerp van inlog- en accountpagina's**: De vier pagina's van het studentportaal zijn volledig heronworpen in de stijl van het Amsterdam-thema.
   - **Inlogpagina** (`/student/login`): Gecentreerde `checkout-block`-kaart met `form-floating`-invoervelden, correcte `breadcrumb-top-wrp`-navigatie en links naar wachtwoord aanmaken/vergeten gestyled als `.btn-sky-link`. De ontbrekende `method="POST"` en `action` op het formulier zijn hersteld.
@@ -81,6 +189,7 @@
 - **Cursuskaarten — Programma-statuslabel op index en sliders**: Op cursuskaarten (slider-blok en horizontaal blok in de cursusoverzichtspagina) wordt nu rechts van de prijs een statuslabel getoond — exact dezelfde pill-badge stijl als de programma-statuslabels op de cursuspagina. Logica: bij één actief programma wordt het programma-statuslabel overgenomen ("adopt program-status"). Bij meerdere actieve programma's geldt een marketingprioriteit: **Laatste kans** (start binnen 7 dagen) → **Laatste plekken** (≤ 2 plekken vrij) → **Start zeker** (definitief gepland) → **Wachtlijst** (enkel wachtlijst beschikbaar). "Gesloten" en "Open" worden bewust niet getoond op kaarten.
 - **Header — Megamenu JavaScript herschreven**: Het ingebedde script in de megamenu-component bevatte een JavaScript-syntaxfout (niet-afgesloten `forEach`- en `DOMContentLoaded`-callbacks), waardoor het volledige script faalde. Bijkomende problemen: de uitklap-knop toonde het doelpaneel niet, en de "Terug"- en dropdown-reset-listeners werden bij elke klik opnieuw geregistreerd. Alle callbacks zijn nu correct afgesloten, de paneel-wisseling (toon niveau 3, verberg niveau 2) zit in de expand-handler, en de back-/reset-listeners worden eenmalig geregistreerd bij `DOMContentLoaded`. Op mobiel wordt de `list-group-wrp` ook direct bij het laden verborgen zodat altijd het juiste niveau 2 zichtbaar is.
 - **Bedrijfsfactuur e-mail (template 12) — Besteloverzicht toegevoegd**: De e-mail naar het bedrijf bevat nu automatisch een overzichtstabel met alle inschrijvingen (cursus, deelnemer, bedrag) en eventuele producten, inclusief het totaalbedrag. Bij termijnbetalingen wordt het eerste termijnbedrag getoond met een toelichting. Daarnaast zijn extra variabelen beschikbaar voor de e-mailtemplates in Backpack: `$order` (het volledige order), `$order->total`, `$order->totalpaid` en `$payment_url` (de betaallink).
+- **Collectie- & cursuspagina's — Actieve filterpills zichtbaar op mobiel**: Op mobiel werden de actieve filterpills (geselecteerde cursusvorm, dagdeel, dag, maand, locatie, enz.) alleen getoond binnen het filteroverlay-paneel. Ze zijn nu ook zichtbaar buiten het overlay, direct onder de "Filteren"-knop. Op desktop zijn de pills ongewijzigd zichtbaar in het vaste filterpaneel links.
 
 ---
 
@@ -115,7 +224,7 @@
 
 - **Footer nieuwsbrieflabels — Betere uitlijning**: De labels in de nieuwsbriefinschrijfformulier in de footer waren te laag gepositioneerd. Ze worden nu correct verticaal gecentreerd in het invoerveld.
 
-- **Cursusdetailpagina — Startdatum toont tijd van eerste les**: Bij de selectie van een startdatum op de cursusdetailpagina wordt nu naast de datum ook de **begin- en eindtijd van de eerste les** getoond (bijv. `12-05-2026 09:00–11:00`). De programmatitel is verwijderd uit dit overzicht.
+- **Cursusdetailpagina — Startdatum toont tijd van eerste les**: Bij de selectie van een startdatum op de cursusdetailpagina wordt nu naast de datum ook de **begin- en eindtijd van de eerste les** getoond (bijv. `12-05-2026 09:00–11:00`). De programmatitel is verwijderd uit dit overzicht. 
 
 
 ---
@@ -339,6 +448,16 @@ Beheerders kunnen via *Instellingen → Betalingen* kiezen wat er gebeurt met in
 ### ✨ Nieuw & Verbeterd
 
 - **🔗 Cultuurconnectie (CursusPro) integratie**: Cursussen worden nu automatisch gesynchroniseerd met de CursusPro API (`https://api.volksuniversiteit.nl/`) van Cultuurconnectie. De integratie is alleen actief wanneer `CC_KEY` is ingesteld in `.env`.
+
+
+
+### Voor gebruikers (kort en eenvoudig)
+
+- Je winkelwagen blijft nu behouden wanneer je inlogt — items die je als gast toevoegt blijven staan na inloggen.
+- Wachtlijst- en "seintje"-formulieren op de cursuspagina werken betrouwbaar en tonen direct een bevestiging nadat je je hebt aangemeld.
+- Collecties en producten tonen nu consequent dezelfde gekoppelde items; als een product in een collectie staat, zie je dat overal terug.
+- Bij grote importen van cursisten worden niet per ongeluk welkomsmails naar iedereen gestuurd — e-mails worden alleen verzonden bij echte inschrijvingen.
+
 
   - **Disciplines lokaal opgeslagen**: Disciplines en subdisciplines worden opgehaald via de API en lokaal opgeslagen. Dit hoeft slechts eenmalig uitgevoerd te worden en kan daarna herhaald worden wanneer Cultuurconnectie nieuwe disciplines toevoegt.
 
