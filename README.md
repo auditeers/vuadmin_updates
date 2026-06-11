@@ -1,20 +1,100 @@
 # VUAdmin Updates
 
+## Week van 8 tot 14 juni 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **Rapportages — Vernieuwd rapportage-overzicht**: Het rapportage-overzicht is volledig heringericht:
+  - Zoek snel een rapport door te typen in het zoekveld — de omschrijving van het gekozen rapport verschijnt direct als toelichting.
+  - De filteropties verschijnen alleen wanneer je een rapport hebt gekozen.
+  - De knop "Uitvoeren" is uitgeschakeld totdat alle verplichte filteropties zijn ingevuld.
+  - Rapporten die direct klaar zijn geven een groene melding "Rapport gereed!" met een downloadknop.
+  - Rapporten die op de achtergrond worden aangemaakt, ververst de pagina automatisch totdat ze klaar zijn.
+  - Rapporten kunnen nu per site worden aan- of uitgezet. Uitgeschakelde rapporten zijn niet meer zichtbaar in het overzicht.
+
+- **Rapportages — Daglijst Docent**: Nieuw rapport als uitbreiding op de Daglijst. De "Daglijst Docent" toont alle kolommen van de gewone Daglijst, aangevuld met: sessienummer ("Les X van Y"), locatie, het aantal betalende deelnemers en het aantal niet-betalende deelnemers (deelnemers die gratis deelnemen of 100% korting hebben gekregen). Beide rapporten gebruiken dezelfde filters: periode en optioneel locatie.
+
+- **Beheerpaneel — Kolominstellingen per gebruiker**: Per lijstpagina kun je kolommen zichtbaar of verborgen zetten via de kolomknop rechtsboven. De keuze wordt automatisch onthouden — ook na het sluiten van de browser of inloggen op een ander apparaat. Zo ziet elke beheerder precies de kolommen die voor hem of haar relevant zijn.
+
+- **Beheerpaneel — Eigen logo uploaden via site-instellingen**: In de site-instellingen (tabblad "Algemeen") is een veld toegevoegd waarmee het logo in de linkerbovenhoek van het beheerpaneel en op de inlogpagina vervangen kan worden door een eigen afbeelding. Wanneer er geen logo is geüpload, blijft het standaard VUAdmin-logo zichtbaar.
+
+- **Programma bericht — Via e-mailsjabloon**: Het vrije bericht dat vanuit een programma naar deelnemers en de docent gestuurd kan worden, loopt nu via het sjabloonsysteem (sjabloon #35 — "Vrij bericht aan deelnemer / docent vanuit programmaoverzicht"). De aanhef, tekst en opmaak zijn daarmee aanpasbaar via het e-mailsjablonenbeheer, net als alle andere e-mails in het systeem.
+
+- **Amsterdam certificaat — Nieuw lettertype en opmaak**: Het certificaat van het Amsterdam-thema gebruikt nu het DM Sans lettertype. Naam en cursustitel zijn vetgedrukt in het blauw van de huisstijl; overige tekst is in grijs. Bij een cursus van één dag toont het certificaat "Op DD-MM-JJJJ" in plaats van een datumreeks "Van … tot …".
+
+- **Beveiliging — Verbeterde detectie en blokkering van botverkeer**: De beveiliging tegen geautomatiseerde aanvallen is aangescherpt en uitgebreid. Bekende aanvalspatronen worden sneller herkend en automatisch geblokkeerd, ook terugkijkend in de geschiedenis.
+
+- **Statistieken — Spamverkeer telt niet meer mee**: De foutpagina van de website werd vroeger door bots massaal bezocht en telde daardoor onterecht mee als gewoon bezoek. Bezoekers, paginaweergaven, conversieratio en populaire pagina's in het marketing dashboard zijn nu gebaseerd op uitsluitend echte bezoekers.
+
+- **Marketing Dashboard — Sneller en nauwkeuriger**: Spam- en aanvalsverkeer wordt nu al bij het ophalen van de gegevens uitgefilterd in plaats van achteraf per rapport. Dit maakt alle dashboardpagina's sneller en zorgt ervoor dat de cijfers overal consistent zijn.
+
+- **Marketing — Zoekverkeer van Google en andere zoekmachines automatisch herkend**: Wanneer iemand via een zoekmachine op de website terechtkomt, wordt dit nu automatisch geregistreerd als "organisch" bezoek — inclusief de zoekmachine (Google, Bing, DuckDuckGo, enzovoort) en, wanneer beschikbaar, het gebruikte zoekwoord. Dit werkt alleen als er geen betaalde campagnelink is gebruikt, zodat advertentieverkeer altijd de juiste bron houdt.
+
+- **Marketing Dashboard — Filteren op verwijzende website**: Naast filteren op bron, medium en campagne is het nu ook mogelijk om alle dashboardcijfers te filteren op de website waar een bezoeker vandaan kwam. Selecteer een verwijzend domein in het nieuwe dropdown-filter om te zien hoeveel bezoekers, paginaweergaven en aankopen er uit die bron kwamen. De cijfers kloppen ook echt: de koppeling loopt via de winkelwagen, zodat ook conversies correct worden toegeschreven aan de juiste verwijzer.
+
+### 🐛 Bugfixes
+
+- **Winkelwagen / Bestelling — Sessie-synchronisatie**: Bij het openen van een bestellingslink via een e-mail terwijl er al een andere browsersessie actief was, konden de winkelwagen en de bestelling door elkaar lopen. Drie samenhangende oorzaken zijn opgelost zodat de winkelwagen altijd correct gekoppeld blijft aan de bijbehorende bestelling — ook bij het wisselen van browser of apparaat.
+
+- **Beveiliging — Aangescherpte beveiliging nieuwsbriefinschrijfformulier**: De beveiliging van het nieuwsbriefinschrijfformulier is aangescherpt. Geautomatiseerde aanmeldingen en misbruik worden nu sneller tegengehouden, terwijl normaal gebruik niet wordt gehinderd.
+
+- **Moodle-koppeling — Verbeterde betrouwbaarheid**: De koppeling met Moodle werkt nu ook correct wanneer de URL op een niet-standaard manier was geconfigureerd. De "Bekijk in Moodle"-knop verschijnt alleen nog wanneer de koppeling actief is.
+
+---
+
 ## Week van 1 tot 7 juni 2026
 
 ### ✨ Nieuw & Verbeterd
 
-- **Redirects — Werkt nu voor alle routes**: Voorheen werkte het redirect-systeem alleen voor CMS-pagina's (via `PageController`). Redirects worden nu afgehandeld door een nieuwe middleware `HandleRedirects` die vóór elke route draait. Dit betekent dat redirects ook werken voor cursuspagina's, collecties, blogposts, productpagina's en alle andere publieke routes. Beheerpaden (`/management`, `/api`) worden overgeslagen. De middleware beveiligt tegen oneindige lussen door te controleren of de bestemming niet gelijk is aan het huidige pad. De dubbele redirect-check in `PageController` is verwijderd.
+- **FAQ-categorieën — Actief/Inactief**: FAQ-categorieën hebben nu een "Actief"-vinkje in het beheer. Inactieve categorieën worden niet meer getoond op de FAQ-pagina en op CMS-pagina's met het FAQ-blok. Nieuwe categorieën staan standaard op actief.
 
-- **Cursus-beheer — Certificaattemplate gebaseerd op actief thema**: De keuzelijst voor de certificaattemplate bij een cursus toont nu alleen de templates die beschikbaar zijn in het actieve thema (`themes/{THEME}/pdf/certificates/`). Voorheen werden alle templates uit alle thema's samengevoegd, waardoor bijv. Utrecht-templates ook bij Amsterdam zichtbaar waren. Het actieve thema wordt bepaald via de `THEME`-omgevingsvariabele.
+- **Lessen genereren — Eén les zonder dagkeuze**: Bij programma's met precies één les hoeft geen dag van de week geselecteerd te worden. Vul de startdatum in en de les wordt direct ingepland. Bij meerdere lessen blijven dagen verplicht. Programma's met een startdatum maar nog geen aangemaakte lessen worden nu ook automatisch herkend en aangevuld.
 
-- **Cursusfilter — "Beschikbaar" standaard aan (Amsterdam)**: Op de cursus- en collectiepagina's van het Amsterdam-thema staat het filter "Alleen beschikbare cursussen" nu standaard ingeschakeld. Bij de eerste bezoek (geen queryparameters) worden automatisch alleen cursussen met een open programma getoond. De gebruiker kan het filter uitschakelen via het filterpaneel; het formulier stuurt dan `available=0` mee zodat de keuze bewaard blijft. Technisch: `AvailableFilter` controleert nu op `in_array('1', $values)` in plaats van `!empty($values)`, zodat de expliciete waarde `0` het filter correct uitschakelt.
+- **SEO — Gestructureerde data gecorrigeerd**: De gestructureerde data in de paginakop (voor zoekmachines) bevatte een opmaakfout waardoor zoekmachines die niet correct konden lezen. Dit is hersteld.
 
-- **kotingen validiteit**: Kortingen worden nu geched of ze valide zijn bij aanvang cursus, niet bij inschrijving.
+- **Zoeken — Geen beschikbaarheidsfilter bij zoekopdrachten**: Op de cursus- en collectiepagina's staat het filter "Alleen beschikbare cursussen" standaard aan. Bij het zoeken wordt dit filter automatisch uitgeschakeld zodat alle overeenkomende cursussen — ook gesloten of toekomstige — in de zoekresultaten verschijnen. Het filter blijft actief bij gewoon bladeren zonder zoekopdracht.
+
+- **Zoekresultatenpagina — Paginatitel**: De cursusoverzichtspagina toont nu een duidelijke paginatitel: "Zoekresultaten voor: [zoekterm]" bij een actieve zoekopdracht, en "Onze cursussen" bij gewoon bladeren.
+
+- **Productpagina — Paginatitel**: De productdetailpagina miste een paginatitel. De productnaam staat nu correct als hoofdtitel op de pagina.
+
+- **Homepage sliders — Alleen beschikbare cursussen**: De vier collectiesliders op de homepage (online cursussen, cursussen op locatie, tips & inspiratie, populaire cursussen) toonden alle cursussen uit een collectie, ook cursussen zonder open programma. De sliders tonen nu alleen cursussen waarvoor je je daadwerkelijk kunt inschrijven.
+
+- **GA4 — Aankoopregistratie op bedankpagina**: Na een succesvolle bestelling wordt op de bedankpagina een GA4-aankoopgebeurtenis geregistreerd met het ordernummer, het totaalbedrag en alle cursusinschrijvingen en productverkopen. Het event wordt pas geregistreerd nadat de betaling volledig is verwerkt, zodat het niet meerdere keren wordt geteld bij een paginaverversing.
+
+- **Alt-teksten — Afbeeldingen Amsterdam-thema**: Alle afbeeldingen in het Amsterdam-thema zonder zinvolle omschrijving zijn gecorrigeerd. Decoratieve iconen zijn als decoratief gemarkeerd; locatie-, docent- en contentblokafbeeldingen tonen nu de juiste naam als alt-tekst. Dit verbetert de toegankelijkheid en is conform de WCAG-richtlijnen.
 
 ### 🐛 Bugfixes
 
-- **CompanyInvoice e-mail (factuur) — Juiste PDF-bijlage**: De CompanyInvoice-e-mail die naar het bedrijf wordt verstuurd bevatte altijd de proforma-PDF (`pdf.quote`), ook nadat de factuur al gegenereerd was. De `build()`-methode genereerde de proforma altijd opnieuw voor het e-maillog. Nu wordt — wanneer een vooraf gegenereerde factuur-PDF beschikbaar is — die PDF zowel als bijlage als in het e-maillog gebruikt. De proforma wordt alleen nog gegenereerd voor de legacy-flow (zonder voorgegenereerde PDF).
+- **Nieuwsbriefinschrijving — Foutmelding opgelost**: Het nieuwsbriefinschrijfformulier gaf bij sommige bezoekers een foutmelding. Er bleken meerdere samenhangende problemen te zijn in de beveiligings- en spamdetectie-instellingen. Alle oorzaken zijn opgelost; het formulier werkt nu betrouwbaar.
+
+- **Kortingspas — Fouten bij cursus die volgend jaar start**: Bij het toepassen van een kortingspas op een cursus die volgend jaar start, traden meerdere fouten op. De kortingscode werd niet correct herkend en er werd soms een pas aangemaakt voor de verkeerde periode. Alle oorzaken zijn opgelost.
+
+- **Redirects — Werkt nu voor alle pagina's**: Voorheen werkten doorverwijzingen (redirects) alleen voor CMS-pagina's. Ze werken nu ook voor cursuspagina's, collecties, blogposts, productpagina's en alle andere publieke pagina's op de website.
+
+- **Cursus-beheer — Certificaattemplate gebaseerd op actief thema**: De keuzelijst voor de certificaattemplate bij een cursus toont nu alleen de templates die beschikbaar zijn voor het actieve thema. Eerder werden templates van alle thema's door elkaar getoond.
+
+- **Cursusfilter — "Beschikbaar" standaard aan (Amsterdam)**: Op de cursus- en collectiepagina's van het Amsterdam-thema staat het filter "Alleen beschikbare cursussen" nu standaard ingeschakeld. Bij het eerste bezoek worden automatisch alleen cursussen met een open programma getoond. De bezoeker kan het filter uitschakelen via het filterpaneel; die keuze wordt correct bewaard.
+
+- **Kortingen — Begindatum**: Naast een einddatum kan nu ook een begindatum worden ingesteld voor een korting. Is geen begindatum opgegeven, dan geldt de korting altijd vanaf het begin. De geldigheidscheck gebruikt — net als bij de einddatum — de startdatum van het programma als referentiedatum, zodat een korting die pas ingaat bij aanvang van de cursus correct wordt gevalideerd.
+
+- **Kortingen validiteit**: Kortingen worden nu gecheckt of ze valide zijn bij aanvang cursus, niet bij inschrijving.
+
+- **Logging — Recaptcha-fouten onderdrukt**: Foutmeldingen van de reCAPTCHA-beveiliging worden niet meer gelogd of als melding verstuurd.
+
+- **Factuur-e-mail — Juiste PDF-bijlage**: De factuure-mail die naar het bedrijf wordt verstuurd bevatte altijd de proforma-PDF, ook nadat de definitieve factuur al was aangemaakt. Nu wordt de definitieve factuur meegestuurd zodra die beschikbaar is.
+
+- **Moodle-koppeling — URL-configuratie verbeterd**: De Moodle-koppeling werkt nu ook correct wanneer de URL niet volledig was ingesteld.
+
+- **Menuvolgorde — Fout bij het opslaan**: Bij het gebruik van de sorteerfunctie in het menu-beheer kon een fout optreden waardoor de volgorde niet werd opgeslagen. Dit is opgelost.
+
+- **Factuurmail overgeslagen bij geïmporteerde betalingen**: Facturen die via een bulk-import zijn aangemaakt, krijgen geen automatische e-mail meer.
+
+- **Productverkopen — Snellere dropdowns**: De dropdowns voor product, cursist en bestelling in het aanmaak-/bewerkscherm van productverkopen laden nu efficiënter, ook bij grote aantallen records.
+
+- **Nieuwsbriefformulier — reCAPTCHA-beveiliging**: Het nieuwsbriefinschrijfformulier (footer en nieuwsbrief-pagina) is beveiligd met Google reCAPTCHA.
+
+- **Marketing Dashboard — Bestelproces-funnel**: Het marketing dashboard toont nu een overzichtskaart "Bestelproces" met drie stappen: **Winkelwagen** (bezoekers met minstens één item), **Verlaten** (niet-afgeronde winkelwagens ouder dan 30 minuten) en **Afgerond** (bestellingen die zijn doorgegaan in de geselecteerde periode). Per stap worden het absolute aantal en het percentage ten opzichte van de start getoond.
 
 ---
 
@@ -24,18 +104,15 @@
 
 - **Checkout stap 1 — Formulier voorgevuld vanuit ingelogd studentprofiel**: Wanneer een student ingelogd is, worden de contactgegevens in stap 1 van de checkout (naam, e-mail, geboortedatum, aanhef, telefoon, adres, postcode, plaatsnaam) automatisch voorgevuld vanuit zijn of haar studentprofiel. Dit gebeurt alleen als er nog geen eerdere bestelling is voor de winkelwagen — is die er wél, dan worden de al ingevulde gegevens van die bestelling gebruikt. Het e-mailveld is alleen-lezen wanneer de student ingelogd is. De "bestaat al een account"-waarschuwing en de bijbehorende API-check worden alleen getoond aan niet-ingelogde bezoekers.
 - **Checkout stap 2 — Kortingsvelden verborgen bij factuurbetalingen (Amsterdam)**: Bij een zakelijke bestelling waarbij gekozen is voor betaling op factuur (Bankoverschrijving), worden de invoervelden voor kortingscode, stadspasnummer en loyalty card niet meer getoond in stap 2. Deze velden zijn niet relevant bij facturatie.
-- **Bedrijfsfacturatie — Directe orderverwerking zonder Mollie (Amsterdam)**: Bij betaling op factuur worden bestellingen nu direct volledig verwerkt, zonder aparte proformafactuurstap:
-  - Alle inschrijvingen worden direct op **"Geplaatst"** gezet via de reguliere `save()`, zodat de `OrderItem::booted()` model-hook de bevestigingsmail verstuurt en `confirmed_at` stempelt — identiek aan de Mollie-flow.
-  - Per inschrijving wordt een **factuurrecord** aangemaakt (`payment_method = factuur`, `status = paid`, `pdf = null`).
-  - De **gecombineerde factuur-PDF** en het versturen van de **CompanyInvoice**-e-mail (template 12) naar het bedrijfse-mailadres worden afgehandeld door de cron (`vu:invoices`, elke 5 minuten). De cron herkent factuurbestellingen op `payment_method = factuur` en stuurt naar het bedrijfse-mailadres in plaats van naar de cursist.
-  - Factuurbestellingen worden in de cron gegroepeerd op `order_id` (niet op `mollie_id`, want dat is null) zodat inschrijvingen van verschillende bestellingen nooit worden samengevoegd.
-  - Voor factuurgroepen geldt **geen freshness buffer** — alle factuurrecords worden in één keer aangemaakt tijdens de checkout, dus de cron verwerkt ze direct bij de eerstvolgende run. Voor Mollie-betalingen blijft de buffer van 5 minuten van kracht.
-  - De betaler wordt direct doorgestuurd naar de bestellingsbevestigingspagina — geen PDF-generatie in de HTTP-request, dus geen timeout.
+- **Bedrijfsfacturatie — Directe orderverwerking (Amsterdam)**: Bij betaling op factuur worden bestellingen nu direct volledig verwerkt:
+  - Alle inschrijvingen worden direct op **"Geplaatst"** gezet en de deelnemers ontvangen hun bevestigingsmail.
+  - De gecombineerde factuur-PDF en de e-mail naar het bedrijf worden automatisch verstuurd.
+  - De betaler wordt direct doorgestuurd naar de bestellingsbevestigingspagina.
   - De instelling "Bedrijfsfactuur: plaatsingsstatus" is hiermee vervallen — inschrijvingen worden altijd direct geplaatst bij zakelijke facturatie.
-- **Bevestigingsmails — Controle per inschrijving i.p.v. per order**: In alle checkout-flows (`complete_order_without_payment`, `mollie_webhook_new`) wordt de individuele `SendConfirmation` nu gecontroleerd op `order_item.confirmed_at` in plaats van `order.confirmed_at`. Dit zorgt ervoor dat een deelnemer altijd zijn bevestiging ontvangt, ook als de order al eerder bevestigd werd.
-- **Programma-beheer — Inschrijvingen-tab: links naar student en inschrijving**: In de tab "Inschrijvingen" op de programmapagina in het beheer zijn twee verbeteringen doorgevoerd via aangepaste Backpack veldtypen (`student_link`, `orderitem_link`):
-  - De **studentnaam** is nu een klikbare link met een klein bewerkknopje naar de studentpagina (`/management/student/{id}/edit`).
-  - Achter het statusveld staat nu een **"✎ Open"**-knop die direct naar de bewerkpagina van de inschrijving (`/management/orderitem/{id}/edit`) navigeert.
+- **Bevestigingsmails — Controle per inschrijving**: Een deelnemer ontvangt nu altijd zijn bevestigingsmail, ook als de bestelling al eerder bevestigd werd (bijv. bij een gecombineerde bestelling met meerdere deelnemers).
+- **Programma-beheer — Inschrijvingen-tab: links naar student en inschrijving**: In de tab "Inschrijvingen" op de programmapagina zijn twee verbeteringen doorgevoerd:
+  - De **studentnaam** is nu een klikbare link naar de studentpagina.
+  - Achter het statusveld staat nu een **"✎ Open"**-knop die direct naar de bewerkpagina van de inschrijving navigeert.
 
 ### 🐛 Bugfixes
 
