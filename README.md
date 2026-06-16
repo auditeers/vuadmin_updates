@@ -1,5 +1,35 @@
 # VUAdmin Updates
 
+## Week van 15 tot 21 juni 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **Beveiliging — Kortingscode-validatie tegen programma-startdatum**: Kortingen worden gevalideerd op basis van de startdatum van het programma (niet de huidige datum). Hierdoor wordt een korting die pas ingaat bij aanvang van de cursus correct geaccepteerd, en wordt een korting met een einddatum vóór de startdatum van het programma correct geweigerd — ook als die korting vandaag nog geldig lijkt.
+
+### 🐛 Bugfixes
+
+- **Beveiliging — Chrome User-Agent Reduction onterecht geblokkeerd**: Chrome heeft sinds versie 113 (mei 2023) standaard "User-Agent Reduction" ingeschakeld, waardoor echte Chrome-browsers `Chrome/MAJOR.0.0.0` rapporteren (met nullen voor minor/build/patch). Dit patroon werd onterecht als botverkeer geblokkeerd. Chrome/113 t/m Chrome/147 zijn verwijderd uit de blokkeerlijst. Eerder door deze regel geblokkeerde IP-adressen worden automatisch gedeblokkeerd via een migratie.
+
+- **Beveiliging — FacebookBot geblokkeerd waardoor OG-previews faalden**: De crawler van Facebook (`FacebookBot` en `facebookexternalhit`) stond op de blokkeerlijst, waardoor link-previews op Facebook en Instagram niet meer werkten wanneer een pagina werd gedeeld. Beide crawlers staan nu op de toegestane lijst.
+
+### 🎨 Thema-updates Utrecht
+
+- **Checkout — Kortingscode-invoer per deelnemer**: In stap 2 van het checkout-proces (deelnemersgegevens) kan per cursusinschrijving een kortingscode of stadspasnummer worden ingevoerd. De code wordt direct gevalideerd via een asynchroon verzoek en de korting wordt zichtbaar verwerkt in het winkelwaagenoverzicht. De validatie gebruikt dezelfde regels als het Amsterdam-thema.
+
+- **Evaluaties — Redactionele bewerking van antwoorden**: In het evaluatie-antwoordbeheer kunnen nu per antwoord een quote voor bij de cursus en een quote voor bij de docent worden ingevuld. Deze worden bij het indienen automatisch gevuld vanuit de antwoorden die als "Opmerking cursus" of "Opmerking docent" zijn gemarkeerd. Beheerders kunnen de tekst daarna inkorten of aanpassen voor publicatie.
+
+- **Evaluaties — Interne notitie en statistiekenuitzondering**: Per evaluatie-antwoord kan een interne notitie worden toegevoegd (alleen zichtbaar in het beheer). Via een vinkje "Uitsluiten van statistieken" kan een antwoord buiten de KPI-berekeningen op het dashboard worden gehouden — handig voor test- of uitzonderingsgevallen.
+
+- **Evaluaties — Publicatieschakelaars per antwoord**: In het overzicht van evaluatie-antwoorden staan twee schakelknoppen per rij: "Publ. cursus" en "Publ. docent". Deze zijn direct in de lijst te bedienen zonder de rij te openen — een klik slaat de keuze meteen op. Dezelfde schakelaars zijn ook beschikbaar in het bewerkscherm.
+
+- **Dashboard — Uitgesloten antwoorden tellen niet mee in KPI's**: Evaluatie-antwoorden waarop "Uitsluiten van statistieken" is ingeschakeld, tellen niet meer mee bij de gemiddelde cijfers en responspercentages op het dashboard.
+
+- **Evaluaties — Cijfers opgeslagen als eigen veld**: Bij het indienen van een evaluatie worden de cijfers voor cursus en docent nu direct als afzonderlijke velden opgeslagen. Dit maakt sorteren op cijfer mogelijk in het overzicht, en de dashboardberekeningen zijn hierdoor een stuk sneller — er hoeft niet langer per antwoord door de JSON-antwoordenlijst te worden gezocht. Bestaande ingediende antwoorden zijn automatisch bijgevuld. De cijfers zijn zichtbaar (maar niet bewerkbaar) in het bewerkscherm.
+
+- **Evaluaties — Zoeken op cursusnaam**: In het overzicht van evaluatie-antwoorden werkt de zoekfunctie nu ook op cursusnaam.
+
+---
+
 ## Week van 8 tot 14 juni 2026
 
 ### ✨ Nieuw & Verbeterd
