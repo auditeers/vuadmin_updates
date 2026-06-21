@@ -4,9 +4,51 @@
 
 ### ✨ Nieuw & Verbeterd
 
-- **Beveiliging — Kortingscode-validatie tegen programma-startdatum**: Kortingen worden gevalideerd op basis van de startdatum van het programma (niet de huidige datum). Hierdoor wordt een korting die pas ingaat bij aanvang van de cursus correct geaccepteerd, en wordt een korting met een einddatum vóór de startdatum van het programma correct geweigerd — ook als die korting vandaag nog geldig lijkt.
+- **Checkout — Internationaal telefoonnummer en landkeuze**: Het telefoonnummer in de checkout (stap 1), op de cursuspagina (wachtlijst / seintje-formulieren) en in het cursistenprofiel is vervangen door een internationaal telefoonnuminvoerveld. Er verschijnt een vlaggetje met de landcode; de vlag en de landcode worden automatisch gesynchroniseerd. Standaard staat het veld op Nederland (+31). Bij het indienen wordt het volledige internationale nummer (E.164-formaat) opgeslagen. De validatie is aangepast: voor Nederlandse nummers geldt de bestaande 10-cijfercontrole, voor overige landen wordt gevalideerd via de intl-tel-input bibliotheek.
+
+- **Checkout — Postcode-validatie versoepeld**: De strikte Nederlandse postcode-validatie (verplicht formaat 1234AA) is vervangen door een flexibele controle. Voor een Nederlands adres wordt de postcode automatisch opgemaakt naar het standaardformaat met spatie (bijv. "1234 AA"), zowel bij het verlaten van het veld als bij het laden van het formulier. Voor adressen in andere landen wordt elk formaat geaccepteerd.
+
+- **Evaluaties — Locatiecijfer en -opmerking**: In het evaluatieformulierenbeheer kunnen vragen nu worden gekoppeld aan twee nieuwe marketingvelden: "Cijfer locatie" en "Opmerking locatie". Bij het indienen van een evaluatie worden deze waarden automatisch opgeslagen in vaste kolommen op de evaluatierespons. In het beheerscherm is het locatiecijfer zichtbaar (niet bewerkbaar) en de locatie-opmerking redactioneel aanpasbaar. Het evaluatierapport bevat twee nieuwe vaste kolommen: "Cijfer locatie" en "Opmerking locatie".
+
+- **Productverkopen — Betaler en ontvanger (zoals bij inschrijvingen)**: Productverkopen werken nu net als cursusinschrijvingen: er is een aparte betaler (de persoon die betaalt, via de bestelling) en een ontvanger (de persoon die het product ontvangt). In de checkout kan de ontvanger afwijken van de besteller; standaard is de ontvanger gelijk aan de besteller. De ontvanger wordt aangemaakt als cursist als dat account nog niet bestaat. In het beheer worden betaler en ontvanger naast elkaar getoond, inclusief bedrijfsgegevens bij de betaler. De bevestigings- en verwerkingsmail gaan naar de ontvanger; de factuur gaat naar de betaler (gecombineerd per bestelling). Het productverkopenrapport bevat nu aparte kolommen voor betaler en ontvanger. Bestaande productverkopen zijn bijgewerkt zodat ontvanger gelijk is aan betaler.
+
+- **Cursisten — Tab productverkopen**: In het cursistprofiel is een nieuw tabblad "Productverkopen" toegevoegd. Dit tabblad toont een leesbaar overzicht van alle productverkopen van de cursist met datum, product, prijs, status en betaaldatum, en een directe link naar de verkoop. Het tabblad is alleen zichtbaar voor gebruikers met het recht "Product verkopen".
+
+- **Productverkopen — Betaler en ontvangerblok in bewerkscherm**: In het bewerkscherm van een productverkoop worden betaler en ontvanger naast elkaar getoond als leesbare informatieblokken. De betaler toont naam, e-mail, telefoon en eventuele bedrijfsgegevens uit de bestelling. De ontvanger toont naam, e-mail en geboortedatum. Beide blokken bevatten een directe link naar het cursistprofiel. Wanneer ontvanger en betaler dezelfde persoon zijn wordt dit aangegeven.
+
+- **Marketing Dashboard — Productverkopen**: Het marketing dashboard toont nu ook productverkopen. Twee nieuwe KPI-kaarten tonen het aantal productverkopen (betaald + verwerkt) en de productomzet (ex BTW) in de geselecteerde periode. Een nieuwe tabel "Populaire producten" rangschikt producten op aantal verkopen, met producttype, aantal en omzet ex BTW. De tabel is verborgen wanneer er geen verkopen zijn in de periode.
+
+- **Rapportages — Dagplanning**: Nieuw rapport "Dagplanning" op basis van lessen (lections). Kolommen: Cursuscode, Cursusnaam, les nummer, Lesdatum (Y-m-d), Lesdag(en) (Nederlandse dagnaam), Starttijd, Eindtijd, Lokatie, Lokaal, Docent en Status. Status toont "definitief" wanneer het programma definitief is, anders de programamstatus (open/wachtlijst/gesloten/geannuleerd/voorinschrijving). Filteropties: van/tot op lesdatum, locatie en docent. Actief op alle sites.
+
+- **Rapportages — Productverkopen**: Nieuw rapport "Productverkopen" met kolommen Besteldatum, Klantnaam, Klantemail, Klanttelefoon, Product, Prijs, Betaalstatus, Betaalmethode en Verwerkt. Filterbaar op besteldatum. Actief op alle sites.
+
+- **Checkout Amsterdam — Aparte dag/maand/jaar velden voor geboortedatum**: In het Amsterdam-thema zijn de geboortedatumvelden in zowel stap 1 (contactgegevens) als stap 2 (deelnemersgegevens) omgezet van een vrij tekstinvoerveld naar drie losse keuzelijsten voor dag, maand en jaar — gelijk aan het Utrecht-thema. De geboortedatum is optioneel: wanneer niets is ingevuld wordt `NULL` opgeslagen en blokkeert de validatie de checkout niet.
+
+- **Kortingen — Automatisch toepassen zonder vouchercode**: In het kortingenbeheer kan per korting de schakelaar "Korting automatisch berekenen" worden ingeschakeld. Wanneer actief, wordt de korting bij het openen van stap 2 van de checkout automatisch toegepast op elk product in de winkelwagen — zonder dat de klant een code hoeft in te voeren. Alle selectiemethoden (producten, cursussen, programma's, deelnemers en veldvoorwaarden) worden wel gecontroleerd. De korting wordt getoond met dezelfde groene melding als bij vouchercodes. In rapporten en bevestigingen verschijnt de kortingsnaam met type "Automatisch".
+
+- **Kortingen — Cursusselectie: uitsluitmodus**: Naast de bestaande modus "Beperken tot geselecteerde cursussen" is een tweede modus beschikbaar: "Alle cursussen behalve deze". Via het nieuwe dropdownveld "Cursusselectie modus" in het tabblad Toepassing kan per korting worden gekozen of de cursusselectie als inclusie- of exclusielijst werkt. Alle bestaande kortingen zijn automatisch op de inclusiemodus gezet — er is geen gedragswijziging voor bestaande instellingen.
 
 ### 🐛 Bugfixes
+
+- **Cursisten — Tab productverkopen toont ook ontvangen producten**: Het tabblad "Productverkopen" in het cursistprofiel toonde eerder alleen verkopen waarbij de cursist de betaler was. Nu worden ook verkopen getoond waarbij de cursist de ontvanger is. Een nieuwe kolom "Rol" geeft aan of de cursist betaler of ontvanger is.
+
+- **Productverkopen — Verwerkingsmail bij bedrijfsfactuur**: Bij een bestelling via bedrijfsfactuur werden productverkopen niet verwerkt: ze bleven op status "open" staan en er werd geen factuurrecord aangemaakt. Productverkopen worden nu ook bij de bedrijfsfactuurflow gefactureerd en op "betaald" gezet.
+
+- **Productverkopen — Verwerkingsmail naar betaler én ontvanger**: De "verwerkt"-mail (`ProductProcessed`) werd per abuis verstuurd naar zowel de betaler (via `Mail::to()`) als de ontvanger (via de mailable zelf). De mail gaat nu uitsluitend naar de ontvanger, of bij ontbrekende ontvanger naar de betaler.
+
+- **Checkout — Ontvangernaam in besteloverzicht**: In het besteloverzicht (stap vóór betaling) werd bij productverkopen de naam van de besteller getoond achter "Ontvanger" in plaats van de naam die in de ontvangersvelden is ingevuld. Dit is opgelost voor zowel het Amsterdam- als het Utrecht-thema.
+
+- **Checkout Utrecht/Amsterdam — Geboortedatum niet verplicht**: De JavaScript-validatie behandelde een lege geboortedatum als fout en blokkeerde daardoor onterecht de checkout. Geboortedatum is optioneel: een lege invoer passeert de validatie nu zonder foutmelding.
+
+- **Checkout Utrecht — Dag onder 10 gaf validatiefout**: Bij een geboortedatum met een dag onder 10 (bijv. 5 januari) werd de validatie niet goed gedaan voor de dag werd gecombineerd in het verborgen veld. Dit is opgelost door het verborgen veld direct bij te werken zodra een keuzelijst wijzigt, zodat de validatie altijd de actuele waarde controleert.
+
+- **Facturenverwerking — Plaatsingsstatus bedrijfsfactuur**: Bij het verwerken van facturen via de cron (`vu:invoices`) en bij een directe bankoverschrijving in de checkout werd de instelling "Bedrijfsfactuur: plaatsingsstatus" (handmatig/direct) niet gerespecteerd. Inschrijvingen bij sites met de instelling op "handmatig" worden nu pas op "geplaatst" gezet nadat de beheerder dit handmatig bevestigt.
+
+- **Betaallinks — Stille fouten bij ontbrekende deelnemergegevens**: De `vu:paymentlinks`-cron sloeg inschrijvingen zonder student-id en e-mailadres stilzwijgend over. Er worden nu waarschuwingen gelogd, en inschrijvingen met een e-mailadres maar zonder gekoppeld account krijgen automatisch een nieuw studentaccount aangemaakt.
+
+- **Bedrijfsfactuur — E-mail naar verkeerd adres**: De gecombineerde bedrijfsfactuur werd verstuurd naar het e-mailadres van de contactpersoon in plaats van het bedrijfsfaktuure-mailadres van de bestelling. Dit is gecorrigeerd.
+
+- **Beveiliging — Kortingscode-validatie tegen programma-startdatum**: Kortingen worden gevalideerd op basis van de startdatum van het programma (niet de huidige datum). Hierdoor wordt een korting die pas ingaat bij aanvang van de cursus correct geaccepteerd, en wordt een korting met een einddatum vóór de startdatum van het programma correct geweigerd — ook als die korting vandaag nog geldig lijkt.
 
 - **Beveiliging — Chrome User-Agent Reduction onterecht geblokkeerd**: Chrome heeft sinds versie 113 (mei 2023) standaard "User-Agent Reduction" ingeschakeld, waardoor echte Chrome-browsers `Chrome/MAJOR.0.0.0` rapporteren (met nullen voor minor/build/patch). Dit patroon werd onterecht als botverkeer geblokkeerd. Chrome/113 t/m Chrome/147 zijn verwijderd uit de blokkeerlijst. Eerder door deze regel geblokkeerde IP-adressen worden automatisch gedeblokkeerd via een migratie.
 
