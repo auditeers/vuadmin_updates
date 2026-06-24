@@ -1,5 +1,75 @@
 # VUAdmin Updates
 
+## Week van 22 tot 28 juni 2026 
+
+### ✨ Nieuw & Verbeterd
+
+- **Facturen — Drie aparte datumvelden**: Het factuurproces is uitgebreid van één datumveld naar drie: **Factuurdatum** (wanneer de factuur is aangemaakt/verstuurd), **Vervaldatum** (wanneer betaling verwacht wordt) en **Betaaldatum** (wanneer betaling is ontvangen). Dit maakt onderscheid mogelijk tussen wanneer een factuur wordt verstuurd, wanneer de betaaltermijn verloopt en wanneer het geld daadwerkelijk is binnengekomen. Alle bestaande facturen zijn automatisch bijgewerkt: betaalde facturen krijgen `betaaldatum = factuurdatum`, creditfacturen en toekomstige termijnen krijgen `betaaldatum = leeg`.
+
+- **Facturen — Termijnfacturen vooraf aanmaken**: Bij een termbetaling (partpayment > 1) worden alle toekomstige termijnen direct als factuurrecord aangemaakt nadat de eerste termijn is betaald — één maand per termijn. Wanneer een volgende Mollie-betaling binnenkomt wordt het bijbehorende vooraf-aangemaakte record bijgewerkt in plaats van een nieuw record aangemaakt. Dit voorkomt dubbele facturen bij herhaalde termijnbetalingen.
+
+- **Facturen — Verstuurd op (sent_at)**: Er wordt bijgehouden wanneer een factuur-PDF daadwerkelijk per e-mail is verstuurd. Dit is anders dan de factuurdatum: de factuurdatum bepaalt wanneer de factuur verstuurd moet worden; `verstuurd op` registreert het moment dat de e-mail daadwerkelijk is afgegaan. Facturen worden alleen verzonden als ze nog niet verstuurd zijn.
+
+- **Facturen — Overdue herinneringen via factuurcommando**: De overdue-herinnering is verplaatst van de dagelijkse mail naar het `vu:invoices`-commando. Zodra de vervaldatum is verstreken, de factuur al verstuurd is en de betaling nog niet is ontvangen, verstuurt het commando automatisch een herinnering (e-mailsjabloon #6) inclusief de originele factuur-PDF als bijlage en een betaalknop. Er wordt per factuur één herinnering verstuurd (`reminder_sent_at` voorkomt herhaling).
+
+- **Facturen — Handmatig opnieuw versturen**: In de facturen-tab van een inschrijving staat naast de downloadknop een **"Verstuur"-knop** voor facturen die nog niet zijn betaald. Als de factuurdatum al verstreken is wordt de factuur opnieuw verstuurd as-is. Als de factuurdatum nog in de toekomst ligt (vroeg versturen) wordt de factuurdatum naar vandaag verschoven voor het versturen.
+
+- **Facturen — PaymentLink e-mail met PDF**: De betalingslink-e-mail (sjabloon 5, verstuurd bij `payment_moment = plaatsing`) bevat nu de factuur-PDF als bijlage. De PDF wordt direct aangemaakt als die nog niet beschikbaar is, en de factuur wordt meteen als "verstuurd" gemarkeerd zodat het `vu:invoices`-commando deze niet nogmaals verstuurt.
+
+- **Programma bevestigen — Facturen aanmaken bij plaatsing**: Wanneer `betaalmoment = plaatsing` en een programma wordt bevestigd via de knop "Bevestigen", worden factuurrecords aangemaakt voor alle ingeschreven deelnemers. Bij termbetaling worden alle termijnen direct vooraf-aangemaakt met datums één maand per termijn. Daarna wordt de betalingslink-e-mail mét PDF verstuurd.
+
+- **Factuuroverzicht — Nieuwe kolommen**: In de factuurlijst zijn de kolommen **Vervaldatum**, **Betaaldatum** en **Verstuurd op** toegevoegd. Het label "Betaaldatum" (dat voorheen de factuurdatum toonde) heet nu correct **Factuurdatum**.
+
+- **Inschrijvingen — Facturen-tab uitgebreid**: De facturen-tab bij een inschrijving toont nu ook **Vervaldatum**, **Betaaldatum** en **Verstuurd op** per factuur.
+
+- **Factuur bewerken — Alleen betaalgegevens bewerkbaar**: In het bewerkscherm van een factuur zijn alleen **Betaalmethode** en **Betaaldatum** bewerkbaar. Alle overige velden (factuurnummer, factuurdatum, vervaldatum, bedrag) zijn readonly. Gebruik de betaaldatum om handmatig een bankoverschrijving te registreren.
+
+- **Factuur-PDF — Factuurdatum en vervaldatum**: De factuur-PDF toont nu zowel de **Factuurdatum** als de **Vervaldatum** in de header. De "voldaan op"-regel onderaan gebruikt voortaan de werkelijke betaaldatum in plaats van de aanmaakdatum.
+
+- **Financieel dashboard — Openstaande posten op vervaldatum**: De openstaande posten in het financieel dashboard tonen nu alleen facturen die al verstuurd zijn maar nog niet betaald. De aging-buckets zijn gebaseerd op de **vervaldatum** (niet meer op de factuurdatum). Buckets: nog niet vervallen, 0–30 dagen, 30–60 dagen, meer dan 60 dagen.
+
+- **E-boekhouden — Synchronisatie op betaaldatum**: De e-boekhoudensynchronisatie groepeert mutaties nu op **betaaldatum** (wanneer geld is ontvangen) in plaats van op de aanmaakdatum van de factuur. Alleen betaalde facturen (`betaaldatum IS NOT NULL`) worden gesynchroniseerd.
+
+- **Rapportage Betalingen — Kasbasis op betaaldatum**: Het betalingenrapport filtert en sorteert nu op **betaaldatum** (wanneer geld is ontvangen) in plaats van op factuurdatum. Het BTW-rapport blijft op factuurdatum (accrual basis).
+
+- **Kortingspassen — Automatisch factuur bij goedkeuring subsidie**: Wanneer een kortingspas het veld "Maak de korting aan als betaalmethode" ingevuld heeft (bijv. voor U-PAS/gemeentesubsidie), wordt bij het goedkeuren van de kortingspas automatisch een betaalde factuur aangemaakt met betaaldatum = goedkeuringsdatum en betaalmethode = de ingestelde subsidie-methode. De beheerder hoeft dit niet meer handmatig te doen.
+
+- **Programma groepse-mail — Deeloptie docent**: De optie "Geplaatst" in het groeps-e-mailvenster is gesplitst in twee opties: **Geplaatst incl. docent** (standaard, stuurt ook naar de docent) en **Geplaatst excl. docent** (stuurt alleen naar de deelnemers). De optie "Seintje" is verwijderd.
+
+### 🐛 Bugfixes
+
+- **Checkout — Status "controle" pas na bevestiging in stap 3**: Bij inschrijvingen waarbij een kortingspas of voucher met goedkeuringsvereiste werd gebruikt, stond de status van de inschrijving al op "controle" zodra stap 2 (deelnemersgegevens) was ingevuld — nog vóór de bestelling definitief werd afgerond. Dit is hersteld: de inschrijving blijft op "open" staan totdat de bestelling in stap 3 daadwerkelijk wordt bevestigd. Pas op het moment van definitieve afronding wordt de status "controle" toegekend.
+
+- **Rapportages — Docentgegevens: kolom Functie toegevoegd**: Het docentgegevensrapport bevatte geen kolom voor de functietitel van de docent, terwijl dit veld wel wordt bijgehouden. De kolom "Functie" is toegevoegd, direct na de naamvelden.
+
+- **Kortingen — Cursusselectie toont alle cursussen**: In het kortingenbeheer werden niet alle cursussen getoond in de cursusselectie. De lijst was beperkt tot 500 cursussen en de sortering werkte niet correct door de meertalige opzet van cursustitels. Alle cursussen worden nu getoond, gesorteerd op naam.
+
+- **Annuleringscredits — Correcte datum en zichtbaarheid**: Creditnota's bij annulering kregen voorheen een factuurdatum +1 jaar in de toekomst (een tijdelijke oplossing om te voorkomen dat ze meegerekend werden als betaald). Nu krijgt een creditnota factuurdatum = vandaag en betaaldatum = leeg. De berekening van "betaald" werkt op `betaaldatum IS NOT NULL`, waardoor de truc niet meer nodig is. Cursisten zien de creditnota direct op hun dashboard.
+
+- **Betaald-berekening — Consequent op betaaldatum**: Alle berekeningen van "betaald bedrag" (in inschrijvingen, factuurmodel, rapportages en missingdata-commando) gebruiken nu consequent `betaaldatum IS NOT NULL` in plaats van `factuurdatum <= vandaag`. Hierdoor tellen vooraf-aangemaakte toekomstige termijnen en openstaande creditnota's niet meer mee als betaald.
+
+- **Checkout — Ongeldige kortingscode blokkeert betaling**: Als een kortingscode of pasnummer is ingevoerd maar nog niet is gevalideerd (het groene vinkje is niet zichtbaar), kan de checkout niet worden voortgezet. Er verschijnt een foutmelding "Controleer de code voordat u verdergaat." Dit geldt voor Utrecht, Breda en Amsterdam. Een leeg veld blokkeert de checkout niet.
+
+- **Rapportages — Dagplanning: cursuscode, locatiespelling en lesvorm**: In het Dagplanningrapport zijn drie verbeteringen doorgevoerd: de kolom "Lokatie" heet nu "Locatie" (met een C), de kolom "Cursuscode" toont voortaan de echte cursuscode in plaats van een intern ID, en er is een nieuwe kolom "Lesvorm" toegevoegd die aangeeft of een les online, hybride of offline plaatsvindt.
+
+- **Statistieken — UTM-tracking strenger**: De UTM-velden "term" en "content" worden voortaan alleen opgeslagen wanneer ze expliciet als zodanig in de link zijn meegegeven. Links afkomstig van Mailchimp worden niet langer automatisch gevuld met interne Mailchimp-trackingwaarden. Daarnaast wordt "term" niet meer opgeslagen wanneer de waarde identiek is aan de campagnenaam — wat bij Meta/Instagram-advertenties standaard het geval was. Alle UTM-waarden worden afgekapt op maximaal 150 tekens.
+
+- **Exportrapport Kortingen — Pasnummers volledig zichtbaar**: Lange pasnummers (zoals stadspasnummers van 19 cijfers) werden in Excel en Google Sheets afgerond of in wetenschappelijke notatie weergegeven, waardoor het originele nummer niet meer te herstellen was. Pasnummers worden nu altijd als tekst opgeslagen in het exportbestand, zodat het volledige nummer zichtbaar en kopieerbaar blijft.
+
+### 🎨 Thema-updates Amsterdam, Utrecht & Breda
+
+- **Checkout stap 1 — Nieuwe volgorde contactgegevens**: De volgorde en indeling van de contactgegevensvelden in stap 1 van het bestelproces is aangepast voor Amsterdam, Utrecht en Breda. De velden staan nu in de volgende volgorde: e-mail, dan aanhef/voornaam/achternaam naast elkaar, straatnaam + huisnummer naast plaatsnaam, land naast postcode (Amsterdam) of postcode op een aparte rij (Utrecht/Breda), telefoonnummer, en tot slot de drie geboortedatumvelden. Het adres staat daarmee niet langer in een apart blok.
+
+- **Checkout Amsterdam — Stijl keuzelijsten**: De keuzelijsten voor geboortedag, geboortemaand, geboortejaar en land hadden een andere stijl dan de overige keuzelijsten in het formulier. Ze zien er nu hetzelfde uit als de aanhef-keuzelijst.
+
+### 🎨 Thema-updates Breda
+
+- **Checkout — Migratie naar nieuw bestelproces (3 stappen)**: Het Breda-thema is overgezet naar het nieuwe bestelproces, gelijk aan Amsterdam en Utrecht. De checkout bestaat nu uit drie stappen: (1) persoonsgegevens inclusief optionele bedrijfsfacturatie, (2) deelnemersgegevens per cursusitem met kortingscode/Breda Pas-invoer en live validatie, (3) bestellingsoverzicht met betaalstatussen, kortingen en bedrijfsfactuurgegevens. De "Breda Pas"-korting werkt via het algemene vouchersysteem in stap 2.
+
+- **Succespagina — Bestellingsoverzicht na betaling**: Na een succesvolle betaling toont de succespagina van Breda nu een volledig bestellingsoverzicht: inschrijvingen met status en eventuele korting, factuurgegevens en het totaalbedrag. Bij een nog lopende betaling wordt de pagina automatisch ververst totdat de status bekend is.
+
+---
+
 ## Week van 15 tot 21 juni 2026
 
 ### ✨ Nieuw & Verbeterd
