@@ -1,5 +1,51 @@
 # VUAdmin Updates
 
+## Week van 29 juni tot 5 juli 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **GA4 E-commerce tracking (alle thema's)**: Bezoekersgedrag in het afrekenproces wordt nu gedetailleerd bijgehouden via Google Analytics 4. Wanneer GA4 tracking is ingeschakeld via Beheer → Instellingen → Scripts, worden automatisch events verstuurd op het moment dat een bezoeker een cursus- of productpagina bekijkt, een item toevoegt of verwijdert uit de winkelwagen, de winkelwagenpagina bekijkt, stap 2 of stap 3 van het bestelproces doorloopt, en de betaling afrond. Op de bedankpagina wordt een aankoopgebeurtenis geregistreerd met het ordernummer, het totaalbedrag en alle losse artikelen. Elk event wordt maar één keer verstuurd — ook bij een paginaverversing. Beschikbaar voor alle thema's: Amsterdam, Utrecht, Breda, Westvoorne, Gouda en Demo.
+
+- **Bezettingsrapport — Kolom "Doorgang"**: Het bezettingsrapport heeft een nieuwe kolom "Doorgang". Per programma staat hier "ja" als de doorgang definitief is bevestigd, "nee" als het programma is geannuleerd, en "onbepaald" in alle overige gevallen.
+
+- **Collectiepagina — Producten zichtbaar (Amsterdam)**: Producten die aan een hoofdcollectie zijn gekoppeld, worden nu ook getoond op de collectiepagina — na de cursussen, gesorteerd op de ingestelde volgorde.
+
+- **Productverkopen — Zoeken op naam en e-mail**: In het beheerscherm van productverkopen werkt de zoekfunctie nu ook op productnaam, voor- en achternaam van de cursist en diens e-mailadres.
+
+- **Kortingscode/-pas — Dubbele toewijzing voorkomen**: Kortingscodes en kortingspassen met een maximaal aantal toepassingen worden nu al geweigerd als het limiet al volledig in gebruik is in andere openstaande winkelwagens. Dit voorkomt dat meer deelnemers dan toegestaan tegelijk met dezelfde code door het bestelproces gaan.
+
+- **E-maillog — Inhoud opgeslagen in database**: De volledige tekst van via het systeem verstuurde e-mails wordt nu opgeslagen in de database, zodat e-mails later zijn in te zien en opnieuw te versturen vanuit het e-maillog.
+
+- **Cursistdashboard — Direct inloggen op leeromgeving (Moodle)**: Bij een inschrijving met een actieve plaatsing verschijnt in het dashboard nu een knop "Naar leeromgeving" zodra de bijbehorende cursus in Moodle beschikbaar is. Dit volgt dezelfde beschikbaarheidsregels als de Moodle-synchronisatie: de knop verschijnt pas als de cursus in Moodle is aangemaakt, zichtbaar is met inhoud, en de cursist een gekoppeld Moodle-account heeft. De cursist wordt via een eenmalige, kortlevende inlogsleutel automatisch ingelogd en direct naar de betreffende cursus gebracht, zonder zelf Moodle-inloggegevens te hoeven invoeren. Mislukt het automatisch inloggen (bijv. door een storing aan Moodle-zijde), dan wordt de cursist teruggevallen op het normale Moodle-inlogscherm voor die cursus, en wordt de fout gelogd voor onderzoek. Beschikbaar voor alle thema's: Amsterdam, Utrecht, Westvoorne, Gouda en Demo.
+
+### 🐛 Bugfixes
+
+- **Evaluatieformulier — Dubbel cijferveld verwijderd** (Amsterdam, Utrecht, Breda, Westvoorne): Bovenaan het evaluatieformulier stond een extra keuzelijst "Geef een algemeen cijfer (1-10)". Dit veld stond los van de vragen in het formulier en kon overlappen met een vraag die hetzelfde vroeg. Het vaste cijferveld is verwijderd; cijfers worden voortaan uitsluitend via de ingestelde vragen in het formulier gevraagd.
+
+- **Checkout Amsterdam stap 2 — Naam en e-mail van deelnemer verplicht**: De velden voor voornaam, achternaam en e-mailadres van de deelnemer in stap 2 van het bestelproces misten het verplicht-attribuut, waardoor het formulier kon worden ingediend zonder dat de deelnemersgegevens waren ingevuld. Dit is gecorrigeerd.
+
+- **Inschrijvingen — Programma verplicht bij aanmaken en bewerken**: Het veld voor het programma bij het aanmaken of bewerken van een inschrijving in het beheer stond per ongeluk als optioneel ingesteld. Er moet nu altijd een programma worden geselecteerd.
+
+- **Marketing — Zoekterm niet meer gevuld bij Google-omleidingslinks**: Wanneer een bezoeker via een Google-omleidingslink (`/url?q=https://...`) op de website terechtkwam, werd de volledige omleidings-URL onterecht opgeslagen als zoekwoord in de statistieken. Zoektermen worden nu alleen opgeslagen als de waarde daadwerkelijk een zoekwoord betreft en geen URL is.
+
+### 🎨 Thema-updates Amsterdam
+
+- **GA4 tracking ingebouwd**: Cursuspagina's, productpagina's, winkelwagen, alle stappen van het bestelproces en de bedankpagina sturen nu automatisch GA4 ecommerce events via de dataLayer. In te schakelen via de site-instellingen.
+- **Collectiepagina — Producten getoond**: Gekoppelde producten worden nu ook op de hoofd-collectiepagina weergegeven.
+- **Evaluatieformulier — Dubbel cijferveld verwijderd**: Zie bugfixes.
+- **Checkout stap 2 — Deelnemersvelden verplicht**: Zie bugfixes.
+
+### 🎨 Thema-updates Utrecht, Breda & Westvoorne
+
+- **GA4 tracking ingebouwd**: Winkelwagen, bestelproces, cursus- en productpagina's sturen nu GA4 ecommerce events.
+- **Evaluatieformulier — Dubbel cijferveld verwijderd**: Zie bugfixes.
+
+### 🎨 Thema-updates Demo & Gouda
+
+- **GA4 tracking ingebouwd**: Winkelwagen, bestelproces en cursuspagina's sturen nu GA4 ecommerce events.
+
+---
+
 ## Week van 22 tot 28 juni 2026 
 
 ### ✨ Nieuw & Verbeterd
@@ -36,7 +82,15 @@
 
 - **Programma groepse-mail — Deeloptie docent**: De optie "Geplaatst" in het groeps-e-mailvenster is gesplitst in twee opties: **Geplaatst incl. docent** (standaard, stuurt ook naar de docent) en **Geplaatst excl. docent** (stuurt alleen naar de deelnemers). De optie "Seintje" is verwijderd.
 
+- **Kortingen — Ledenprijs via product (kortingsmodus)**: In het kortingenbeheer is een derde kortingsvorm toegevoegd naast het vaste bedrag en het percentage: de **ledenprijs**. Via het nieuwe keuzeveld "Kortingstype" (radio-knoppen: Vast bedrag / Percentage / Ledenprijs) in het tabblad Financieel kies je per korting welke berekening gebruikt wordt. Bij "Ledenprijs" wordt het kortingsbedrag automatisch berekend als: reguliere prijs − ledenprijs van het programma. Onder het tabblad Toepassing kunnen daarnaast één of meerdere **vereiste producten** worden ingesteld via een multi-select. Dit vereiste-productencheck werkt onafhankelijk van de kortingsmodus: ook een vaste korting of percentage kan worden beperkt tot deelnemers die een bepaald product hebben gekocht. De check werkt op het e-mailadres van de deelnemer (niet de betaler), zodat de korting persoonlijk is. Op sites met niet-unieke e-mailadressen (zoals Westvoorne) wordt de korting alleen toegepast als precies één student met dat e-mailadres het product heeft gekocht; bij meerdere overeenkomsten wordt de korting overgeslagen. De geldigheidsperiode wordt bepaald door de begin- en einddatum van de korting zelf. Hiermee vervangt het kortingenmoduul het voormalige abonnementenmoduul voor locaties die lidmaatschap als product verkopen.
+
+- **Kortingen — Beschikbaarheidsfilter per site instelbaar**: Via de nieuwe instelling **"Beschikbaarheidsfilter standaard aan"** (beheer → Instellingen → Cursussen) kan per site worden ingesteld of het beschikbaarheidsfilter standaard ingeschakeld is op de cursus- en collectiepagina's. Staat de instelling op "Uit", dan worden ook niet-beschikbare cursussen standaard getoond. Standaard staat de instelling op "Aan" (bestaand gedrag voor Amsterdam en Utrecht).
+
 ### 🐛 Bugfixes
+
+- **Beveiliging — Persoonsgegevens niet meer zichtbaar voor niet-ingelogde bezoekers**: In stap 1 van de checkout werden de naam, het adres, het telefoonnummer en de geboortedatum van een bestaande cursist automatisch ingevuld zodra iemand een bekend e-mailadres intikte — zonder dat die persoon ingelogd was. Dit is een datalek: onbevoegden konden zo profielgegevens van anderen inzien. Persoonsgegevens worden nu uitsluitend vooringevuld voor ingelogde gebruikers. Geldt voor Amsterdam, Utrecht en Breda.
+
+- **Facturen — Factuurnummer pas bij verzending**: Geplande facturen (toekomstige termijnen) kregen bij aanmaak al een factuurnummer toegewezen. Factuurnummers worden nu pas gegenereerd op het moment dat de factuur daadwerkelijk wordt verstuurd. Zolang een termijnfactuur nog niet verzonden is, heeft deze geen factuurnummer en geen PDF.
 
 - **Checkout — Status "controle" pas na bevestiging in stap 3**: Bij inschrijvingen waarbij een kortingspas of voucher met goedkeuringsvereiste werd gebruikt, stond de status van de inschrijving al op "controle" zodra stap 2 (deelnemersgegevens) was ingevuld — nog vóór de bestelling definitief werd afgerond. Dit is hersteld: de inschrijving blijft op "open" staan totdat de bestelling in stap 3 daadwerkelijk wordt bevestigd. Pas op het moment van definitieve afronding wordt de status "controle" toegekend.
 
@@ -67,6 +121,48 @@
 - **Checkout — Migratie naar nieuw bestelproces (3 stappen)**: Het Breda-thema is overgezet naar het nieuwe bestelproces, gelijk aan Amsterdam en Utrecht. De checkout bestaat nu uit drie stappen: (1) persoonsgegevens inclusief optionele bedrijfsfacturatie, (2) deelnemersgegevens per cursusitem met kortingscode/Breda Pas-invoer en live validatie, (3) bestellingsoverzicht met betaalstatussen, kortingen en bedrijfsfactuurgegevens. De "Breda Pas"-korting werkt via het algemene vouchersysteem in stap 2.
 
 - **Succespagina — Bestellingsoverzicht na betaling**: Na een succesvolle betaling toont de succespagina van Breda nu een volledig bestellingsoverzicht: inschrijvingen met status en eventuele korting, factuurgegevens en het totaalbedrag. Bij een nog lopende betaling wordt de pagina automatisch ververst totdat de status bekend is.
+
+### 🎨 Thema-updates Westvoorne
+
+- **Checkout — Migratie naar nieuw bestelproces (3 stappen)**: Het Westvoorne-thema is overgezet naar de nieuwe `OrderControllerNew`. De checkout bestaat nu uit drie stappen: (1) persoonsgegevens met lidmaatschapsnummer-validatie en e-mailcheck via `/api/check-email-id`, (2) deelnemersgegevens per item met automatische kortingstoepassing (ledenprijs wordt hier berekend en getoond als groene melding), (3) bestellingsoverzicht. Westvoorne is hiermee de laatste live-site die is overgezet van het oude bestelproces.
+
+- **Betaalmoment "plaatsing" — Bevestiging zonder directe betaling**: Westvoorne gebruikt `payment_moment = plaatsing`. Inschrijvingen krijgen direct de status "geplaatst"; er wordt geen Mollie-betaling aangemaakt. De bevestigingsknop in stap 3 heet "BEVESTIG INSCHRIJVING". Facturen worden aangemaakt zodra de beheerder het programma bevestigt.
+
+- **Overzichtspagina (stap 3) — Nieuw bestand**: Een nieuwe `order_overview.blade.php` is aangemaakt voor stap 3 in Westvoorne-stijl. Toont een twee-kolomlayout met items links en een sticky prijsoverzicht rechts. Betaalstatussen worden weergegeven als gekleurde badges; bij `geplaatst` verschijnt "Betaling bij doorgang activiteit". De algemene voorwaarden-checkbox staat in de linkerkolom.
+
+- **Productpagina — Nieuw bestand**: Een nieuwe `product_index.blade.php` is aangemaakt met zoekbalk, kaartweergave per product (afbeelding, titel, intro, prijs, "Meer info"-link) en ondersteuning voor de `?q=`-zoekparameter.
+
+- **Cursusoverzicht — Beschikbaarheidsfilter standaard uit**: Op de cursus- en collectiepagina's van Westvoorne staat het beschikbaarheidsfilter standaard uitgeschakeld. Alle cursussen worden getoond, ook niet-beschikbare. Beheer → Instellingen → Cursussen → "Beschikbaarheidsfilter standaard aan" → Uit.
+
+- **Checkout — Winkelwagen leeg na succesvolle betaling**: Na een geslaagde betaling bleef het product in de winkelwagen staan. Oorzaak: `Cart::findOrCreateBySession()` retourneerde bij een dubbele sleutelfout de oude, reeds afgerekende winkelwagen. Opgelost door vóór het aanmaken van een nieuwe winkelwagen het `session_id` van niet-actieve winkelwagens vrij te geven.
+
+- **Checkout — Geboortedatum optioneel en overdraagbaar**: De geboortedatum was ten onrechte verplicht; het veld is nu gelabeld als "(optioneel)". Daarnaast werd de geboortedatum uit stap 1 niet overgenomen naar stap 2 bij de eerste deelnemer — opgelost door in `create_student()` de geboortedatum altijd bij te werken als er een waarde is ingevuld.
+
+- **Routes — Altijd via OrderControllerNew**: De routelogica gebruikte nog een voorwaardelijke check om te bepalen welke controller gebruikt moest worden, waardoor `/cart/add-more/{id}` een fout gaf voor Westvoorne. Alle routes gebruiken nu altijd `OrderControllerNew`.
+
+- **Rijke tekst — `.wv-prose`-stijlen**: Pagina's, cursussen, docenten, FAQ-antwoorden en producten toonden CMS-inhoud als platte tekst zonder opmaakhiërarchie. Een nieuwe CSS-klasse `.wv-prose` is toegevoegd met stijlen voor koppen (h1–h6), lijsten, links, blockquotes en tabellen, toegepast op alle sjablonen waar CMS-inhoud wordt weergegeven.
+
+- **Succespagina — Volledig breedte bestellingsoverzicht**: Het overzicht op de succespagina werd in een smalle kolom getoond. Aangepast naar `col-12` voor volledige breedte.
+
+- **Docentpagina — Cursusblok verborgen bij geen cursussen**: Op de docentdetailpagina werd altijd een cursusblok gerenderd, ook als de docent geen actieve cursussen heeft. Het blok is nu omsloten met een `@if`-check op `$courses->isNotEmpty()`.
+
+- **Cursus- en docentkaarten — Volledig klikbaar met zoom-effect**: Alle cursuskaarten en docentblokken zijn nu volledig klikbaar via Bootstrap `stretched-link`. Cursuskaarten tonen een zoom-effect op de afbeelding bij hover.
+
+- **Paginasjabloon — Extra ruimte onder h1**: De h1-wrapper op de normale paginasjabloon heeft nu `mb-4` voor meer witruimte onder de paginatitel.
+
+- **Cursuskaarten — Verbeterde prijsweergave**: De twee kale oranje prijsregels zijn vervangen door een `.wv-price-block`: de reguliere prijs groot en vetgedrukt, de ledenprijs ernaast met een oranje pill-badge "LEDENPRIJS". Toegepast op cursusoverzicht, homepagina, docentpagina, collectiepagina en gerelateerde cursussen.
+
+- **Cursusdetailpagina — Prijstabel**: De prijsweergave is vervangen door een gestileerde tabel met twee rijen: "Ledenprijs" en "Reguliere prijs", gescheiden door een dunne lijn en omsloten door een kadrering.
+
+- **Cursusdetailpagina — Aantalknop voor inschrijven**: Naast de "Inschrijven"-knop staat nu een +/−-stappenregelaar voor het inschrijven van meerdere deelnemers tegelijk. Het maximum is het aantal nog beschikbare plaatsen (max. 10). De controller verwerkt de `qty`-parameter en maakt het juiste aantal `CartItem`-records aan.
+
+- **Cursusdetailpagina — Programmaselectie en inschrijfknop opgemaakt**: De datum-radiogroep is vervangen door gestileerde kaarttjes met rand en oranje hover-/geselecteerde staat. De "Inschrijven"-knop is vergroot.
+
+- **Checkout — Lettergroottes verkleind**: Labels, alinea's en invoervelden in de checkout erfden de 22px body-lettergrootte. Binnen de checkout-containers zijn deze teruggebracht naar 16px; sectietitels (`.faq-title`) zijn gestileerd als 20px PoppinsSemiBold. Bootstrap-alerts zijn ook op 16px gezet.
+
+- **Afbeeldingen — Lazy loading**: Alle `/storage/`-afbeeldingen in de Westvoorne-sjablonen hebben nu `loading="lazy"`, zodat afbeeldingen buiten beeld pas worden geladen wanneer de bezoeker ernaartoe scrolt.
+
+- **Lettertypen — Sneller laden en betere fallback**: `PoppinsLight.woff2` en `PoppinsSemiBold.woff2` worden nu via `<link rel="preload">` in de `<head>` vooraf geladen. Alle `font-family`-declaraties hebben `Arial, sans-serif` als fallback, zodat bij het laden een schreefloze systeemlettertype wordt getoond in plaats van Times New Roman.
 
 ---
 
