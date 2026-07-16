@@ -1,10 +1,52 @@
 # VUAdmin Updates
 
+## Week van 13 tot 19 juli 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **Nieuw rapport "Deelnemersgegevens jaarraport"**: Bij Beheer → Rapporten is een nieuw rapport beschikbaar dat een overzicht geeft van alle unieke deelnemers die in een gekozen jaar minstens één lesdag hebben gehad, met hun contactgegevens (ID, voornaam, achternaam, e-mailadres, telefoonnummer, geboortedatum en plaats). Het rapport is te filteren op jaartal.
+
+- **Cursus-tags — Los invoerveld vervangen door tags met suggesties**: Het veld "SEO Zoekwoorden" bij een cursus (tabblad Marketing) is vervangen door een echt tags-veld. In plaats van los tekst met komma's te typen, voeg je nu tags toe die als los te verwijderen "pilletjes" verschijnen; terwijl je typt worden al bestaande tags gesuggereerd, en een tag die nog niet bestaat wordt automatisch aangemaakt. Bestaande zoekwoorden zijn bij deze update automatisch omgezet naar tags, dus er gaat niets verloren. Tags worden nog altijd op dezelfde manier gebruikt voor de zoekfunctie op de cursuspagina en voor de synchronisatie met Cultuurconnectie.
+
+- **Productverkopen — Prijs automatisch ingesteld bij aanmaken**: Bij het aanmaken van een productverkoop wordt de prijs niet langer handmatig ingevuld, maar automatisch overgenomen van de huidige verkoopprijs van het gekozen product. Het prijsveld op het tabblad "Prijzen" is nu alleen-lezen (en blijft, zoals voorheen, bevroren na aanmaken, ook als de productprijs later verandert). Wil je voor een specifieke verkoop een andere prijs, gebruik dan het kortingsbedrag.
+
+- **Tags uitgebreid naar blogartikelen, webpagina's, producten, collecties en docenten**: Het tags-veld dat eerder al bij cursussen was geïntroduceerd (tabblad Marketing) staat nu ook bij blogartikelen, webpagina's, producten, collecties en docenten. Voeg tags toe door te typen en op Enter of komma te drukken; bestaande tags worden gesuggereerd, een nieuwe tag wordt automatisch aangemaakt. Deze tags zijn bedoeld om content beter te categoriseren en vindbaar te maken.
+
+### 🐛 Bugfixes
+
+- **Inschrijven vanuit het buitenland (Breda & Utrecht)**: Het inschrijfformulier, de cursistgegevens en het "extra gegevens invullen"-formulier bij Breda en Utrecht accepteerden alleen een Nederlands telefoonnummer en een Nederlandse postcode, waardoor cursisten met een buitenlands adres of telefoonnummer zich niet konden inschrijven. Beide thema's hebben nu, net als Amsterdam, een land-keuzeveld (standaard Nederland) en accepteren voortaan ook buitenlandse telefoonnummers en postcodes.
+
+## Week van 6 tot 12 juli 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **Cultuurconnectie — Collectie-URL's koppelen aan disciplines**: Cultuurconnectie ondersteunt sinds kort het koppelen van één externe URL per discipline. Collecties die aan een Cultuurconnectie-discipline zijn gekoppeld, worden nu automatisch met hun collectiepagina-URL doorgestuurd naar Cultuurconnectie, zodat bezoekers vanuit Cultuurconnectie direct op de juiste collectiepagina uitkomen. Wanneer meerdere collecties aan dezelfde discipline gekoppeld zijn, wordt de meest recent bewerkte collectie gebruikt. Koppelingen die niet meer kloppen (bijvoorbeeld omdat een collectie niet meer aan een discipline gekoppeld is) worden automatisch weer verwijderd bij Cultuurconnectie. Deze synchronisatie draait elk uur automatisch, alleen wanneer `CC_KEY` is ingesteld.
+
+- **Opschonen van niet-afgeronde bestellingen**: Inschrijvingen en productverkopen die tijdens het bestelproces zijn aangemaakt maar nooit zijn afgerond (geen betaling, geen bevestiging) blijven eerst nog "open" staan, zodat een klant de winkelwagen later kan hervatten. Blijven ze na 14 dagen nog steeds open en onbetaald, dan worden ze automatisch verwijderd, zodat ze niet langer als ruis in het beheerscherm blijven staan. Inschrijvingen met een lopende factuur (bijv. bedrijfsfacturen die handmatig geplaatst moeten worden, of een reeds verstuurde of gedeeltelijk betaalde factuur) worden nooit verwijderd, en ook lopende termijnen van een terugkerend product (bijv. een maandelijks abonnement) blijven staan totdat ze daadwerkelijk in rekening zijn gebracht. Bestellingen die hierdoor volledig leeg achterblijven, worden ook opgeruimd.
+
+- **Facturen — Statuslabel en filters**: Zowel het factuuroverzicht als het tabblad "Facturen" bij een cursist tonen nu een statuslabel per factuur: "Ingepland" (factuurdatum ligt in de toekomst), "Openstaand" (nog niet betaald), "Herinnerd" (betalingsherinnering verstuurd), "Achterstallig" (herinnering meer dan 2 weken geleden verstuurd) of "Betaald". In het factuuroverzicht is hierop ook gefilterd te worden, naast een nieuw filter om facturen te vinden binnen een bepaalde factuurdatum-periode. Daarnaast toont de kolom "Betaalmethode" nu de ingestelde naam van de betaalmethode in plaats van de interne code, en toont de datumkolom in het tabblad "Facturen" voortaan de factuurdatum in plaats van het aanmaakmoment.
+
+- **Financieel dashboard — Openstaande posten gecorrigeerd, nieuw blok voor openstaande credits**: De telling van "openstaande posten" hield voorheen geen rekening met facturen die pas in de toekomst verstuurd worden, en rekende de ouderdom vanaf de vervaldatum in plaats van de factuurdatum. Dit is gecorrigeerd: een post telt nu mee zodra de factuurdatum is verstreken en er nog niet is betaald, en de leeftijdscategorieën ("Dagen") lopen nu automatisch mee met de ingestelde betalingstermijn en het herinneringsritme (eerste herinnering na de betalingstermijn, tweede herinnering 14 dagen later). Lege categorieën worden niet meer getoond. Er is een nieuw blok "Openstaande Credits" toegevoegd onder de openstaande posten, met dezelfde indeling maar dan voor nog niet uitbetaalde tegoeden. In beide overzichten is het factuurnummer nu klikbaar en opent direct de betreffende factuur. De KPI-tegels bovenaan tonen nu ook "Totaal Open" en "Totaal Credit", berekend op dezelfde manier als de blokken eronder (dus onafhankelijk van de gekozen periode).
+
+- **E-maillog — Filter op e-mailsjabloon**: Het e-maillog is nu te filteren op e-mailsjabloon, met de sjabloonnaam als label. Hiervoor slaan alle systeem-e-mails voortaan ook het gebruikte sjabloon op in het log (voorheen deed alleen een klein deel van de e-mails dit).
+
+- **Account aanmaken zonder bestelling (alle thema's)**: Bezoekers kunnen nu een cursistaccount aanmaken zonder direct een cursus te boeken. Op de inlogpagina staat naast het inlogformulier voortaan ook een registratieformulier (voornaam, achternaam, e-mailadres). Na registratie ontvangt de nieuwe cursist een welkomstmail en een tijdelijke inlogcode waarmee een wachtwoord kan worden ingesteld; daarna kan altijd worden ingelogd om cursussen te bekijken en zich in te schrijven. Waar de nieuwsbriefkoppeling (Mailchimp/MailerLite) is ingesteld, staat er ook een aanmeldvinkje voor de nieuwsbrief bij het registratieformulier.
+
+### 🐛 Bugfixes
+
+- **BTW-rapport — Productverkopen ontbraken**: Het BTW-rapport bouwde de omzet per cursus alleen op uit inschrijvingen; betalingen voor productverkopen werden overgeslagen, waardoor productomzet niet in het rapport verscheen. Het rapport neemt nu ook betaalde productverkopen mee, gegroepeerd per product met het btw-percentage van dat product.
+
+- **Herinnering "cursus start over 1 week" — Verstuurde soms niet**: Deze herinnering werd gekoppeld aan een exacte datum-match, terwijl de onderliggende startdatum van een programma tussentijds kan verschuiven (bijv. door een verplaatste les). Schoof de datum ook maar één dag, dan werd de herinnering voor die groep cursisten stilzwijgend en blijvend overgeslagen. De check is verbreed naar een venster van enkele dagen rond de 1-weekgrens, met een controle op het e-maillog om dubbel versturen te voorkomen.
+
+- **Marketingdashboard — Campagnes en zoektermen gesorteerd op omzet**: De tabellen "Campagnes" en "Zoektermen" waren gesorteerd op aantal conversies. Beide zijn nu gesorteerd op omzet, van hoog naar laag; bij "Zoektermen" is hiervoor ook een omzetkolom toegevoegd.
+
 ## Week van 29 juni tot 5 juli 2026
 
 ### ✨ Nieuw & Verbeterd
 
 - **GA4 E-commerce tracking (alle thema's)**: Bezoekersgedrag in het afrekenproces wordt nu gedetailleerd bijgehouden via Google Analytics 4. Wanneer GA4 tracking is ingeschakeld via Beheer → Instellingen → Scripts, worden automatisch events verstuurd op het moment dat een bezoeker een cursus- of productpagina bekijkt, een item toevoegt of verwijdert uit de winkelwagen, de winkelwagenpagina bekijkt, stap 2 of stap 3 van het bestelproces doorloopt, en de betaling afrond. Op de bedankpagina wordt een aankoopgebeurtenis geregistreerd met het ordernummer, het totaalbedrag en alle losse artikelen. Elk event wordt maar één keer verstuurd — ook bij een paginaverversing. Beschikbaar voor alle thema's: Amsterdam, Utrecht, Breda, Westvoorne, Gouda en Demo.
+
+- **Standaard sortering cursusoverzicht (alle thema's)**: Nieuwe instelling "Standaard sortering cursusoverzicht" (Beheer → Instellingen → Cursussen) waarmee per site gekozen kan worden welke sortering standaard wordt toegepast op het cursusoverzicht en de collectiepagina's, zolang een bezoeker zelf nog geen sortering heeft gekozen. Beschikbaar voor alle thema's; voor Westvoorne staat deze instelling standaard op "Datum".
 
 - **Bezettingsrapport — Kolom "Doorgang"**: Het bezettingsrapport heeft een nieuwe kolom "Doorgang". Per programma staat hier "ja" als de doorgang definitief is bevestigd, "nee" als het programma is geannuleerd, en "onbepaald" in alle overige gevallen.
 
@@ -12,13 +54,21 @@
 
 - **Productverkopen — Zoeken op naam en e-mail**: In het beheerscherm van productverkopen werkt de zoekfunctie nu ook op productnaam, voor- en achternaam van de cursist en diens e-mailadres.
 
+- **E-Boekhouden-synchronisatie — Ook productverkopen**: De dagelijkse synchronisatie van betalingen naar e-Boekhouden (Westvoorne) nam voorheen alleen betaalde cursusinschrijvingen mee. Betaalde productverkopen worden nu op dezelfde manier meegenomen: per grootboek en btw-tarief van het product gegroepeerd en samengevoegd in dezelfde dagomzet-mutatie als de cursusbetalingen. Daarnaast wordt bij het opbouwen van de synchronisatie nu ook de instelling "Synchroniseer naar boekhouding" per betaalmethode gerespecteerd; deze schakelaar was al aanwezig in het beheerscherm van betaalmethoden maar had voorheen geen effect.
+
 - **Kortingscode/-pas — Dubbele toewijzing voorkomen**: Kortingscodes en kortingspassen met een maximaal aantal toepassingen worden nu al geweigerd als het limiet al volledig in gebruik is in andere openstaande winkelwagens. Dit voorkomt dat meer deelnemers dan toegestaan tegelijk met dezelfde code door het bestelproces gaan.
 
 - **E-maillog — Inhoud opgeslagen in database**: De volledige tekst van via het systeem verstuurde e-mails wordt nu opgeslagen in de database, zodat e-mails later zijn in te zien en opnieuw te versturen vanuit het e-maillog.
 
 - **Cursistdashboard — Direct inloggen op leeromgeving (Moodle)**: Bij een inschrijving met een actieve plaatsing verschijnt in het dashboard nu een knop "Naar leeromgeving" zodra de bijbehorende cursus in Moodle beschikbaar is. Dit volgt dezelfde beschikbaarheidsregels als de Moodle-synchronisatie: de knop verschijnt pas als de cursus in Moodle is aangemaakt, zichtbaar is met inhoud, en de cursist een gekoppeld Moodle-account heeft. De cursist wordt via een eenmalige, kortlevende inlogsleutel automatisch ingelogd en direct naar de betreffende cursus gebracht, zonder zelf Moodle-inloggegevens te hoeven invoeren. Mislukt het automatisch inloggen (bijv. door een storing aan Moodle-zijde), dan wordt de cursist teruggevallen op het normale Moodle-inlogscherm voor die cursus, en wordt de fout gelogd voor onderzoek. Beschikbaar voor alle thema's: Amsterdam, Utrecht, Westvoorne, Gouda en Demo.
 
+- **Docentensynchronisatie met Moodle**: Docenten kunnen nu per docent worden aangemeld voor synchronisatie naar de leeromgeving via een nieuwe schakelaar "Synchroniseer naar Moodle" in het beheerscherm (alleen zichtbaar als Moodle is gekoppeld). Voorheen probeerde de synchronisatie bij elke ronde een docent te herkennen op e-mailadres; voor docenten met de schakelaar aan die nog geen Moodle-account hebben, wordt nu automatisch een nieuw account aangemaakt. Docenten die al eerder gekoppeld waren, zijn bij deze update automatisch op "synchroniseren" gezet.
+
+- **Beheerpaneel — Logo compacter in zijbalk**: Het logo bovenin de zijbalk van het beheerpaneel is kleiner gemaakt, zodat het beter past bij de beschikbare ruimte.
+
 ### 🐛 Bugfixes
+
+- **Moodle-synchronisatie — Docenten en cursisten steeds opnieuw aangemeld**: Docenten en cursisten die al als docent/cursist aan een cursus gekoppeld waren in Moodle, werden bij elke synchronisatieronde opnieuw aangemeld op die cursus. De synchronisatie controleert nu eerst wie al gekoppeld is aan de Moodle-cursus en slaat die over.
 
 - **Evaluatieformulier — Dubbel cijferveld verwijderd** (Amsterdam, Utrecht, Breda, Westvoorne): Bovenaan het evaluatieformulier stond een extra keuzelijst "Geef een algemeen cijfer (1-10)". Dit veld stond los van de vragen in het formulier en kon overlappen met een vraag die hetzelfde vroeg. Het vaste cijferveld is verwijderd; cijfers worden voortaan uitsluitend via de ingestelde vragen in het formulier gevraagd.
 
@@ -26,7 +76,22 @@
 
 - **Inschrijvingen — Programma verplicht bij aanmaken en bewerken**: Het veld voor het programma bij het aanmaken of bewerken van een inschrijving in het beheer stond per ongeluk als optioneel ingesteld. Er moet nu altijd een programma worden geselecteerd.
 
-- **Marketing — Zoekterm niet meer gevuld bij Google-omleidingslinks**: Wanneer een bezoeker via een Google-omleidingslink (`/url?q=https://...`) op de website terechtkwam, werd de volledige omleidings-URL onterecht opgeslagen als zoekwoord in de statistieken. Zoektermen worden nu alleen opgeslagen als de waarde daadwerkelijk een zoekwoord betreft en geen URL is.
+- **Marketing — Zoekterm niet meer gevuld bij Google-omleidingslinks**: Wanneer een bezoeker via een Google-omleidingslink  op de website terechtkwam, werd de volledige omleidings-URL onterecht opgeslagen als zoekwoord in de statistieken. Zoektermen worden nu alleen opgeslagen als de waarde daadwerkelijk een zoekwoord betreft en geen URL is.
+
+- **Productverkopen — Zoeken op naam gaf foutmelding**: De nieuwe zoekfunctie op cursistnaam in het productverkopenoverzicht (zie hierboven) verwees per abuis naar een niet-bestaande kolom `name`, waardoor zoeken een foutmelding gaf. De zoekfunctie gebruikt nu het juiste veld `firstname` en werkt weer correct.
+
+### 🎨 Thema-updates Westvoorne
+
+- **Winkelwagen — Waarschuwing bij bestaand account**: Als een bezoeker bij het afrekenen een e-mailadres invult waarvoor al een cursistaccount bestaat, verschijnt nu een melding met een link om eerst in te loggen. Zo wordt voorkomen dat iemand per ongeluk een dubbele bestelling los van zijn bestaande account plaatst.
+- **Cursuspagina — Programma-specifieke prijzen**: De leden- en reguliere prijs op de cursuspagina tonen nu de prijs van het gekozen programma (indien ingesteld), in plaats van altijd de algemene cursusprijs. Zo kunnen programma's binnen dezelfde cursus eigen prijzen hebben.
+- **Bestelproces — Ledenkorting direct zichtbaar**: Wanneer het e-mailveld van een deelnemer al vooringevuld is (bijvoorbeeld met het e-mailadres van de besteller), wordt nu direct bij het laden van de pagina gecontroleerd of ledenkorting van toepassing is. Voorheen moest de bezoeker eerst het veld aanklikken en weer verlaten voordat de juiste prijs verscheen.
+- **Deelknoppen cursuspagina — Iconen laadden niet**: Op de cursuspagina ontbrak het FontAwesome-stijlbestand in de pagina-header, waardoor de iconen van de deelknoppen (Facebook, WhatsApp, LinkedIn, e-mail) niet zichtbaar waren. Dit is hersteld.
+- **Winkelwagen — Losse blok voor direct meebestellen**: De voorgestelde extra producten ("upsell") stonden voorheen tussen het cursusoverzicht in de winkelwagen. Deze staan nu in een eigen, duidelijk herkenbaar blok onder het totaalbedrag, met productfoto, korte omschrijving en prijs. Een klik op de foto of titel opent de productpagina; de knop "+" voegt het product direct toe aan de winkelwagen, zoals voorheen.
+- **Homepage — Slider beheerbaar via blokken**: De slider op de homepage was hardcoded en kon alleen door een ontwikkelaar worden aangepast. Deze wordt nu, net als bij Utrecht, opgebouwd uit "hero-banner"-blokken die in het beheer aan de pagina zijn gekoppeld (met afbeelding, titel en optionele knop). De stijl en werking van de slider blijven ongewijzigd; afbeeldingen van niet-actieve slides laden pas kort na het inladen van de pagina, zodat de eerste weergave niet vertraagd wordt.
+- **Cursuskaarten — Herbruikbare component**: De cursuskaart is omgezet naar een herbruikbaar component  en wordt nu op dezelfde manier gebruikt op de homepage, het cursusoverzicht en bij "gerelateerde cursussen" op de cursusdetailpagina, net als de productkaart  die al eerder herbruikbaar was gemaakt. Wijzigingen aan de kaartweergave hoeven zo nog maar op één plek te worden doorgevoerd.
+- **Cursuskaarten — Knop "Meer info" op gelijke hoogte**: Bij een langere cursustitel (2 regels) werd de kaart hoger dan de kaarten ernaast, waardoor de knop "Meer info" niet meer op één lijn stond binnen dezelfde rij. Titels worden nu begrensd tot maximaal 2 regels en de knop wordt onderaan de kaart uitgelijnd, zodat de knoppen binnen een rij altijd op dezelfde hoogte staan.
+- **Cursusoverzicht en collecties — Sorteren op datum**: Aan de sorteeropties op het cursusoverzicht en de collectiepagina's is "Datum" toegevoegd. Cursussen worden dan gesorteerd op de eerstvolgende startdatum van een beschikbaar programma; cursussen zonder (aankomend) programma en producten staan onderaan. Voor Westvoorne staat dit standaard geselecteerd, ook zonder dat een bezoeker zelf een sortering kiest.
+
 
 ### 🎨 Thema-updates Amsterdam
 
@@ -40,9 +105,9 @@
 - **GA4 tracking ingebouwd**: Winkelwagen, bestelproces, cursus- en productpagina's sturen nu GA4 ecommerce events.
 - **Evaluatieformulier — Dubbel cijferveld verwijderd**: Zie bugfixes.
 
-### 🎨 Thema-updates Demo & Gouda
+### 🎨 Thema-updates Utrecht
 
-- **GA4 tracking ingebouwd**: Winkelwagen, bestelproces en cursuspagina's sturen nu GA4 ecommerce events.
+- **Cursistdashboard — Vernieuwde opzet**: Het cursistdashboard is visueel vernieuwd en overzichtelijker gemaakt, vergelijkbaar met de opzet van het Amsterdam-thema. Bovenaan staat nu een gebruikerskaart met avatar, naam en e-mailadres en een directe uitlogknop. De tabbladen "Mijn Gegevens", "Wachtwoord", "Mijn Inschrijvingen", "Mijn Facturen" en "Mijn Favorieten" zijn omgezet naar ruimere, afgeronde tabknoppen in de huisstijlkleur. De inhoud heeft meer witruimte gekregen en de lijsten met inschrijvingen, facturen en favorieten tonen nu gestileerde kaarten met statuslabels in plaats van een kale tabel. Functioneel is er niets veranderd: alle formulieren, de wachtwoordsterkte-indicator en de Moodle-koppeling werken op dezelfde manier als voorheen.
 
 ---
 
