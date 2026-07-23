@@ -1,5 +1,54 @@
 # VUAdmin Updates
 
+## Week van 20 tot 26 juli 2026
+
+### 🤖 Nieuw: AI-aanbevolen cursussen
+
+- **Persoonlijke cursusaanbevelingen (homepage en cursuspagina, alle thema's)**: De homepage en de cursuspagina ("Gerelateerde cursussen") tonen voortaan persoonlijk samengestelde aanbevelingen in plaats van een willekeurige of vaste selectie. Het algoritme houdt hiervoor onder andere rekening met eerdere interesses van de bezoeker (favorieten, gevolgde cursussen, wachtlijstaanmeldingen), overeenkomsten met vergelijkbare cursisten, algemene populariteit, cursussen die binnenkort starten of bijna vol zitten, cursussen die het minimumaantal deelnemers nog niet hebben gehaald, en inhoudelijke overeenkomst met de cursus die iemand al bekijkt. Dit werkt ook voor bezoekers die niet zijn ingelogd, op basis van hun surfgedrag op de site — hiervoor is een langdurig herkenningscookie toegevoegd, zonder dat dit nieuwe persoonsgegevens vereist. De onderliggende cijfers worden automatisch en periodiek bijgewerkt, zodat de aanbevelingen actueel blijven.
+
+- **AI-ondersteund taggen van cursussen**: Om cursussen goed te kunnen categoriseren (nodig voor bovenstaande aanbevelingen, maar ook voor zoeken en de koppeling met Cultuurconnectie) kan een AI nu automatisch tags voorstellen voor cursussen die nog geen of weinig tags hebben, op basis van titel en omschrijving. De AI hergebruikt hierbij zoveel mogelijk bestaande tags in plaats van steeds nieuwe te verzinnen, en maakt daarbij onderscheid tussen het specifieke onderwerp (bijv. "Japans"), een bredere categorie (bijv. "Azië"), gerelateerde zoektermen en het niveau — zodat tags niet allemaal hetzelfde soort woord zijn. Voorgestelde tags worden eerst klaargezet ter controle en pas na een handmatige goedkeuring daadwerkelijk aan een cursus gekoppeld — er verandert dus nooit iets automatisch zonder dat er is meegekeken.
+
+- **Cursusaanbevelingen — Talen en niveaus correct behandeld**: Bij de meeste onderwerpen geldt dat interesse breder mag doorwerken (iemand die een schildercursus volgt, krijgt ook sneller andere creatieve cursussen aanbevolen). Bij talen is dat bewust anders: wie Spaans leert, krijgt geen Frans aanbevolen puur omdat het allebei "Taal" is. Daarnaast wordt bij cursussen met een niveauvolgorde (bijv. beginners- t/m gevorderdenniveau) nooit een niveau overgeslagen: na een beginnerscursus wordt hooguit het eerstvolgende niveau aanbevolen, nooit meteen het gevorderdenniveau.
+
+### ✨ Nieuw & Verbeterd
+
+- **Producten — Automatische notificatie naar docent bij bestelling**: Bij een product kan nu, naast het koppelen van een docent, worden aangevinkt "Stuur automatische notificatie". Is dit aangevinkt, dan ontvangt de gekoppelde docent automatisch een e-mail zodra een bestelling voor dit product is betaald, met daarin de producttitel en de contactgegevens van de deelnemer (naam, e-mailadres en telefoonnummer). Staat het vinkje uit (standaard), dan verandert er niets ten opzichte van de huidige situatie.
+
+- **Evaluatie-antwoorden — Direct zichtbaar of er open antwoorden zijn ingevuld**: In het overzicht van evaluatie-antwoorden was niet te zien of een deelnemer bij een open vraag ook daadwerkelijk tekst had ingevuld, zonder elke evaluatie apart te openen. Er is nu een spraakballon-icoon toegevoegd dat alleen verschijnt bij evaluaties met minstens één ingevulde open vraag; door er met de muis overheen te gaan verschijnt direct de bijbehorende vraag- en antwoordtekst, zonder het overzicht te hoeven verlaten.
+
+- **Docentenpagina — Programmakaarten in plaats van cursuskaarten (alle thema's)**: Op de pagina van een docent stond per gegeven cursus één kaart, ook als de docent die cursus op meerdere momenten geeft. Deze sectie toont nu per programma (lesmoment) een eigen kaart, met de startdatum en -tijd van dat specifieke programma, de prijs van dat programma, en het marketinglabel (bijv. "Laatste plekken" of "Start zeker") dat bij dat programma hoort in plaats van een label voor de hele cursus. Geeft een docent dezelfde cursus vaker, dan verschijnt deze dus vaker in de lijst; alle kaarten samen zijn gesorteerd op startdatum. Een klik op een kaart opent de cursuspagina met dat specifieke programma alvast geselecteerd.
+
+### 🐛 Bugfixes
+
+- **Cursusaanbevelingen — Achtergrondtaak liep vast bij grotere hoeveelheden data**: De taak die elke 15 minuten de gegevens voor cursusaanbevelingen bijwerkt (populariteit, actualiteit, "bijna vol") deed dit voorheen met veel losse, kleine databasevragen per cursus en per programma, wat bij een groter cursusaanbod traag kon worden of vast kon lopen. Deze gegevens worden nu in een klein aantal grote, gebundelde vragen opgehaald in plaats van honderden losse vragen, met exact dezelfde uitkomst.
+
+- **Beveiliging — Checkout kon gegevens van een ander account tonen én overschrijven**: Als een niet-ingelogde bezoeker in stap 1 een e-mailadres invulde dat al bij een bestaand cursistaccount hoorde, werd dat account gekoppeld aan de bestelling en werden diens opgeslagen naam, adres, postcode, plaats, telefoonnummer en geboortedatum overschreven met wat de bezoeker net had ingetikt — en in stap 2 (deelnemersgegevens) werden vervolgens diezelfde, deels overschreven gegevens getoond. Zo kon een onbevoegde bezoeker het profiel van een ander inzien én wijzigen, puur door diens e-mailadres te kennen. De bestelling wordt nog steeds aan het bestaande account gekoppeld (zodat deze in dat account terechtkomt zodra de eigenaar inlogt), maar de opgeslagen accountgegevens worden alleen nog gelezen of gewijzigd wanneer de bezoeker daadwerkelijk als dat account is ingelogd. Is de bezoeker niet ingelogd, dan gebruikt stap 2 uitsluitend de gegevens die zojuist in stap 1 zijn ingetikt, en blijft het gekoppelde account ongewijzigd. Is de bezoeker wél ingelogd, dan worden gewijzigde gegevens (adres, telefoonnummer, etc.) zoals voorheen in het eigen account bijgewerkt.
+
+- **Checkout — Betaalstap kon soms oude producten uit een eerdere bestelling tonen**: In een enkel geval toonde de laatste stap van het bestelproces (vlak vóór betalen) producten uit een eerdere, niet-afgeronde bestelling in plaats van de winkelwagen die de bezoeker net had samengesteld. Dit gebeurde wanneer die stap werd bereikt via een bestelling waarvan de winkelwagen aan een andere (oudere) sessie gekoppeld bleek, bijvoorbeeld na een verlopen sessie of een oude link — de actuele, eigen winkelwagen van de bezoeker werd dan stilzwijgend vervangen door de oudere. Een winkelwagen met eigen producten (ook eentje die via de "winkelwagen herstellen"-link is opgebouwd) blijft nu altijd behouden. Daarnaast wordt een winkelwagen die meer dan 24 uur niet is afgerond niet langer automatisch hergebruikt bij een volgend bezoek, zodat oude, vergeten winkelwagens niet meer per ongeluk vermengd kunnen raken met nieuwe aankopen.
+
+- **Systeem-e-mails — Tekst onder de knop paste niet bij tekst erboven**: In de algemene e-mailsjablonen (gebruikt voor o.a. bevestigings- en inlogmails, alle thema's) had de tekst onder de knop een ander lettertype, kleur en grootte dan de tekst erboven, met een horizontale lijn ertussen. De tekst onder de knop heeft nu exact dezelfde opmaak als de tekst erboven, en de lijn is verwijderd.
+
+- **Facturen — Verkeerd ingevoerde datum kon opslaan volledig laten mislukken**: Bij het handmatig toevoegen of wijzigen van een factuur bij een bestelling of productverkoop (tabblad "Facturen") kon een abusievelijk verkeerd ingetikte factuur-, verval- of betaaldatum ervoor zorgen dat opslaan mislukte met een onduidelijke foutmelding, zonder dat verder zichtbaar was welk veld het probleem veroorzaakte. Deze datumvelden accepteren nu alleen nog geldige datums; een verkeerde invoer wordt direct gemeld in het formulier zelf in plaats van pas bij het opslaan.
+
+- **Moodle-synchronisatie — Foutmelding bij programma zonder gekoppelde cursus**: Als het aanmaken van een cursus in Moodle een keer mislukte, kon het bijbehorende programma toch worden aangemerkt alsof er al een Moodle-cursus bestond. Bij de eerstvolgende inschrijf-synchronisatie werd dan geprobeerd een docent of cursist in te schrijven op een niet-bestaande cursus, wat een foutmelding opleverde. Zo'n programma wordt nu overgeslagen totdat de cursus alsnog succesvol in Moodle is aangemaakt.
+
+### 🎨 Thema-updates Breda
+
+- **Checkout — Geboortedatum niet meer verplicht**: De geboortedatumvelden in stap 1 van het bestelproces waren in het formulier zelf niet als verplicht gemarkeerd, maar werden bij het controleren van het formulier toch als verplicht behandeld, waardoor een bezoeker niet verder kon zonder een geboortedatum in te vullen. De geboortedatum is nu optioneel; wordt er wel een (gedeeltelijke) datum ingevuld, dan wordt nog steeds gecontroleerd of dit een geldige, volledige datum is.
+
+### 🎨 Thema-updates Amsterdam
+
+- **Cursuspagina — Subtitel van een programma nu zichtbaar bij het kiezen van een startdatum**: Bij een programma kan in het beheer een "Subtitel" worden ingevuld. Als dit veld is ingevuld, wordt deze tekst nu op de cursuspagina getoond in de lijst met startdata, direct onder de datum en tijd van het programma, in een lichter grijstintje. Is het veld leeg, dan verandert er niets.
+
+- **Cursuskaarten — "Vanaf"-prijs bij meerdere programma's**: Op cursuskaarten (cursusoverzicht en op de cursuspagina zelf) werd bij een cursus met meerdere boekbare programma's met verschillende prijzen altijd gewoon één prijs getoond, zonder dat duidelijk was dat dit niet de enige mogelijke prijs is. Heeft een cursus meerdere boekbare programma's met verschillende prijzen, dan staat er nu een klein "Vanaf" boven de laagste prijs. Om te voorkomen dat kaarten in een rij daardoor niet meer gelijk in hoogte staan, is er altijd ruimte voor deze tekst gereserveerd, ook bij kaarten waar hij niet wordt getoond.
+
+- **Docentenpagina — Programmakaarten breed als de banner**: De sectie met cursuskaarten op de docentenpagina viel per ongeluk binnen dezelfde smallere leesbreedte als de tekst "Over mij", waardoor deze duidelijk smaller was dan de banner erboven. Deze sectie is nu even breed als de banner.
+
+### 🎨 Thema-updates Utrecht
+
+- **Homepage — "Tips & Inspiratie" nu persoonlijk samengesteld**: Dit blok op de homepage ("Deze cursussen hebben we speciaal geselecteerd voor jou!") toonde voorheen een willekeurige selectie cursussen. Het toont nu écht persoonlijk samengestelde aanbevelingen, op dezelfde manier als elders op de site (zie "AI-aanbevolen cursussen" hierboven).
+- **Cursuspagina — "Deze vind je wellicht ook leuk" nu persoonlijk samengesteld**: Dit blok onderaan de cursuspagina gebruikte al hetzelfde onderliggende aanbevelingssysteem als de rest van de site; dit is nu bevestigd/actief voor het Utrecht-thema.
+
 ## Week van 13 tot 19 juli 2026
 
 ### ✨ Nieuw & Verbeterd
