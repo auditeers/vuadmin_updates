@@ -10,6 +10,8 @@
 
 - **Cursusaanbevelingen — Talen en niveaus correct behandeld**: Bij de meeste onderwerpen geldt dat interesse breder mag doorwerken (iemand die een schildercursus volgt, krijgt ook sneller andere creatieve cursussen aanbevolen). Bij talen is dat bewust anders: wie Spaans leert, krijgt geen Frans aanbevolen puur omdat het allebei "Taal" is. Daarnaast wordt bij cursussen met een niveauvolgorde (bijv. beginners- t/m gevorderdenniveau) nooit een niveau overgeslagen: na een beginnerscursus wordt hooguit het eerstvolgende niveau aanbevolen, nooit meteen het gevorderdenniveau.
 
+- **Cursusaanbevelingen — Verschillende balans op homepage en cursuspagina**: Op de homepage tellen algemene populariteit en persoonlijke interesse nu ongeveer even zwaar mee. Bij "gerelateerde cursussen" op de cursuspagina is dit bewust anders: daar is inhoudelijke overeenkomst met de cursus die iemand al bekijkt veruit de belangrijkste factor, en spelen populariteit en actualiteit slechts een kleine rol bij het bepalen van de volgorde.
+
 ### ✨ Nieuw & Verbeterd
 
 - **Producten — Automatische notificatie naar docent bij bestelling**: Bij een product kan nu, naast het koppelen van een docent, worden aangevinkt "Stuur automatische notificatie". Is dit aangevinkt, dan ontvangt de gekoppelde docent automatisch een e-mail zodra een bestelling voor dit product is betaald, met daarin de producttitel en de contactgegevens van de deelnemer (naam, e-mailadres en telefoonnummer). Staat het vinkje uit (standaard), dan verandert er niets ten opzichte van de huidige situatie.
@@ -18,9 +20,17 @@
 
 - **Docentenpagina — Programmakaarten in plaats van cursuskaarten (alle thema's)**: Op de pagina van een docent stond per gegeven cursus één kaart, ook als de docent die cursus op meerdere momenten geeft. Deze sectie toont nu per programma (lesmoment) een eigen kaart, met de startdatum en -tijd van dat specifieke programma, de prijs van dat programma, en het marketinglabel (bijv. "Laatste plekken" of "Start zeker") dat bij dat programma hoort in plaats van een label voor de hele cursus. Geeft een docent dezelfde cursus vaker, dan verschijnt deze dus vaker in de lijst; alle kaarten samen zijn gesorteerd op startdatum. Een klik op een kaart opent de cursuspagina met dat specifieke programma alvast geselecteerd.
 
+- **Rapport "Deelnemersgegevens jaarraport" — Uitgebreid met programma's, sessies en DCU's**: Naast de contactgegevens toont dit rapport nu ook, per deelnemer, het totaal aantal programma's waar diegene dat jaar aan heeft deelgenomen, het totaal aantal lesdagen (sessies), en het totaal aantal Docent Contact Uren (DCU's) op basis van de werkelijke les-tijden.
+
+- **Marketingnotitie ook bij programma's**: Naast cursussen heeft nu ook een programma (tabblad "Algemeen") een veld "Marketingnotitie". Dit is, net als bij cursussen, een intern tekstveld dat niet op de website wordt getoond en bedoeld is voor aantekeningen voor het marketingteam.
+
 ### 🐛 Bugfixes
 
 - **Cursusaanbevelingen — Achtergrondtaak liep vast bij grotere hoeveelheden data**: De taak die elke 15 minuten de gegevens voor cursusaanbevelingen bijwerkt (populariteit, actualiteit, "bijna vol") deed dit voorheen met veel losse, kleine databasevragen per cursus en per programma, wat bij een groter cursusaanbod traag kon worden of vast kon lopen. Deze gegevens worden nu in een klein aantal grote, gebundelde vragen opgehaald in plaats van honderden losse vragen, met exact dezelfde uitkomst.
+
+- **Cursusaanbevelingen — Sneller laden op homepage en cursuspagina (alle thema's)**: De blokken met cursusaanbevelingen op de homepage en de "gerelateerde cursussen" op de cursuspagina laden niet langer mee met de rest van de pagina, maar worden direct na het laden op de achtergrond opgehaald en tonen tot die tijd een korte laadanimatie op de plek van elke cursuskaart. Hierdoor wacht de rest van de pagina niet meer op deze berekening. Bij deze ombouw is ook een weergavefout in de cursuscarrousel verholpen: op sommige thema's ontstond hierdoor een lege plek in de carrousel of een sterk vervormde weergave (bijv. één te grote afbeelding); dit is gecorrigeerd.
+
+- **Cursusaanbevelingen — Carrousel bleef soms volledig leeg (Westvoorne, Vudemo)**: Bij deze twee thema's werd de cursuscarrousel op homepage en cursuspagina soms als volledig leeg getoond, ook nadat de aanbevelingen op de achtergrond succesvol waren opgehaald. Oorzaak was dat de carrousel al gestart was vóórdat de echte cursussen binnenkwamen, waardoor de vervolgens ingevoegde cursuskaarten buiten beeld belandden. De carrousel start nu pas nadat de echte cursussen zijn ingevoegd.
 
 - **Beveiliging — Checkout kon gegevens van een ander account tonen én overschrijven**: Als een niet-ingelogde bezoeker in stap 1 een e-mailadres invulde dat al bij een bestaand cursistaccount hoorde, werd dat account gekoppeld aan de bestelling en werden diens opgeslagen naam, adres, postcode, plaats, telefoonnummer en geboortedatum overschreven met wat de bezoeker net had ingetikt — en in stap 2 (deelnemersgegevens) werden vervolgens diezelfde, deels overschreven gegevens getoond. Zo kon een onbevoegde bezoeker het profiel van een ander inzien én wijzigen, puur door diens e-mailadres te kennen. De bestelling wordt nog steeds aan het bestaande account gekoppeld (zodat deze in dat account terechtkomt zodra de eigenaar inlogt), maar de opgeslagen accountgegevens worden alleen nog gelezen of gewijzigd wanneer de bezoeker daadwerkelijk als dat account is ingelogd. Is de bezoeker niet ingelogd, dan gebruikt stap 2 uitsluitend de gegevens die zojuist in stap 1 zijn ingetikt, en blijft het gekoppelde account ongewijzigd. Is de bezoeker wél ingelogd, dan worden gewijzigde gegevens (adres, telefoonnummer, etc.) zoals voorheen in het eigen account bijgewerkt.
 
@@ -40,14 +50,35 @@
 
 - **Cursuspagina — Subtitel van een programma nu zichtbaar bij het kiezen van een startdatum**: Bij een programma kan in het beheer een "Subtitel" worden ingevuld. Als dit veld is ingevuld, wordt deze tekst nu op de cursuspagina getoond in de lijst met startdata, direct onder de datum en tijd van het programma, in een lichter grijstintje. Is het veld leeg, dan verandert er niets.
 
+- **Docentenpagina — Subtitel van een programma nu ook op de programmakaarten**: Op de programmakaarten op de docentenpagina staat de startdatum van het programma. Is bij dat programma een "Subtitel" ingevuld, dan verschijnt deze nu ook op de kaart, direct onder de startdatum, net als bij de lijst met startdata op de cursuspagina.
+
 - **Cursuskaarten — "Vanaf"-prijs bij meerdere programma's**: Op cursuskaarten (cursusoverzicht en op de cursuspagina zelf) werd bij een cursus met meerdere boekbare programma's met verschillende prijzen altijd gewoon één prijs getoond, zonder dat duidelijk was dat dit niet de enige mogelijke prijs is. Heeft een cursus meerdere boekbare programma's met verschillende prijzen, dan staat er nu een klein "Vanaf" boven de laagste prijs. Om te voorkomen dat kaarten in een rij daardoor niet meer gelijk in hoogte staan, is er altijd ruimte voor deze tekst gereserveerd, ook bij kaarten waar hij niet wordt getoond.
 
 - **Docentenpagina — Programmakaarten breed als de banner**: De sectie met cursuskaarten op de docentenpagina viel per ongeluk binnen dezelfde smallere leesbreedte als de tekst "Over mij", waardoor deze duidelijk smaller was dan de banner erboven. Deze sectie is nu even breed als de banner.
+
+- **Homepage — "Deze cursussen hebben we speciaal geselecteerd voor jou!" nu ook persoonlijk samengesteld**: Dit blok toonde tot nu toe altijd de handmatig samengestelde collectie "Tips en inspiratie". Het toont nu, net als op de andere thema's, écht persoonlijk samengestelde aanbevelingen (zie "AI-aanbevolen cursussen" eerder deze week). De knop "Bekijk alle tips en inspiratie" is vervangen door "Volledig aanbod", die naar het volledige cursusoverzicht linkt.
+
+- **Cursuspagina — Samenvatting van tags als klikbare pilletjes**: Onder de cursusomschrijving staat nu, als de cursus tags heeft, een rij kleine, subtiele "pilletjes" met de tags van die cursus. Een klik op zo'n pilletje opent het cursusoverzicht met een zoekopdracht op dat woord, zodat je snel vergelijkbare cursussen vindt. De pilletjes zijn bewust rustig vormgegeven (grijstinten) zodat ze niet met een echte call-to-action verward worden.
+
+- **Cursuspagina — Docentfoto en -naam nu klikbaar naar docentpagina**: Zowel op mobiel als desktop linkte alleen de tekstlink naar de docentpagina; de foto en naam van de docent zelf deden niets bij een klik. Beide zijn nu ook klikbaar en openen de pagina van die docent.
+
+- **Toegankelijkheid — Favorieten-hartje nu ook bruikbaar met schermlezer en toetsenbord**: Het hartje om een cursus aan favorieten toe te voegen was voor schermlezers niet te onderscheiden ("geen herkenbare tekst") en niet met het toetsenbord te bedienen. Het hartje heeft nu een duidelijk label ("Toevoegen aan favorieten"), meldt via een schermlezer of een cursus al favoriet is, en is te bedienen met Tab gevolgd door Enter of spatie, naast de bestaande muisklik.
+
+- **Laadprestaties — Lettertypen tonen direct fallback-tekst tijdens laden**: Bij een trage verbinding kon tekst die een custom lettertype gebruikt (DM Sans, en de iconen van Font Awesome) even onzichtbaar blijven totdat het lettertype volledig geladen was. Tekst en iconen worden nu direct met een systeemlettertype getoond en wisselen daarna naar het eigen lettertype zodra dat beschikbaar is, in plaats van te wachten.
 
 ### 🎨 Thema-updates Utrecht
 
 - **Homepage — "Tips & Inspiratie" nu persoonlijk samengesteld**: Dit blok op de homepage ("Deze cursussen hebben we speciaal geselecteerd voor jou!") toonde voorheen een willekeurige selectie cursussen. Het toont nu écht persoonlijk samengestelde aanbevelingen, op dezelfde manier als elders op de site (zie "AI-aanbevolen cursussen" hierboven).
 - **Cursuspagina — "Deze vind je wellicht ook leuk" nu persoonlijk samengesteld**: Dit blok onderaan de cursuspagina gebruikte al hetzelfde onderliggende aanbevelingssysteem als de rest van de site; dit is nu bevestigd/actief voor het Utrecht-thema.
+
+### 🎨 Thema-updates Westvoorne
+
+- **Homepage en cursuspagina — "Deze vind je wellicht ook leuk" nu persoonlijk samengesteld**: Deze blokken toonden voorheen een vaste of willekeurige selectie cursussen. Ze tonen nu écht persoonlijk samengestelde aanbevelingen, op dezelfde manier als elders op de site (zie "AI-aanbevolen cursussen" eerder deze week), en laden op de achtergrond met een korte laadanimatie zodat de rest van de pagina niet hoeft te wachten.
+
+### 🎨 Thema-updates Vudemo
+
+- **Homepage en cursuspagina — Persoonlijk samengestelde cursusaanbevelingen**: De aanbevelingsblokken op de homepage en cursuspagina tonen nu écht persoonlijk samengestelde cursussen in plaats van een vaste selectie, en laden op de achtergrond met een korte laadanimatie zodat de rest van de pagina niet hoeft te wachten.
+- **Homepage — "Populair & Trending" carrousel werkte niet**: Dit blok toonde wel cursuskaarten, maar de carrousel zelf werkte niet (geen doorschuiven/navigatie). Dit is verholpen.
 
 ## Week van 13 tot 19 juli 2026
 
