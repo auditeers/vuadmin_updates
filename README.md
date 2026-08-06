@@ -1,5 +1,37 @@
 # VUAdmin Updates
 
+## Week van 3 tot 9 augustus 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **Programma annuleren — Deelnemers automatisch op de seintjeslijst**: Bij het annuleren van een programma (de knop "Annuleren") worden alle deelnemers die geplaatst waren nu automatisch aangemeld voor het "seintje" van de bijbehorende cursus, zodat ze vanzelf een seintje krijgen zodra er een nieuwe startdatum beschikbaar komt. De oorspronkelijke bestelling blijft ongewijzigd bestaan (met status "geannuleerd" en de gebruikelijke terugbetaling/verrekening); het seintje is een los, apart aangemaakt record en verstuurt zelf geen e-mail of bevestiging. Stond iemand al op de seintjeslijst voor die cursus, dan wordt er geen dubbel seintje aangemaakt.
+
+- **Kortingen — Producten uitsluiten werkt nu net als bij cursussen**: Bij een korting kon je cursussen al beperken tot een selectie óf juist alle cursussen behalve een selectie uitsluiten. Voor producten bestond die keuze niet: een geselecteerd product werd altijd als "alleen deze" behandeld, waardoor "uitsluiten" in de praktijk niet werkte. Bij producten staat nu dezelfde keuze als bij cursussen: "Alleen deze producten" of "Alle producten behalve deze".
+
+- **Docentpagina (Utrecht) — Overzichtsblok met gemiddeld cijfer toegevoegd**: De docentpagina toont, net als de cursuspagina en de homepage, nu ook een blok met het gemiddelde cijfer en aantal beoordelingen van die docent, naast de handmatig geselecteerde reacties.
+
+### 🐛 Bugfixes
+
+- **Evaluatiescores homepage en cursuspagina (Utrecht) — Nu gebaseerd op alle antwoorden**: Het gemiddelde cijfer en aantal beoordelingen bij de evaluatieblokken op de homepage en de cursuspagina hielden alleen rekening met de evaluatie-antwoorden die ook als quote/review getoond worden. Hierdoor gaf het cijfer een vertekend beeld: het was gebaseerd op een kleine, handmatig geselecteerde greep uit de antwoorden in plaats van op alle ontvangen beoordelingen. Het gemiddelde en aantal worden nu berekend over alle ingevulde evaluaties, met uitzondering van antwoorden die bij "Uitsluiten van statistieken" zijn aangevinkt. De getoonde quotes/reviews zelf blijven ongewijzigd: dat blijft de handmatig geselecteerde set.
+
+- **Evaluatieblok (Utrecht) — Verscheen soms zonder handmatig geselecteerde reacties**: Op de homepage en de cursuspagina kon het evaluatieblok ("ERVARINGEN") zichtbaar zijn puur op basis van het gemiddelde cijfer, ook wanneer er nog geen enkele reactie handmatig geselecteerd was om te tonen. Het blok (inclusief het cijfer-overzicht) verschijnt nu alleen nog als er ook daadwerkelijk minstens één geselecteerde reactie is; is er niets geselecteerd, dan blijft de hele sectie verborgen.
+
+## Week van 27 juli tot 2 augustus 2026
+
+### ✨ Nieuw & Verbeterd
+
+- **Marketinglabels van programma's — Eén centrale, herbruikbare berekening**: De regels die bepalen welk marketinglabel (zoals "Laatste kans", "Bijna vol" of "Start Zeker") bij een startdatum hoort, stonden per pagina apart geprogrammeerd. Deze berekening staat nu op één centrale plek vastgelegd, zodat nieuwe schermen en thema's voortaan dezelfde, altijd actuele regels hergebruiken in plaats van dat de logica opnieuw wordt nagebouwd.
+
+- **Facturen — PDF herdrukken na correctie van gegevens**: Stond er een fout in de naam of het adres op een reeds verstuurde factuur, dan was er tot nu toe geen manier om alleen de PDF te vernieuwen. Bij een factuur staat nu een herdruk-knop (het recycle-icoon) die de PDF opnieuw genereert op basis van de actuele gegevens van de deelnemer of het bedrijf, en het bestaande bestand vervangt. Er wordt hierbij nooit automatisch een e-mail verstuurd en er verandert niets aan betaalstatus, verzenddatum of -tijd; medewerkers sturen de herdrukte factuur zelf handmatig door indien nodig. Op het bewerkscherm van de factuur staat bovendien een directe link naar de plek waar de adresgegevens daadwerkelijk aangepast kunnen worden (het orderregelscherm bij bedrijfsfacturen, het deelnemerscherm bij overige facturen), zodat de juiste gegevens eerst gecorrigeerd kunnen worden voordat de PDF opnieuw wordt gemaakt.
+
+### 🐛 Bugfixes
+
+- **Bestelbevestiging — Mislukte e-mail bij bestellingen van alleen een product**: Bij een bestelling die uitsluitend uit een product bestond (dus niet gekoppeld aan een cursus of programma), mislukte het versturen van de bevestigingsmail aan de koper en eventuele andere deelnemers, omdat het e-mailsjabloon uitging van een gekoppelde cursus. Hierdoor werd bij dit type bestelling geen bevestigingsmail verstuurd. De bevestigingsmail toont nu de producttitel wanneer er geen cursus aan de bestelling gekoppeld is, zodat deze ook bij losse productbestellingen gewoon wordt verstuurd.
+
+### 🎨 Thema-updates Breda
+
+- **Cursuspagina — Statuslabels en toelichting per startdatum**: Bij het kiezen van een startdatum op de cursuspagina wordt nu, net als bij Amsterdam, een gekleurd statuslabel getoond bij elke startdatum (bijv. "Laatste kans", "Bijna vol", "Wachtlijst", "Verwacht", "Start Zeker", "Open" of "Gesloten"). Onder de startdata verschijnt bovendien een toelichting die past bij de gekozen datum, met een titel, uitleg en — waar van toepassing — een knop: bijvoorbeeld "Laatste kans!" met een inschrijfknop, "Er is een wachtlijst" met een knop om op de wachtlijst te gaan, of "Vol / Gesloten" met een knop om een seintje te ontvangen zodra er een nieuwe datum beschikbaar komt. Zijn er voor een cursus helemaal geen startdata meer beschikbaar, dan verschijnt nu ook daar de mogelijkheid om een seintje aan te vragen.
+
 ## Week van 20 tot 26 juli 2026
 
 ### 🤖 Nieuw: AI-aanbevolen cursussen
@@ -14,6 +46,8 @@
 
 ### ✨ Nieuw & Verbeterd
 
+- **E-mailsjablonen — Gekoppeld aan events in plaats van technische ID's**: Systeem-e-mails (bevestigingen, herinneringen, facturen, meldingen aan docenten, enz.) werden voorheen gekoppeld via een onzichtbare technische ID. Er is nu een nieuw overzicht "Events" (Beheer → Events) met alle situaties waarin een e-mail verstuurd kán worden (bijv. "Bevestiging bestelling" of "Cursus start"). Per event kies je met een keuzelijst welk e-mailsjabloon daarbij gebruikt wordt — inclusief de optie "Geen" om voor die situatie bewust geen e-mail te versturen. Elk event toont ook welke gegevens (zoals cursusnaam of deelnemersnaam) in het sjabloon gebruikt kunnen worden, zodat direct duidelijk is welke `{{ }}`-variabelen beschikbaar zijn. E-mailsjablonen (Beheer → Email-Templates) hebben nu ook een eigen, vrij invulbare omschrijving, zodat sjablonen herkenbaar zijn in het overzicht ook als er meerdere voor dezelfde situatie bestaan; er kunnen voortaan ook nieuwe sjablonen aangemaakt worden. Voor alle bestaande situaties is de originele koppeling automatisch overgenomen — er verandert voor de huidige e-mails niets, behalve dat vanaf nu overal in het beheer duidelijk is welke e-mail bij welke situatie hoort en welke situaties (nog) geen sjabloon hebben.
+
 - **Producten — Automatische notificatie naar docent bij bestelling**: Bij een product kan nu, naast het koppelen van een docent, worden aangevinkt "Stuur automatische notificatie". Is dit aangevinkt, dan ontvangt de gekoppelde docent automatisch een e-mail zodra een bestelling voor dit product is betaald, met daarin de producttitel en de contactgegevens van de deelnemer (naam, e-mailadres en telefoonnummer). Staat het vinkje uit (standaard), dan verandert er niets ten opzichte van de huidige situatie.
 
 - **Evaluatie-antwoorden — Direct zichtbaar of er open antwoorden zijn ingevuld**: In het overzicht van evaluatie-antwoorden was niet te zien of een deelnemer bij een open vraag ook daadwerkelijk tekst had ingevuld, zonder elke evaluatie apart te openen. Er is nu een spraakballon-icoon toegevoegd dat alleen verschijnt bij evaluaties met minstens één ingevulde open vraag; door er met de muis overheen te gaan verschijnt direct de bijbehorende vraag- en antwoordtekst, zonder het overzicht te hoeven verlaten.
@@ -23,6 +57,8 @@
 - **Rapport "Deelnemersgegevens jaarraport" — Uitgebreid met programma's, sessies en DCU's**: Naast de contactgegevens toont dit rapport nu ook, per deelnemer, het totaal aantal programma's waar diegene dat jaar aan heeft deelgenomen, het totaal aantal lesdagen (sessies), en het totaal aantal Docent Contact Uren (DCU's) op basis van de werkelijke les-tijden.
 
 - **Marketingnotitie ook bij programma's**: Naast cursussen heeft nu ook een programma (tabblad "Algemeen") een veld "Marketingnotitie". Dit is, net als bij cursussen, een intern tekstveld dat niet op de website wordt getoond en bedoeld is voor aantekeningen voor het marketingteam.
+
+- **Evaluaties — Publicatieschakelaar voor de homepage**: Naast "Publ. cursus" en "Publ. docent" staat er nu ook een derde schakelaar "Publ. homepage" bij evaluatie-antwoorden, zowel in het overzicht als in het bewerkscherm. Hiermee kan een antwoord straks ook worden aangemerkt voor publicatie op de homepage.
 
 ### 🐛 Bugfixes
 
@@ -70,6 +106,8 @@
 
 - **Homepage — "Tips & Inspiratie" nu persoonlijk samengesteld**: Dit blok op de homepage ("Deze cursussen hebben we speciaal geselecteerd voor jou!") toonde voorheen een willekeurige selectie cursussen. Het toont nu écht persoonlijk samengestelde aanbevelingen, op dezelfde manier als elders op de site (zie "AI-aanbevolen cursussen" hierboven).
 - **Cursuspagina — "Deze vind je wellicht ook leuk" nu persoonlijk samengesteld**: Dit blok onderaan de cursuspagina gebruikte al hetzelfde onderliggende aanbevelingssysteem als de rest van de site; dit is nu bevestigd/actief voor het Utrecht-thema.
+- **Ervaringen op homepage, cursus- en docentenpagina — Nu gebaseerd op evaluatie-antwoorden**: De "ERVARINGEN"-blokken tonen voortaan echte, recente evaluatie-antwoorden van cursisten in plaats van (of naast) de losse, handmatig ingevoerde reviews van voorheen. Alleen evaluatie-antwoorden die daarvoor bij de betreffende pagina zijn vrijgegeven (de schakelaars "Publ. homepage", "Publ. cursus" en "Publ. docent" in het overzicht van evaluatie-antwoorden) worden getoond; niets verandert er dus vanzelf zonder handmatige goedkeuring. Op de docentenpagina werden voorheen helemaal geen ervaringen getoond; dit is nu voor het eerst zichtbaar. Op de cursuspagina werden weliswaar al reviews opgehaald, maar deze werden niet weergegeven; deze sectie toont nu voor het eerst écht cursusgebonden ervaringen.
+- **Homepage en cursuspagina — Nieuwe overzichtskaarten met gemiddelde beoordeling**: Naast de losse ervaringen tonen de homepage en de cursuspagina nu ook één of meerdere kaarten met een gemiddeld rapportcijfer, bijvoorbeeld "Onze cursussen worden gemiddeld beoordeeld met een 9.1 door 32 deelnemers". Op de homepage staat dit zowel voor cursussen als voor docenten apart; op de cursuspagina alleen voor die specifieke cursus. Het gemiddelde en aantal deelnemers worden berekend over precies dezelfde, voor die pagina vrijgegeven evaluatie-antwoorden als de losse ervaringen eronder — zolang er voor een pagina nog geen evaluatie-antwoorden zijn vrijgegeven, blijft deze kaart (en het hele ervaringen-blok) vanzelf verborgen.
 
 ### 🎨 Thema-updates Westvoorne
 
