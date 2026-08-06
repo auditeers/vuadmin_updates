@@ -10,11 +10,29 @@
 
 - **Docentpagina (Utrecht) — Overzichtsblok met gemiddeld cijfer toegevoegd**: De docentpagina toont, net als de cursuspagina en de homepage, nu ook een blok met het gemiddelde cijfer en aantal beoordelingen van die docent, naast de handmatig geselecteerde reacties.
 
+- **E-mailsjablonen — Directe foutmelding bij gebruik van een onbekende variabele**: Werd in een e-mailsjabloon een `{{ }}`-variabele gebruikt die niet in de lijst "Beschikbare variabelen" van het gekoppelde event staat, dan viel dit vroeger pas op zodra de e-mail daadwerkelijk (probeerde te) verstuurd werd — met een mislukte verzending tot gevolg. Bij het opslaan van een sjabloon dat al aan een event gekoppeld is, verschijnt nu direct een duidelijke foutmelding bij het betreffende veld, mét een overzicht van de variabelen die wél gebruikt mogen worden, zodat dit meteen gecorrigeerd kan worden in plaats van pas achteraf.
+
+- **Producten — "Winkelwagen bericht" wordt nu daadwerkelijk getoond (Amsterdam, Breda, Utrecht, Vudemo, Westvoorne)**: Bij een product kon al langer een "Winkelwagen bericht" ingevuld worden, maar dit tekstje werd nog nergens gebruikt. Dit bericht verschijnt nu, indien ingevuld: onder de titel van het product bij het invullen van de deelnemersgegevens (stap 2 van het bestelproces), in het winkelwagen-overzicht daarnaast bij Amsterdam/Breda/Utrecht/Vudemo (in plaats van het producttype), op de bestelling-succespagina onder het product, en onder de producttitel in de tabel met bestelde items in de bevestigingsmail aan de koper (alle thema's). Is er geen bericht ingevuld, dan verandert er nergens iets.
+
+- **Export "Docentgegevens" — Kolom "Contract type" toegevoegd**: Deze export toont nu ook het contracttype van de docent (zoals ingesteld bij het docentprofiel), in een nieuwe kolom direct na "Functie".
+
 ### 🐛 Bugfixes
+
+- **Docent- en herinneringsmails die soms niet verstuurd werden**: Een aantal e-mails mislukte in bepaalde situaties, omdat het sjabloon rekende op gegevens (zoals het betreffende programma of de deelnemer) die niet in elke situatie werden meegestuurd. Dit speelde bij de deelnemerslijst naar de docent van een volle cursus, de melding aan de docent wanneer een deelnemer stopt, en de herinneringsmail voor een openstaande factuur. Deze e-mails worden nu in alle gevallen correct verstuurd.
+
+- **Bestelbevestiging — Mislukte mail bij koper zonder e-mailadres**: Als bij een bestelling de koper geen (geldig) e-mailadres had, mislukte het versturen van de bevestigingsmail voor de hele bestelling. De bevestigingsmail wordt nu overgeslagen wanneer er geen e-mailadres bekend is, zonder dat dit verdere verwerking van de bestelling (zoals de factuur of statusupdates) beïnvloedt.
 
 - **Evaluatiescores homepage en cursuspagina (Utrecht) — Nu gebaseerd op alle antwoorden**: Het gemiddelde cijfer en aantal beoordelingen bij de evaluatieblokken op de homepage en de cursuspagina hielden alleen rekening met de evaluatie-antwoorden die ook als quote/review getoond worden. Hierdoor gaf het cijfer een vertekend beeld: het was gebaseerd op een kleine, handmatig geselecteerde greep uit de antwoorden in plaats van op alle ontvangen beoordelingen. Het gemiddelde en aantal worden nu berekend over alle ingevulde evaluaties, met uitzondering van antwoorden die bij "Uitsluiten van statistieken" zijn aangevinkt. De getoonde quotes/reviews zelf blijven ongewijzigd: dat blijft de handmatig geselecteerde set.
 
 - **Evaluatieblok (Utrecht) — Verscheen soms zonder handmatig geselecteerde reacties**: Op de homepage en de cursuspagina kon het evaluatieblok ("ERVARINGEN") zichtbaar zijn puur op basis van het gemiddelde cijfer, ook wanneer er nog geen enkele reactie handmatig geselecteerd was om te tonen. Het blok (inclusief het cijfer-overzicht) verschijnt nu alleen nog als er ook daadwerkelijk minstens één geselecteerde reactie is; is er niets geselecteerd, dan blijft de hele sectie verborgen.
+
+- **Cursuspagina (Westvoorne) — Seintje-knop verscheen ook als de seintje-schakelaar uitstond**: Stond bij een cursus zonder beschikbare startdata de schakelaar "seintje" uit, dan verscheen op de cursuspagina toch nog de melding en knop om een seintje aan te vragen. De pagina houdt nu, net als bij Utrecht, rekening met deze schakelaar: staat "seintje" uit, dan wordt in plaats daarvan getoond dat de cursus niet meer wordt aangeboden, zonder seintje-knop.
+
+- **Gecombineerde factuur — Onterechte "Deelnemer" bij productregels**: Stond op een gecombineerde factuur ook een product (niet gekoppeld aan een cursusinschrijving), dan werd daaronder toch "Deelnemer: [naam]" getoond, terwijl een los product geen deelnemer heeft. Bij productregels wordt deze naam nu niet meer getoond; bij cursusinschrijvingen blijft "Deelnemer: [naam]" gewoon staan.
+
+- **Export "Deelnemersgegevens Jaarraport" — Te hoog aantal programma's/sessies/DCU's**: Deze export telde per deelnemer niet alleen inschrijvingen met status "geplaatst", maar ook inschrijvingen met status "gestopt", waardoor programma's, sessies en DCU's van gestopte inschrijvingen ten onrechte meegeteld werden. De export houdt nu, net als de andere deelnemersexports, alleen nog rekening met inschrijvingen die status "geplaatst" hebben.
+
+- **Cursus — Certificaattemplate-keuzelijst toonde niet alle templates (Utrecht)**: Bij een cursus kon uit de certificaattemplates van het actieve thema gekozen worden, maar de keuzelijst bepaalde welk thema actief was op een manier die na het cachen van de configuratie niet meer klopte, waardoor er stilzwigend teruggevallen werd op de map van Amsterdam. Bij Utrecht (met twee templates) verscheen daardoor maar één template in de lijst — toevallig degene die ook in de Amsterdam-map bestaat. De keuzelijst gebruikt nu hetzelfde, altijd correcte themapad als waarmee de pagina's zelf al gerenderd worden, zodat alle templates van het echte thema getoond worden.
 
 ## Week van 27 juli tot 2 augustus 2026
 
