@@ -5,7 +5,7 @@
 ### 🐛 Bugfix
 
 - **Facturen — Betaalmethode staat niet meer standaard op "Bankoverschrijving" bij aanmaak**: Nieuw aangemaakte facturen waarvan de betaalmethode nog niet bekend is (bijvoorbeeld toekomstige termijnen die nog niet betaald zijn) kregen tot nu toe automatisch "Bankoverschrijving" als betaalmethode, ook als er nog helemaal niet betaald was. De betaalmethode blijft voortaan leeg totdat de factuur daadwerkelijk betaald is en de werkelijke betaalmethode bekend is.
-- **Cursuskaarten — Verkeerde prijs bij precies 1 beschikbaar programma met een afwijkende prijs**: Op de cursuskaarten wordt "vanaf [laagste prijs]" getoond zodra er meerdere nog beschikbare programma's zijn met verschillende prijzen. Als er nog maar 1 programma beschikbaar was en dat programma een andere prijs had dan de basisprijs van de cursus, werd echter de prijs van dat ene programma getoond in plaats van de cursusprijs (zonder "vanaf", want er was maar 1 prijs om mee te vergelijken). Bij 0 of 1 beschikbaar programma wordt voortaan altijd de basisprijs van de cursus getoond; "vanaf" verschijnt alleen nog als er minimaal 2 beschikbare programma's met verschillende prijzen zijn.
+- **Cursuskaarten (thema Amsterdam) — Verkeerde prijs bij precies 1 bestelbaar programma met een afwijkende prijs**: Op de cursuskaarten wordt "vanaf [laagste prijs]" getoond zodra er meerdere bestelbare programma's zijn met verschillende prijzen. Was er nog maar 1 programma bestelbaar en had dat programma een andere prijs dan de basisprijs van de cursus, dan werd toch de basisprijs van de cursus getoond in plaats van de (juiste) prijs van dat ene programma. De kaart toont nu in dat geval de prijs van dat ene programma.
 
 ### ✨ Nieuw & Verbeterd
 
