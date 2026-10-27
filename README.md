@@ -1,5 +1,62 @@
   # VUAdmin Updates 2026
 
+  ## Week van 26 oktober tot 1 november 2026 
+
+  ### ✨ Nieuw & Verbeterd
+
+  - **Rapportages — Nieuwe rapportage "Collectie: Deelnemersstatistieken"**: Kies een collectie en een periode (startdatum programma van/tot). Je krijgt per cursus in die collectie één rij. Cursussen uit subcollecties tellen ook mee. Per cursus zie je:
+    - het aantal programma's dat in de periode start (geannuleerde programma's tellen niet mee);
+    - het totaal aantal deelnemers en het gemiddelde per programma;
+    - het aantal deelnemers per geboortedecennium (1930-1939 t/m 2010-2019, plus een kolom "overig/onbekend");
+    - de verdeling man/vrouw/anders;
+    - het aantal deelnemers per woonplaats, met één kolom per plaats. De plaats met de meeste deelnemers staat vooraan.
+
+    Als deelnemer telt een inschrijving met de status geplaatst of gestopt. Volgt iemand twee programma's van dezelfde cursus, dan telt die persoon twee keer mee. Onderaan staat een rij "Totaal" met de hele collectie bij elkaar.
+
+  - **Facturen — Titel boven de tabel met alle facturen**: Onderaan een factuur staat een tabel met alle facturen van dezelfde inschrijving of verkoop. Daar staat nu de titel "Alle facturen voor deze inschrijving" boven. Bij een productverkoop is dat "Alle facturen voor deze verkoop".
+
+  - **Rapportages — Docentfacturen rapport toont de opmerking bij de les**: Het rapport Docentfacturen heeft een nieuwe laatste kolom "Opmerking". Daarin staat de opmerking die bij het lesmoment is ingevuld. Is er geen opmerking, dan blijft de kolom leeg.
+
+  ### 🎨 Thema-updates
+
+  - **Utrecht — Uitgelichte blokken ook op tekstpagina's en collectiepagina's**: Blokken van het type "Uitgelicht" (afbeelding met tekst en eventueel een knop, op een gekleurde achtergrond) stonden alleen op de homepage. Ze werken nu ook op tekstpagina's en collectiepagina's. Maak bij Blokken een blok van het type Uitgelicht aan en kies bij "Toon op pagina" de pagina of bij "Toon op collectie" de collectie. Het blok staat dan onderaan die pagina, net boven de footer. Op een collectiepagina staat het onder het cursusoverzicht. Meerdere blokken worden getoond in de volgorde die je bij "Volgorde op Pagina" invult. Ze zien er hetzelfde uit als op de homepage.
+
+  ### 🔒 Beveiliging & Onderhoud
+
+  - **Inschrijvingen — Verplaatsen rekent nu met de korting en factureert nooit te veel**: Bij Verplaatsen werd "Te verrekenen" ingevuld als nieuwe prijs min betaald, zonder de korting (zoals de Stadspas). Een deelnemer met korting kreeg daardoor een factuur "Verrekening bij verplaatsing" voor bijna de volle cursusprijs. De betalingsherinnering noemde dat bedrag ook, terwijl de betaallink wel het juiste bedrag afschreef, en de bijgevoegde factuur was leeg. Nu werkt het zo:
+    - "Te verrekenen" is wat er na de verplaatsing echt nog openstaat: nieuwe prijs min korting, min wat al betaald is, min facturen die al verstuurd en nog niet betaald zijn. In het venster staat hoe dat bedrag is opgebouwd.
+    - Meer factureren dan er nog openstaat kan niet meer. Ook kun je niet meer terugbetalen dan er betaald en gefactureerd is.
+    - Termijnen van het oude programma die nog niet verstuurd zijn, vervallen. Het nieuwe bedrag wordt op dezelfde data gefactureerd, verdeeld over de resterende termijnen.
+    - Bij een negatief bedrag worden openstaande facturen eerst volledig gecrediteerd. Wat de deelnemer dan nog moet betalen krijgt een nieuwe factuur. Is er te veel betaald, dan komt er een creditnota voor de terugbetaling.
+    - Voor een inschrijving op Intake of Controle waarvoor nog niets gefactureerd of betaald is, wordt niet verrekend. Alleen het programma wijzigt.
+
+  - **Facturen — Betaallink en factuur horen nu bij elkaar**: De betaallink in een factuurmail, betalingsherinnering of betaallinkmail betaalt nu precies die factuur. Het bedrag in de mail en het bedrag bij de betaling zijn dus altijd gelijk, en de betaling wordt op die factuur geboekt. Verder:
+    - Een factuur die al verstuurd is, verandert niet meer van bedrag als er een ander bedrag binnenkomt. De betaling krijgt dan een eigen factuur en je krijgt een melding (bel-icoon) om te controleren of er iets gecrediteerd moet worden.
+    - Er gaat geen betalingsherinnering meer uit voor een factuur die hoger is dan wat de deelnemer nog moet betalen. Ook dan krijg je een melding.
+    - Een factuur is nooit meer leeg. Past het bedrag niet bij de inschrijving, dan staat er één regel met de omschrijving van de factuur.
+
+  - **Instellingen — Nieuwe betaalmethode toevoegen gaf een foutmelding**: Bij Betaalmethodes → Toevoegen kreeg je een foutpagina, waardoor je geen nieuwe betaalmethode kon aanmaken. Dat werkt weer. Het Acties-menu met "Activiteit" staat nu op het bewerkscherm van een bestaande betaalmethode.
+
+  - **Bestellingen — Zakelijke productbestelling op rekening werkt nu net als een zakelijke inschrijving**: Bestelde een bedrijf een product en koos het voor betalen op rekening, dan ging er van alles mis. Dat werkt nu precies zoals bij een cursusinschrijving op rekening:
+    - De deelnemer van het product krijgt een bevestiging (het e-mailsjabloon "Bevestiging productbestelling").
+    - De productbestelling staat niet meer meteen op Betaald, maar op "Op factuur" tot de factuur betaald is. Daarna staat hij op Betaald. Het product is wel direct actief: een korting die alleen geldt als iemand dit product heeft gekocht, werkt meteen. Ook op de bevestigingspagina na het bestellen staat "Op factuur".
+    - De factuur gaat naar het financiële e-mailadres van het bedrijf, met de mail "Factuur bedrijf" en de betaalknop. Op de factuur staan de bedrijfsgegevens, de kostenplaats en het inkoopnummer, in plaats van de gegevens van de contactpersoon.
+    - Met de betaalknop betaalt het bedrijf de producten en de inschrijvingen van de bestelling in één keer.
+    - Bij Facturen staat bij zo'n productfactuur weer de knop "Stuur betaallink". In het bevestigingsvenster van die knop stond bij producten soms de deelnemer als ontvanger, maar de link gaat naar de koper. Dat klopt nu.
+    - Productbestellingen die al eerder op rekening zijn geplaatst, staan nog op Betaald, ook als de factuur nog niet betaald is. Controleer die: is er wel betaald, registreer dan de betaling bij de factuur. Is er nog niet betaald, zet de productbestelling dan op Open; hij staat dan op "Op factuur" en de betaalknop werkt weer.
+
+  - **Bestellingen — Intake en "eerst controle" gaan nu vóór de zakelijke afhandeling**: Bij een zakelijke bestelling op rekening werd elke inschrijving direct geplaatst en gefactureerd aan het bedrijf. Dat gebeurde ook als het programma een intake vereist, als de gebruikte korting op "eerst controle" staat of als het programma vol is. Nu werkt het zo:
+    - Zo'n inschrijving staat na het bestellen op Intake, Controle of Wachtlijst, net als bij een particuliere bestelling. De deelnemer krijgt de bijbehorende mail (intake, controle of wachtlijst). Het bedrijf krijgt voor deze inschrijving nog geen factuur.
+    - De andere inschrijvingen in dezelfde bestelling worden gewoon direct geplaatst en gefactureerd.
+    - Zet je de inschrijving daarna op Geplaatst (via "Direct plaatsen" of door de status te wijzigen), dan wordt de factuur aangemaakt en naar het bedrijf gestuurd, net als bij het bestellen.
+    - In het venster "Direct plaatsen" staat bij zo'n inschrijving geen optie "Direct factureren". Je ziet in plaats daarvan een melding dat de factuur naar het bedrijf gaat. Er gaat dus geen betaallink naar de deelnemer.
+
+  - **Kortingen — Korting voor kopers van een product werkt ook als de bestelling op Verwerkt staat**: Een korting die alleen geldt als iemand een bepaald product heeft gekocht, werkte niet meer zodra die productbestelling op Verwerkt was gezet. Nu telt een verwerkte productbestelling ook mee.
+
+  - **Bestellingen — Gratis bestelling met een product liep vast**: Was een bestelling met een product helemaal gratis (bijvoorbeeld door een korting van 100%), dan ging het afronden van de bestelling mis. Dat is opgelost.
+
+  - **Docenten — Te lange invoer bij adresgegevens geeft nu een melding**: Typte je bij een docent een te lange waarde in, bijvoorbeeld "2806 NE Gouda" bij Postcode, dan ging het opslaan mis met een foutmelding. Nu kun je niet meer tekens invullen dan er passen. Lukt het toch, dan zie je een duidelijke melding bij het veld. Dit geldt voor Postcode (max. 10 tekens), Land (50), Telefoonnummer (20), BSN, BTW en IBAN (25), Adres en Plaats (255).
+
   ## Week van 19 tot 25 oktober 2026 
 
   ### ✨ Nieuw & Verbeterd
