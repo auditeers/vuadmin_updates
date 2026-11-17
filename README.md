@@ -1,8 +1,117 @@
   # VUAdmin Updates 2026
 
-  ## Week van 26 oktober tot 1 november 2026 
+  ## Week van 16 november tot 22 november
 
   ### ✨ Nieuw & Verbeterd
+
+  - **Uitnodigingen — Nieuwe actie "Uitnodigen" op het programma waarvoor je uitnodigt**: Je kunt een uitnodiging nu ook plannen vanaf het programma waar mensen naartoe moeten (het tabblad "Uitnodigingen" op het programma waar ze vandaan komen, blijft voorlopig ook bestaan): via "Acties" op het programma, of via de knop "Uitnodigen" in het programma-overzicht. In het venster:
+    - Kies wie je uitnodigt: **Geplaatst**, **Wachtlijst** of **Seintje**.
+    - Bij Geplaatst en Wachtlijst zoek je de programma('s) waar ze vandaan komen. Zoeken kan op code, cursusnaam, locatie of startdatum (dd-mm-jjjj), en je kunt meerdere programma's tegelijk kiezen, bijvoorbeeld parallelle groepen.
+    - Bij Seintje kies je een cursus. Iedereen met een seintje voor die cursus krijgt de uitnodiging, ongeacht het programma. De seintjes blijven daarbij gewoon staan: het automatische seintje-bericht bij een nieuw programma werkt zoals altijd.
+    - Je ziet meteen hoeveel mensen een uitnodiging krijgen en wie er wordt overgeslagen: mensen die al zijn ingeschreven voor het programma, mensen die geen e-mail willen ontvangen, adressen die niet kloppen, dubbele adressen, en mensen die al een uitnodiging voor dit programma hebben gehad.
+    - Is dezelfde combinatie al eerder uitgenodigd voor dit programma, dan krijg je een waarschuwing.
+    - Kies het e-mailsjabloon. Werkt het sjabloon niet voor deze uitnodiging, dan zie je dat direct, in plaats van dat de mails op de verzenddag stilletjes mislukken.
+    - Voeg eventueel een opmerking toe. Die komt boven de tekst van de e-mail te staan (of op de plek van `{{ $remark }}` als het sjabloon die gebruikt).
+    - De verzenddatum ligt vanaf morgen; de uitnodiging gaat die ochtend om 08:00 de deur uit.
+  - **Uitnodigingen — Niemand krijgt twee keer een uitnodiging voor hetzelfde programma**: Het systeem houdt voortaan bij wie een uitnodiging heeft ontvangen. Iemand die al een uitnodiging voor een programma heeft gehad, wordt bij elke volgende uitnodiging voor dat programma overgeslagen, ook als die vanuit een ander programma, een parallelle groep of de seintjes komt. Dit geldt ook voor uitnodigingen die via het tabblad "Uitnodigingen" zijn aangemaakt. Uitnodigingen die vóór deze wijziging zijn verstuurd, zijn niet bijgehouden; daar kan het systeem dus niet op controleren.
+  - **Uitnodigingen log — Seintjes, opmerking en aantal ontvangers zichtbaar**: Bij een seintje-uitnodiging staat de cursus in de kolom "Van programma". Er zijn kolommen bijgekomen voor "Opmerking" en "Ontvangers" (hoeveel mensen de uitnodiging echt hebben gekregen; alleen voor uitnodigingen die na deze wijziging zijn verstuurd).
+  - **Correspondentie — Uitnodigingen zichtbaar bij het programma**: Een verstuurde uitnodiging staat voortaan ook op het tabblad "Correspondentie" van het programma waarvoor is uitgenodigd.
+  - **VUOnline — Partnervergoeding wordt pas definitief na de laatste les**: De vergoeding van een partner (affiliate) voor een inschrijving via zijn link wordt voortaan pas definitief als de cursus afgelopen is: de dag na de laatste les. Tot die tijd is het bedrag voorlopig. Stopt een cursist of wordt de inschrijving geannuleerd vóór het einde van de cursus, dan vervalt de vergoeding; dat geldt ook als het programma wordt geannuleerd voordat de laatste les is geweest. Dit zie je terug in:
+    - de rapportage "VUOnline: Affiliate-vergoedingen" (status "Gestopt/geannuleerd vóór einde"),
+    - het tabblad "Marketing" van een inschrijving (wanneer de vergoeding definitief wordt),
+    - het VUOnline-dashboard van de partner (de einddatum van de cursus staat erbij).
+
+  ### 🐛 Opgelost
+
+  - **Uitnodigingen — Uitnodiging zonder (bestaand) e-mailsjabloon werd als verzonden gemarkeerd**: Was er geen sjabloon gekozen, of was het sjabloon verwijderd, dan mislukte elke mail, maar stond de uitnodiging toch op "Verzonden". Zo'n uitnodiging blijft nu op "Niet verzonden" staan en gaat alsnog uit zodra er een sjabloon aan hangt.
+
+  ## Week van 9 november tot 15 november
+
+  ### ✨ Nieuw & Verbeterd
+
+  - **VUOnline — Aanbieders en hun managers beheer je voortaan in het VUOnline-dashboard**: Aanmaken, wijzigen, (de)activeren en verwijderen van aanbieders, en het uitnodigen van hun managers, gebeurt nu op één plek: het dashboard (alleen voor beheerders). Wat je moet weten:
+    - Het scherm "Aanbieders" in VUAdmin is alleen nog een overzicht (met per aanbieder "Activiteit"); wijzigen doe je in het dashboard. Vul `VUONLINE_DASHBOARD_URL` in, dan staat er een link naar het dashboard boven de lijst.
+    - Dezelfde regels gelden als voorheen: de kanaalcode is uniek en ligt vast zodra er inschrijvingen via zijn, en een aanbieder met programma's, docenten, API-sleutels of verkopen kan niet worden verwijderd.
+    - Elke wijziging vanuit het dashboard staat in het activiteitenlog, met het e-mailadres van wie hem deed.
+
+  ### 🐛 Opgelost
+
+  - **Cursusoverzicht — Producten worden altijd getoond**: Op de pagina met alle cursussen verschenen producten alleen bij een zoekopdracht. Ze staan er nu altijd tussen, ongeacht de instelling "Beschikbaarheidsfilter standaard aan", en worden mee gesorteerd.
+
+  - **Beschikbaarheidsfilter — Standaardstand volgt altijd de instelling (alle thema's)**: Het filter "Alleen beschikbare cursussen" staat bij het eerste bezoek nu in elk thema precies zoals de instelling "Beschikbaarheidsfilter standaard aan" is ingesteld: aan als de instelling aan staat, uit als die op "alle cursussen tonen" staat. Voorheen kon de schakelaar of keuzelijst een andere stand tonen dan wat er werkelijk gefilterd werd (Amsterdam, Breda, Utrecht, Westvoorne). In de thema's met een filterteller telt het filter alleen nog als "actief" wanneer de bezoeker afwijkt van de standaardinstelling. Bij een zoekopdracht staat het filter, zoals voorheen, standaard uit.
+
+  - **Sortering — Standaardsortering zichtbaar en behouden (alle thema's)**: De sorteerkeuze op het cursusoverzicht en de collectiepagina's toont nu in elk thema de sortering die is ingesteld bij "Standaard sortering cursusoverzicht". Voorheen stond de keuzelijst in een aantal thema's op "Relevantie" of "Aanbevolen" terwijl er bijvoorbeeld op datum gesorteerd werd, en ontbrak de optie "Datum" soms helemaal (Amsterdam, Breda, Utrecht, Gouda). Ook ging de standaardsortering verloren zodra een bezoeker een filter aanklikte; die blijft nu behouden. Bij een zoekopdracht wordt, zoals voorheen, op relevantie gesorteerd.
+
+  - **Programma's — Vol programma gaat weer naar de wachtlijst in plaats van dicht**: Als de laatste plek werd verkocht, vulde het systeem automatisch de sluitingsdatum in met de datum van die dag. Sinds een ingevulde sluitingsdatum altijd voorgaat, stond het programma de volgende dag op "Gesloten" en kon niemand zich meer op de wachtlijst zetten. De sluitingsdatum wordt nu niet meer automatisch ingevuld. Een vol programma staat op "Wachtlijst" en inschrijven op de wachtlijst kan weer. Wat je moet weten:
+    - Bij programma's die al eerder vol raakten, staat die automatische sluitingsdatum er nog. Haal hem weg als het programma wél een wachtlijst moet hebben.
+    - Wil je een programma echt sluiten, gebruik dan zoals altijd de knop "Sluiten" of vul zelf een sluitingsdatum in.
+
+  - **Programma's — Een vrijgekomen plek gaat eerst naar de wachtlijst**: Valt er in een vol programma iemand af, dan ging het programma meteen weer open en kon iedereen via de website de plek boeken, vóór de mensen op de wachtlijst. Nu blijft een programma op "Wachtlijst" staan zolang er nog iemand op de wachtlijst staat, ook als er plekken vrij zijn. Wat je moet weten:
+    - Je benadert de wachtlijst zelf en biedt de plek aan met "Plaatsen" of "Op betaling". De betaallink die de deelnemer dan krijgt, werkt gewoon.
+    - Nieuwe aanmeldingen via de website komen op de wachtlijst zolang daar mensen op staan.
+    - Pas als de wachtlijst leeg is (iedereen geplaatst of geannuleerd), gaat een programma met vrije plekken weer open voor inschrijving.
+    - De melding "het maximum aantal plekken is al bereikt" bij Plaatsen en Op betaling verschijnt alleen nog als het programma echt vol zit.
+
+  - **Programma's — Na de sluitingsdatum is een programma altijd gesloten**: Na de sluitingsdatum staat een programma op "Gesloten", ook als er plekken vrij zijn of mensen op de wachtlijst staan. Wat je moet weten:
+    - Op de sluitingsdatum zelf kan inschrijven nog; vanaf de dag erna niet meer.
+    - Wie de cursus al in de winkelwagen had, kan na de sluitingsdatum niet meer afrekenen en ziet "De inschrijving voor deze cursus is gesloten." Aanmelden voor de wachtlijst kan dan ook niet meer.
+    - Jij kunt na de sluitingsdatum nog steeds zelf mensen plaatsen vanuit het beheer, of op de wachtlijst zetten.
+    - De wachtlijst blijft bestaan tot de laatste les. Pas de ochtend daarna wordt hij omgezet naar "Seintje" (voorheen: 2 weken na de start). Valt er vlak voor of tijdens de cursus iemand af, dan kun je de plek dus nog aanbieden aan de wachtlijst. Mensen op "Seintje" krijgen bericht zodra er een nieuw programma van de cursus is.
+
+  ## Week van 2 november tot 8 november
+
+  ### ✨ Nieuw & Verbeterd 
+
+  - **VUOnline — Aanbieders beheren in het beheer**: Alleen op de VUOnline-installatie staat in het menu nu "Aanbieders" (recht "Aanbieders", standaard voor rollen met "Instellingen"). Hier maak je de deelnemende Volksuniversiteiten aan en beheer je ze, in plaats van via een opdracht op de server. Wat je moet weten:
+    - De lijst toont status, kanaalcode, commissie (bij een lege waarde staat het standaardpercentage met "standaard" erbij) en het aantal programma's, docenten en actieve API-sleutels. Je kunt filteren op status.
+    - Bewerken: naam, actief aan/uit, kanaalcode, commissiepercentage en e-mail. Zet je een aanbieder op inactief, dan stoppen zijn API-sleutels, worden nieuwe inschrijvingen niet meer aan hem toegewezen en verdwijnen zijn programma's uit de bibliotheek.
+    - De kanaalcode is uniek en kan niet meer worden gewijzigd zodra er inschrijvingen via die code zijn.
+    - Een aanbieder met programma's, docenten, API-sleutels of verkopen via zijn kanaal kan niet worden verwijderd; zet hem dan op inactief.
+    - Wijzigingen zijn terug te zien onder "Activiteit" bij de aanbieder.
+    - In het programma (tabblad Algemeen) kun je alleen nog actieve aanbieders kiezen.
+
+  - **Programma's — Een ingevulde sluitingsdatum gaat nu altijd voor**: Programma's met een sluitingsdatum in de toekomst en vrije plekken stonden toch op "Gesloten" als de eerste les meer dan twee weken geleden was, in het beheer én op de website. Inschrijven kon dan niet. De regel van twee weken na de start geldt nu alleen nog als er geen sluitingsdatum is ingevuld. Wat je moet weten:
+    - Staat er een sluitingsdatum bij het programma, dan blijft het open tot die datum. Dit kan programma's die al langer lopen weer openzetten voor inschrijving.
+    - Deze programma's staan ook weer in de cursusoverzichten op de website en tellen mee in de filters.
+    - Wie op de wachtlijst staat van zo'n programma, wordt niet meer na twee weken automatisch omgezet naar een seintje, maar blijft op de wachtlijst tot de sluitingsdatum is verstreken.
+
+  ## Week van 26 oktober tot 1 november
+
+  ### ✨ Nieuw & Verbeterd
+
+  - **Inschrijvingen & productverkopen — Nieuw tabblad "Marketing": hoe kwam deze verkoop binnen?**: Bij een inschrijving en bij een productverkoop staat een nieuw tabblad "Marketing". Bovenaan staat in één zin waar de klant vandaan kwam, bijvoorbeeld "Gevonden via Google, zoekterm 'cursus spaans'", "Mailchimp-nieuwsbrief, campagne 'najaar'", "Betaalde advertentie via Meta" of "Direct bezoek of onbekende herkomst", met een gekleurd label per kanaal (dezelfde kleuren als in het Marketing Dashboard). Daaronder staan de campagnegegevens (bron, medium, campagne, zoekterm, advertentie) en, ingeklapt, de ruwe gegevens. Wat je moet weten:
+    - De oude blokjes "Attributies" op het tabblad Algemeen van een inschrijving zijn vervangen door dit tabblad.
+    - Productverkopen leggen de herkomst voortaan ook vast. Bij oudere productverkopen staat, als er in dezelfde bestelling een cursus werd gekocht, de herkomst van die inschrijving (met een link ernaartoe).
+    - Is een inschrijving of verkoop door een medewerker in het beheer aangemaakt, dan staat er "Handmatig aangemaakt" met de naam van de medewerker.
+
+  - **Marketing Dashboard — Verkopen per kanaal, en productverkopen in campagnes en zoektermen**: Het dashboard heeft een nieuwe grafiek "Verkopen per kanaal" (inschrijvingen en productverkopen samen). Verkopen van vóór de registratie van de herkomst tellen niet mee als "direct"; het aantal staat onder de grafiek. Productverkopen tellen nu ook mee in de tabellen Campagnes en Zoektermen (omzet ex BTW), en de filters op bron, medium, campagne, zoekterm en verwijzer gelden nu ook voor productverkopen. In de grafiek "Verkeersbronnen" worden Mailchimp en e-mail nu als nieuwsbrief geteld en advertenties met medium ppc/paid/shopping/display als betaald, net als op het tabblad Marketing.
+
+  - **Docenten — Berichten tussen docent en deelnemer**: Docenten kunnen via het Docentenportaal een bericht sturen aan een deelnemer van hun programma (bij de deelnemerslijst), en deelnemers kunnen een docent een bericht sturen. Deelnemers vinden dit in hun account in de "Berichtenbox" in hun account (een knop bovenaan het dashboard, in alle thema's). Daar staan ook de berichten van de organisatie, alles op één plek. Wat je moet weten:
+    - Een gesprek kan alleen tussen een docent van het programma en een deelnemer met de status geplaatst. Wordt een deelnemer verplaatst of stopt hij of zij, dan kan het gesprek niet meer worden voortgezet.
+    - Beide kanten krijgen per nieuw bericht een e-mail met een link naar het gesprek. De teksten zijn aan te passen bij E-mailsjablonen ("Bericht van docent" en "Bericht van deelnemer").
+    - Docenten zien in dit gesprek nooit het e-mailadres van de deelnemer, ook niet als je het delen van contactgegevens hebt aangezet.
+    - Maak je een deelnemer anoniem, dan worden ook zijn of haar gesprekken verwijderd.
+    - Deelnemers zien in hun account een rood getal bij "Berichtenbox" voor alles wat ongelezen is; docenten zien hetzelfde op het tabblad "Berichten" van het Docentenportaal.
+    - Gesprekken zijn privé: medewerkers kunnen ze niet inzien in het beheer.
+    - Berichten die je zelf vanuit het beheer naar een deelnemer stuurt (tabblad "Correspondentie" bij de deelnemer, en "Nieuw bericht" bij een programma naar geplaatste cursisten) staan voortaan ook in de Berichtenbox in het account van de deelnemer, met hetzelfde rode getal als het ongelezen is. Hierop kan niet worden geantwoord; de e-mail gaat zoals altijd gewoon mee.
+
+  - **Docenten — Contactgegevens van deelnemers delen of niet**: Bij Instellingen, tabblad "Docenten & lessen", staat het vinkje "Docenten zien de contactgegevens (e-mail en telefoon) van hun deelnemers". Staat het uit (standaard), dan zien docenten in het Docentenportaal alleen de namen van hun deelnemers. Zet je het aan, dan zien ze ook het e-mailadres en telefoonnummer. Vermeld dit dan in je privacyverklaring.
+
+  - **Lesinformatie — Informatie per les voor je deelnemers**: Bij elke lesdag kun je nu informatie plaatsen die de deelnemers zien in hun account. Dat doe je op het tabblad Planning van het programma: kies bij een lesdag in het menu Acties voor "Lesinformatie". Je kunt invullen:
+    - een titel en een tekst (met opmaak);
+    - een video (YouTube of Vimeo, wordt als video getoond) en een Zoom-link of andere online-link;
+    - een afbeelding;
+    - bestanden, zoals een handout of presentatie (maximaal 10 per les, 20 MB per bestand).
+
+    Zolang "Zichtbaar voor de deelnemers" uit staat, is het een concept dat alleen jij en de docent zien. Staat het aan, dan zien deelnemers met de status geplaatst het bij Mijn Inschrijvingen via de link "Lesinformatie" (bij Breda onder het kopje Lesinformatie). In de tabel met lesdagen zie je per les of de informatie een concept is of gepubliceerd.
+
+    Wanneer deelnemers de informatie zien, stel je in op twee plekken:
+    - Bij Instellingen, tabblad "Docenten & lessen": vanaf hoeveel dagen vóór de les de informatie zichtbaar wordt (standaard 7) en hoeveel dagen na de les ze weer verdwijnt (standaard 14). Laat je een veld leeg, dan geldt er aan die kant geen limiet.
+    - Bij het programma, tabblad Algemeen: de schakelaar "Lesinformatie tonen" (staat standaard aan). Zet je het uit, dan zien deelnemers van dit programma geen lesinformatie, ook niet als een les gepubliceerd is.
+
+    Deelnemers zien alleen de lessen die op dat moment zichtbaar zijn. Is er voor een programma zichtbare lesinformatie, dan staat bij hun inschrijving de link "Lesinformatie" die de beschikbare lessen opent. Dat werkt in alle thema's.
+
+    Docenten kunnen dezelfde informatie aanpassen in het Docentenportaal. Beide kanten werken in dezelfde gegevens: wat de een opslaat, ziet de ander. Slaan jullie tegelijk op, dan krijgt degene die als tweede opslaat een waarschuwing in plaats van dat er stilletjes iets overschreven wordt. Genereer je de lessen van een programma opnieuw, dan blijft de lesinformatie bewaard (per volgorde: les 1 blijft les 1).
 
   - **Rapportages — Nieuwe rapportage "Collectie: Deelnemersstatistieken"**: Kies een collectie en een periode (startdatum programma van/tot). Je krijgt per cursus in die collectie één rij. Cursussen uit subcollecties tellen ook mee. Per cursus zie je:
     - het aantal programma's dat in de periode start (geannuleerde programma's tellen niet mee);
@@ -17,11 +126,24 @@
 
   - **Rapportages — Docentfacturen rapport toont de opmerking bij de les**: Het rapport Docentfacturen heeft een nieuwe laatste kolom "Opmerking". Daarin staat de opmerking die bij het lesmoment is ingevuld. Is er geen opmerking, dan blijft de kolom leeg.
 
+  - **Meta — Productfeed weer actief**: De productfeed voor de Meta-catalogus (Facebook/Instagram) op `/productfeed` werkt weer. In de feed staan alle programma's van actieve cursussen met de status open, voorinschrijving of wachtlijst en minstens één les in de toekomst. Wat er veranderd is:
+    - Beschikbaarheid volgt de status: open = op voorraad, voorinschrijving = pre-order, wachtlijst = niet op voorraad. Geannuleerde en gesloten programma's staan er niet meer in.
+    - De prijs staat altijd met twee decimalen in de feed (bijv. "95.00 EUR").
+    - Het merk is de naam van de site in plaats van de websitelink.
+    - De beschrijving is platte tekst. Is de SEO-beschrijving leeg, dan wordt de intro of de cursustekst gebruikt.
+    - Cursussen zonder afbeelding worden overgeslagen, omdat Meta die toch weigert.
+
   ### 🎨 Thema-updates
 
   - **Utrecht — Uitgelichte blokken ook op tekstpagina's en collectiepagina's**: Blokken van het type "Uitgelicht" (afbeelding met tekst en eventueel een knop, op een gekleurde achtergrond) stonden alleen op de homepage. Ze werken nu ook op tekstpagina's en collectiepagina's. Maak bij Blokken een blok van het type Uitgelicht aan en kies bij "Toon op pagina" de pagina of bij "Toon op collectie" de collectie. Het blok staat dan onderaan die pagina, net boven de footer. Op een collectiepagina staat het onder het cursusoverzicht. Meerdere blokken worden getoond in de volgorde die je bij "Volgorde op Pagina" invult. Ze zien er hetzelfde uit als op de homepage.
 
   ### 🔒 Beveiliging & Onderhoud
+
+  - **Inschrijvingen — Herkomst wordt nu bij elke cursus in de winkelwagen opgeslagen**: Bestelde iemand twee of meer cursussen in één keer, dan werd de herkomst (zoals de Google-zoekterm of de campagne) alleen bij de eerste inschrijving opgeslagen. De andere inschrijvingen telden in het Marketing Dashboard als "direct". Nu krijgen alle cursussen en producten in de bestelling dezelfde herkomst. Bij een bestelling met alleen producten bleef de herkomst ook bewaard en werd die dan aan een volgende bestelling gekoppeld. Ook dat is opgelost.
+
+  - **Nieuwsbrief — Aanmeldlimiet op het formulier werkt weer zoals bedoeld**: Het nieuwsbriefformulier heeft een limiet tegen misbruik: maximaal 3 aanmeldingen per minuut en 10 per uur per IP-adres. Door een fout in de limietcontrole werd die limiet niet goed toegepast, waardoor bezoekers bij een tweede aanmelding kort achter elkaar een "te veel verzoeken"-melding konden krijgen. Dat is hersteld. Dezelfde fout zat bij alle limieten die een naam hebben; de gewone limieten per pagina (bijvoorbeeld 60 per minuut) werkten al goed.
+
+  - **Moodle — Uitnodigingsmail gaat weer op tijd uit**: De dag vóór de eerste les krijgen geplaatste deelnemers een uitnodiging voor Moodle. Die mail ging alleen uit als het systeem had gezien dat de cursus in Moodle inhoud heeft. Dat werd alleen gecontroleerd bij programma's die de laatste drie dagen in VUAdmin waren aangepast. Werd de inhoud in Moodle gezet zonder dat het programma daarna nog werd aangepast, dan kregen de deelnemers geen uitnodiging en ook geen Moodle-knop in hun account. Nu wordt elk gekoppeld programma met een les in de komende drie dagen automatisch gecontroleerd. De uitnodiging gaat uit als de inhoud in Moodle staat vóór de ochtend van de dag vóór de eerste les.
 
   - **Inschrijvingen — Verplaatsen rekent nu met de korting en factureert nooit te veel**: Bij Verplaatsen werd "Te verrekenen" ingevuld als nieuwe prijs min betaald, zonder de korting (zoals de Stadspas). Een deelnemer met korting kreeg daardoor een factuur "Verrekening bij verplaatsing" voor bijna de volle cursusprijs. De betalingsherinnering noemde dat bedrag ook, terwijl de betaallink wel het juiste bedrag afschreef, en de bijgevoegde factuur was leeg. Nu werkt het zo:
     - "Te verrekenen" is wat er na de verplaatsing echt nog openstaat: nieuwe prijs min korting, min wat al betaald is, min facturen die al verstuurd en nog niet betaald zijn. In het venster staat hoe dat bedrag is opgebouwd.
@@ -54,6 +176,8 @@
   - **Kortingen — Korting voor kopers van een product werkt ook als de bestelling op Verwerkt staat**: Een korting die alleen geldt als iemand een bepaald product heeft gekocht, werkte niet meer zodra die productbestelling op Verwerkt was gezet. Nu telt een verwerkte productbestelling ook mee.
 
   - **Bestellingen — Gratis bestelling met een product liep vast**: Was een bestelling met een product helemaal gratis (bijvoorbeeld door een korting van 100%), dan ging het afronden van de bestelling mis. Dat is opgelost.
+
+  - **Website — Favoriet toevoegen met een cursusnaam in de link gaf een foutmelding**: Het hartje op de website werkt met het nummer van de cursus. Werd de link met de hand aangepast naar de naam uit het webadres (bijvoorbeeld `/favorieten/add/mixed-media-schildertechnieken`), dan kreeg de cursist een foutpagina. Zo'n link wordt nu ook herkend en de cursus komt gewoon in de favorieten. Bestaat de cursus niet, dan krijgt de cursist de melding dat de cursus niet gevonden kon worden.
 
   - **Docenten — Te lange invoer bij adresgegevens geeft nu een melding**: Typte je bij een docent een te lange waarde in, bijvoorbeeld "2806 NE Gouda" bij Postcode, dan ging het opslaan mis met een foutmelding. Nu kun je niet meer tekens invullen dan er passen. Lukt het toch, dan zie je een duidelijke melding bij het veld. Dit geldt voor Postcode (max. 10 tekens), Land (50), Telefoonnummer (20), BSN, BTW en IBAN (25), Adres en Plaats (255).
 
