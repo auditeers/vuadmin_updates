@@ -16,10 +16,6 @@
   - **Uitnodigingen — Niemand krijgt twee keer een uitnodiging voor hetzelfde programma**: Het systeem houdt voortaan bij wie een uitnodiging heeft ontvangen. Iemand die al een uitnodiging voor een programma heeft gehad, wordt bij elke volgende uitnodiging voor dat programma overgeslagen, ook als die vanuit een ander programma, een parallelle groep of de seintjes komt. Dit geldt ook voor uitnodigingen die via het tabblad "Uitnodigingen" zijn aangemaakt. Uitnodigingen die vóór deze wijziging zijn verstuurd, zijn niet bijgehouden; daar kan het systeem dus niet op controleren.
   - **Uitnodigingen log — Seintjes, opmerking en aantal ontvangers zichtbaar**: Bij een seintje-uitnodiging staat de cursus in de kolom "Van programma". Er zijn kolommen bijgekomen voor "Opmerking" en "Ontvangers" (hoeveel mensen de uitnodiging echt hebben gekregen; alleen voor uitnodigingen die na deze wijziging zijn verstuurd).
   - **Correspondentie — Uitnodigingen zichtbaar bij het programma**: Een verstuurde uitnodiging staat voortaan ook op het tabblad "Correspondentie" van het programma waarvoor is uitgenodigd.
-  - **VUOnline — Partnervergoeding wordt pas definitief na de laatste les**: De vergoeding van een partner (affiliate) voor een inschrijving via zijn link wordt voortaan pas definitief als de cursus afgelopen is: de dag na de laatste les. Tot die tijd is het bedrag voorlopig. Stopt een cursist of wordt de inschrijving geannuleerd vóór het einde van de cursus, dan vervalt de vergoeding; dat geldt ook als het programma wordt geannuleerd voordat de laatste les is geweest. Dit zie je terug in:
-    - de rapportage "VUOnline: Affiliate-vergoedingen" (status "Gestopt/geannuleerd vóór einde"),
-    - het tabblad "Marketing" van een inschrijving (wanneer de vergoeding definitief wordt),
-    - het VUOnline-dashboard van de partner (de einddatum van de cursus staat erbij).
 
   ### 🐛 Opgelost
 
@@ -27,12 +23,6 @@
 
   ## Week van 9 november tot 15 november
 
-  ### ✨ Nieuw & Verbeterd
-
-  - **VUOnline — Aanbieders en hun managers beheer je voortaan in het VUOnline-dashboard**: Aanmaken, wijzigen, (de)activeren en verwijderen van aanbieders, en het uitnodigen van hun managers, gebeurt nu op één plek: het dashboard (alleen voor beheerders). Wat je moet weten:
-    - Het scherm "Aanbieders" in VUAdmin is alleen nog een overzicht (met per aanbieder "Activiteit"); wijzigen doe je in het dashboard. Vul `VUONLINE_DASHBOARD_URL` in, dan staat er een link naar het dashboard boven de lijst.
-    - Dezelfde regels gelden als voorheen: de kanaalcode is uniek en ligt vast zodra er inschrijvingen via zijn, en een aanbieder met programma's, docenten, API-sleutels of verkopen kan niet worden verwijderd.
-    - Elke wijziging vanuit het dashboard staat in het activiteitenlog, met het e-mailadres van wie hem deed.
 
   ### 🐛 Opgelost
 
