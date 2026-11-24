@@ -1,8 +1,35 @@
   # VUAdmin Updates 2026
 
+  ## Week van 23 november tot 29 november
+
+  ### ✨ Nieuw & Verbeterd
+
+  - **Inschrijvingen — Nieuwe actie "Factureren aan deelnemer"**: Betaalt iemand anders dan de deelnemer een inschrijving (bijvoorbeeld bij een bestelling voor twee personen), dan kun je één inschrijving voortaan los aan de deelnemer factureren. De actie staat bij de inschrijving (in het overzicht, bij "Acties" en in de inschrijvingen van een programma of contact), maar alleen als de betaler niet de deelnemer is en er nog iets te betalen is. In het venster zie je precies wat er gebeurt:
+    - Verstuurde facturen die nog open staan, worden nooit gewijzigd: ze worden gecrediteerd aan de oorspronkelijke betaler en opnieuw gefactureerd aan de deelnemer. De creditfactuur en de nieuwe factuur (met betaallink) worden automatisch verstuurd.
+    - Nog niet verstuurde facturen, zoals geplande termijnen, gaan naar de deelnemer.
+    - Betaalde facturen blijven bij wie ze heeft betaald, en de andere inschrijvingen in de bestelling blijven bij de oorspronkelijke betaler.
+    - Betaallinks, herinneringen en nieuwe facturen gaan vanaf dan naar de deelnemer. De wijziging staat in de opmerkingen van de inschrijving.
+    - Niet beschikbaar voor inschrijvingen die op een bedrijf worden gefactureerd.
+  - **Facturen — Een verstuurde factuur houdt altijd dezelfde geadresseerde**: Elke factuur onthoudt voortaan aan wie hij is gericht. Maak je de PDF later opnieuw, of gaat er een herinnering uit, dan blijft de factuur aan dezelfde persoon gericht, ook als de betaler van de inschrijving inmiddels is veranderd. Een creditfactuur of terugbetaling gaat altijd naar wie de gecrediteerde factuur heeft betaald.
+  - **Facturen — Gegevens van de betaler op de factuur, in alle thema's**: Net als in het thema Amsterdam staan nu in alle thema's de naam en het adres van de betaler bovenaan de factuur. Betaalt iemand anders dan de deelnemer, dan staat de deelnemer eronder als "Cursist". Facturen aan een bedrijf blijven zoals ze waren.
+
+  ### 🐛 Opgelost
+
+  - **Mollie-controle — Terugbetaling verdelen terwijl er al een losse creditfactuur is**: Kon een Mollie-terugbetaling niet automatisch aan een inschrijving worden gekoppeld, dan maakte VUAdmin er een creditfactuur zonder inschrijving voor. Zo'n terugbetaling kon je daarna niet verdelen over meerdere inschrijvingen. Dat kan nu: de losse creditfactuur krijgt het bedrag van het eerste deel en wordt aan die inschrijving gekoppeld, en voor de andere delen komt een nieuwe creditfactuur. De klant krijgt geen e-mail.
+
   ## Week van 16 november tot 22 november
 
   ### ✨ Nieuw & Verbeterd
+
+  - **Cadeaubonnen — Nieuwe module**: Klanten kunnen online een cadeaubon kopen voor een zelfgekozen bedrag en daarmee later (een deel van) een cursus of product betalen. Een cadeaubon is een betaalmiddel, geen korting; de module staat los van Kortingen. De module is alleen zichtbaar voor gebruikers met het nieuwe recht **Cadeaubonnen**. Dat recht staat standaard bij geen enkele rol aan: zolang niemand het heeft, verandert er niets. Wat je moet weten:
+    - **Instellen**: in Algemene Instellingen staat met het recht een tabblad "Cadeaubonnen" met product, betaalmethode, minimum- en maximumbedrag, geldigheid (standaard 12 maanden), PDF-template, voorwaardenpagina en optioneel vaste bedragen (bijv. "25, 50, 100"). De gekozen betaalmethode wordt automatisch op "Alleen systeem" gezet.
+    - **Kopen**: op de productpagina van de cadeaubon (of met het blok "Cadeaubon bestellen" op een gewone pagina) kiest de klant een van de vaste bedragen of vult via "Anders" zelf een bedrag in. Betalen kan alleen online, niet op factuur, en kortingscodes werken niet op een cadeaubon. Na betaling krijgt de koper een e-mail met de cadeaubon als PDF (A5) om zelf te printen. Het e-mailsjabloon "Cadeaubon uitgegeven" is aan te passen.
+    - **Betalen met een bon**: in stap 3 van de checkout vult de klant de code in. Het saldo gaat van het te betalen bedrag af; de rest gaat via iDEAL. Dekt de bon alles, dan wordt de inschrijving direct geplaatst. Een bon kan meerdere keren worden gebruikt tot het saldo op is, maar niet voor termijnbetalingen of voor een nieuwe cadeaubon. Wordt de iDEAL-betaling geannuleerd, dan komt het saldo terug op de bon.
+    - **Beheer**: in het menu "Cadeaubonnen" zie je per bon de waarde, het saldo, de status en de gebruiksgeschiedenis. Je kunt de geldigheid verlengen, de PDF downloaden, de mail opnieuw versturen en met "Saldo corrigeren" het saldo aanpassen (met reden; dit wordt niet in de boekhouding geboekt).
+    - **Annuleren**: bij annuleren of stoppen van een inschrijving die (deels) met een bon is betaald, wordt eerst het online betaalde deel terugbetaald; alleen wat daarboven gaat, komt terug op de bon. Bij volledig annuleren gaat elk deel terug naar waar het vandaan kwam.
+    - **Saldo controleren**: met het blok "Cadeaubon saldo" op een pagina kan een klant met de code het saldo en de geldigheid opvragen.
+    - **Verlopen bonnen**: een bon die verloopt met saldo staat in het Meldingen-dashboard en in de dagelijkse VUAdmin-mail, zodat de administratie het restsaldo kan verwerken.
+    - Beschikbaar in de thema's Amsterdam, Demo en Gouda. Voor Gouda is nog geen PDF-ontwerp, dus daar gaat de mail voorlopig zonder PDF.
 
   - **Uitnodigingen — Nieuwe actie "Uitnodigen" op het programma waarvoor je uitnodigt**: Je kunt een uitnodiging nu ook plannen vanaf het programma waar mensen naartoe moeten (het tabblad "Uitnodigingen" op het programma waar ze vandaan komen, blijft voorlopig ook bestaan): via "Acties" op het programma, of via de knop "Uitnodigen" in het programma-overzicht. In het venster:
     - Kies wie je uitnodigt: **Geplaatst**, **Wachtlijst** of **Seintje**.
@@ -16,6 +43,14 @@
   - **Uitnodigingen — Niemand krijgt twee keer een uitnodiging voor hetzelfde programma**: Het systeem houdt voortaan bij wie een uitnodiging heeft ontvangen. Iemand die al een uitnodiging voor een programma heeft gehad, wordt bij elke volgende uitnodiging voor dat programma overgeslagen, ook als die vanuit een ander programma, een parallelle groep of de seintjes komt. Dit geldt ook voor uitnodigingen die via het tabblad "Uitnodigingen" zijn aangemaakt. Uitnodigingen die vóór deze wijziging zijn verstuurd, zijn niet bijgehouden; daar kan het systeem dus niet op controleren.
   - **Uitnodigingen log — Seintjes, opmerking en aantal ontvangers zichtbaar**: Bij een seintje-uitnodiging staat de cursus in de kolom "Van programma". Er zijn kolommen bijgekomen voor "Opmerking" en "Ontvangers" (hoeveel mensen de uitnodiging echt hebben gekregen; alleen voor uitnodigingen die na deze wijziging zijn verstuurd).
   - **Correspondentie — Uitnodigingen zichtbaar bij het programma**: Een verstuurde uitnodiging staat voortaan ook op het tabblad "Correspondentie" van het programma waarvoor is uitgenodigd.
+  - **VUOnline — Partnervergoeding wordt pas definitief na de laatste les**: De vergoeding van een partner (affiliate) voor een inschrijving via zijn link wordt voortaan pas definitief als de cursus afgelopen is: de dag na de laatste les. Tot die tijd is het bedrag voorlopig. Stopt een cursist of wordt de inschrijving geannuleerd vóór het einde van de cursus, dan vervalt de vergoeding; dat geldt ook als het programma wordt geannuleerd voordat de laatste les is geweest. Dit zie je terug in:
+    - de rapportage "VUOnline: Affiliate-vergoedingen" (status "Gestopt/geannuleerd vóór einde"),
+    - het tabblad "Marketing" van een inschrijving (wanneer de vergoeding definitief wordt),
+    - het VUOnline-dashboard van de partner (de einddatum van de cursus staat erbij).
+  - **VUOnline — Het aanbod is van VUOnline zelf**: Een volksuniversiteit biedt via VUOnline geen eigen cursussen meer aan; aanbieders zijn partners die het aanbod van VUOnline doorverkopen. De naam van een aanbieder bij een programma is alleen nog voor de marketing:
+    - Alle programma's van VUOnline staan in de bibliotheek en de widgets, ook als ze niet aan een (actieve) aanbieder hangen.
+    - Op het scherm "Aanbieders" staan geen kolommen "Programma's" en "Docenten" meer, en programma's of docenten houden het verwijderen van een aanbieder niet meer tegen.
+    - Het online aanbod op de eigen website van een volksuniversiteit (/online) toont alle cursussen, ook die op naam van die volksuniversiteit staan.
 
   ### 🐛 Opgelost
 
@@ -23,6 +58,12 @@
 
   ## Week van 9 november tot 15 november
 
+  ### ✨ Nieuw & Verbeterd
+
+  - **VUOnline — Aanbieders en hun managers beheer je voortaan in het VUOnline-dashboard**: Aanmaken, wijzigen, (de)activeren en verwijderen van aanbieders, en het uitnodigen van hun managers, gebeurt nu op één plek: het dashboard (alleen voor beheerders). Wat je moet weten:
+    - Het scherm "Aanbieders" in VUAdmin is alleen nog een overzicht (met per aanbieder "Activiteit"); wijzigen doe je in het dashboard. Vul `VUONLINE_DASHBOARD_URL` in, dan staat er een link naar het dashboard boven de lijst.
+    - Dezelfde regels gelden als voorheen: de kanaalcode is uniek en ligt vast zodra er inschrijvingen via zijn, en een aanbieder met programma's, docenten, API-sleutels of verkopen kan niet worden verwijderd.
+    - Elke wijziging vanuit het dashboard staat in het activiteitenlog, met het e-mailadres van wie hem deed.
 
   ### 🐛 Opgelost
 
